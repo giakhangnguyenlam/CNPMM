@@ -3,10 +3,8 @@ const mongoose = require('mongoose'),
 const autoIncrement = require('mongoose-auto-increment');
 
 var OrderSchema = new Schema({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'UserSchema'
-    },
+    id: Number,
+    userId: Number,
     orderDate: String,
     total: Number,
     orderStatus: String,
@@ -14,7 +12,7 @@ var OrderSchema = new Schema({
 })
 
 autoIncrement.initialize(mongoose.connection);
-OrderSchema.plugin(autoIncrement.plugin, {model : 'OrderSchema', field: "_id"});
+OrderSchema.plugin(autoIncrement.plugin, {model : 'OrderSchema', field: "id"});
 
 var OrderSchema = mongoose.model('OrderSchema', OrderSchema);
 

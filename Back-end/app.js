@@ -7,11 +7,14 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config();
 require('./config/DBConnection');
+const cors = require('cors');
 
 // ==================> Declare router <=====================
+const {UserAuthenToken, SellerAuthenToken, AdminAuthenToken} = require('./middleware/JWTFilter')
 
-const indexRouter = require('./routes/index');
-const imagesRouter = require('./routes/images');
+const homeRouters = require('./routes/homeRoutes');
+const sellerRouters = require('./routes/sellerRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 var app = express();
 
@@ -23,25 +26,18 @@ app.set('view engine', 'ejs');
 // ==============> Middleware <====================
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // fix cors
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    res.setHeader('Access-Control-Allow-Credentials', false);
-    res.setHeader("Access-Control-Max-Age", "3600");
-    next();
-})
+app.use(cors());
 
 
 
 // ================> Routes <=======================
-app.use('/', indexRouter);
-app.use('/upload', imagesRouter);
-
+app.use('/', homeRouters);
+app.use('/seller', SellerAuthenToken, sellerRouters);
+app.use('/user', UserAuthenToken, userRoutes);
 
 
 

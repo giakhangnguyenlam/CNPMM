@@ -3,6 +3,7 @@ const mongoose = require('mongoose'),
 const autoIncrement = require('mongoose-auto-increment');
 
 var CategoryClothesSchema = new Schema({
+    id: Number,
     type: String,
     brand: String,
     origin: String,
@@ -10,14 +11,11 @@ var CategoryClothesSchema = new Schema({
     color: [String],
     material: String,
     gender: String,
-    productId: {
-        type: Schema.Types.ObjectId,
-        ref: 'ProductSchema'
-    }
+    productId: Number
 })
 
 autoIncrement.initialize(mongoose.connection);
-CategoryClothesSchema.plugin(autoIncrement.plugin, {model : 'CategoryClothesSchema', field: "_id"});
+CategoryClothesSchema.plugin(autoIncrement.plugin, {model : 'CategoryClothesSchema', field: "id"});
 
 var CategoryClothesSchema = mongoose.model('CategoryClothesSchema', CategoryClothesSchema);
 

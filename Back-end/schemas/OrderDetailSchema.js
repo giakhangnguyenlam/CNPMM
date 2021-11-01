@@ -3,19 +3,14 @@ const mongoose = require('mongoose'),
 const autoIncrement = require('mongoose-auto-increment');
 
 var OrderDetailSchema = new Schema({
-    orderId: {
-        type: Schema.Types.ObjectId,
-        ref: 'OrderSchema'
-    },
-    productId: {
-        type: Schema.Types.ObjectId,
-        ref: 'ProductSchema'
-    },
+    id: Number,
+    orderId: Number,
+    productId: Number,
     quantity: Number 
 })
 
 autoIncrement.initialize(mongoose.connection);
-OrderDetailSchema.plugin(autoIncrement.plugin, {model : 'OrderDetailSchema', field: "_id"});
+OrderDetailSchema.plugin(autoIncrement.plugin, {model : 'OrderDetailSchema', field: "id"});
 
 var OrderDetailSchema = mongoose.model('OrderDetailSchema', OrderDetailSchema);
 

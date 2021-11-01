@@ -3,21 +3,16 @@ const mongoose = require('mongoose'),
 const autoIncrement = require('mongoose-auto-increment');
 
 var CommentSchema = new Schema ({
-    productId : {
-        type: Schema.Types.ObjectId,
-        ref: 'ProductSchema'
-    },
-    username: {
-        type: Schema.Types.ObjectId,
-        ref: 'UserSchema'
-    },
+    id: Number,
+    productId : Number,
+    username: String,
     comment: String,
     start: Number,
     date: String
 })
 
 autoIncrement.initialize(mongoose.connection);
-CommentSchema.plugin(autoIncrement.plugin, {model : 'CommentSchema', field: "_id"});
+CommentSchema.plugin(autoIncrement.plugin, {model : 'CommentSchema', field: "id"});
 
 var CommentSchema = mongoose.model('CommentSchema', CommentSchema);
 

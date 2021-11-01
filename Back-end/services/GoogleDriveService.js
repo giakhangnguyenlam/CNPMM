@@ -8,7 +8,6 @@ const fs = require("fs");
 
 const multer = require('multer')
 
-console.log("Path for oatuth2: " + OAuth2Data);
 
 
 const SCOPES =
@@ -20,7 +19,6 @@ const oAuth2Client = new google.auth.GoogleAuth({
   scopes: SCOPES
 });
 
-console.log("Path for .env" + process.env.PATH_IMAGE);
 
 var Storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -42,7 +40,6 @@ var uploadImage = (req, res, next) => {
       console.log(err);
       return res.json("Something went wrong");
     } else {
-      console.log(req.file.path);
       const drive = google.drive({ version: "v3",auth:oAuth2Client  });
       const fileMetadata = {
         name: req.file.filename,
@@ -63,7 +60,8 @@ var uploadImage = (req, res, next) => {
             console.error(err);
           } else {
             fs.unlinkSync(req.file.path);
-            return res.json("https://drive.google.com/uc?id="+file.data.id+"&export=download");
+            req.body.image = "https://drive.google.com/uc?id="+file.data.id+"&export=download";
+            next()
           }
 
         }

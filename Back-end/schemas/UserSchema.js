@@ -3,16 +3,18 @@ const mongoose = require('mongoose'),
 const autoIncrement = require('mongoose-auto-increment');
 
 var UserSchema = new Schema({
+    id: Number,
     name: String,
-    gender: String,
-    birthDate: String,
+    dateofbirth: String,
+    email: String,
     address: String,
-    role: String,
+    gender: String,
     username: String,
-    password: String
+    password: String,
+    role: String
 })
 autoIncrement.initialize(mongoose.connection);
-UserSchema.plugin(autoIncrement.plugin, {model : 'UserSchema', field: "_id"});
+UserSchema.plugin(autoIncrement.plugin, {model : 'UserSchema', field: "id"});
 
 var UserSchema = mongoose.model('UserSchema', UserSchema);
 
