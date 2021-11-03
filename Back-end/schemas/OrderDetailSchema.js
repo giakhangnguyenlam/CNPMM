@@ -4,9 +4,17 @@ const autoIncrement = require('mongoose-auto-increment');
 
 var OrderDetailSchema = new Schema({
     id: Number,
-    orderId: Number,
-    productId: Number,
-    quantity: Number 
+    orderId: {
+        type: Schema.Types.Number,
+        ref: 'OrderSchema'
+    },
+    productId: {
+        type: Schema.Types.Number,
+        ref: 'ProductSchema'
+    },
+    quantity: Number,
+    description: String,
+    date: String 
 })
 
 autoIncrement.initialize(mongoose.connection);

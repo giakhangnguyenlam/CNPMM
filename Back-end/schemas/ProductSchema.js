@@ -4,7 +4,10 @@ const autoIncrement = require('mongoose-auto-increment');
 
 var ProductSchema = new Schema ({
     id: Number,
-    storeId: Number,
+    storeId: {
+        type: Schema.Types.Number,
+        ref: 'StoreSchema'
+    },
     category: Number,
     name: String,
     quantity: Number,

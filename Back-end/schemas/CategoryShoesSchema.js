@@ -14,7 +14,10 @@ var CategoryShoesSchema = new Schema({
     origin: String,
     warranty: Number,
     gender: String,
-    productId: Number
+    productId: {
+        type: Schema.Types.Number,
+        ref: 'ProductSchema'
+    }
 })
 
 autoIncrement.initialize(mongoose.connection);

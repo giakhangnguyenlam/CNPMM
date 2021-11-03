@@ -4,7 +4,10 @@ const autoIncrement = require('mongoose-auto-increment');
 
 var OrderSchema = new Schema({
     id: Number,
-    userId: Number,
+    userId: {
+        type: Schema.Types.Number,
+        ref: 'UserSchema'
+    },
     orderDate: String,
     total: Number,
     orderStatus: String,

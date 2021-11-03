@@ -9,7 +9,10 @@ var CategoryAccessoriesSchema = new Schema({
     brand: String,
     origin: String,
     material: String,
-    productId: Number
+    productId: {
+        type: Schema.Types.Number,
+        ref: 'ProductSchema'
+    }
 })
 
 autoIncrement.initialize(mongoose.connection);
