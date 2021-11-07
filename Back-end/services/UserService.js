@@ -114,8 +114,30 @@ var getUserByUserName = (req, res, next) => {
 }
 
 var getUserByUserId = (req, res, next) => {
-    
+    User.findOne({id: req.params.id}, (err, user) => {
+        if(err) return res.json(err).status(500);
+        if(user){
+            const data = {
+                username: user.username,
+                role: user.role
+            }
+            const accessToken =  jwt.sign(data, process.env.TOKEN_SECRET, {expiresIn:"24h"});
+            let userModel = new UserModel(user.id, user.name, user.dateofbirth, user.email, user.address, user.gender, accessToken, user.role);
+            return res.json(userModel).status(200)
+        }
+        else{
+            return res.json({mess: "User isn't existed"}).status(404)
+        }
+    })
 }
+
+var getAllUser = (req, res, next) => {
+    User.find({}, (err, users) => {
+        if(err) return res.json({mess: err}).status(404);
+        return res.json(users).status(200);
+    })
+}
+
 
 module.exports = {
     signup,
@@ -123,5 +145,6 @@ module.exports = {
     updateUserWithPassword,
     updateUserWithoutPassword,
     getUserByUserName,
-    getUserByUserId
+    getUserByUserId,
+    getAllUser
 }

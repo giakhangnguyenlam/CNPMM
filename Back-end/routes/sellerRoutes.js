@@ -6,6 +6,7 @@ const {uploadImage} = require('../services/GoogleDriveService');
 const {createCategoryClothes, updateCategoryClothes} = require('../services/CategoryClothesService')
 const {createCategoryShoes, updateCategoryShoes} = require('../services/CategoryShoesService')
 const {createCategoryAccessories, updateCategoryAccessories} = require('../services/CategoryAccessoriesService');
+const {getOrderByStoreId, getOrderByStoreIdAndDate, updateOrderDetailStatus} = require('../services/OrderServices')
 
 router.post('/store', uploadImage, createStore);
 
@@ -41,5 +42,10 @@ router.post('/product/categoryaccessories', createCategoryAccessories);
 
 router.put('/product/categoryaccessories/:id', updateCategoryAccessories);
 
+router.get('/order/:id', getOrderByStoreId);
+
+router.get('/order/:id/date/:date', getOrderByStoreIdAndDate);
+
+router.put('/orderdetail/status/:id', updateOrderDetailStatus)
 
 module.exports = router;

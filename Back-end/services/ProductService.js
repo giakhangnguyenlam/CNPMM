@@ -98,6 +98,13 @@ var getAllProductsByCategory = (req, res, next) => {
     })
 }
 
+var getProductByProductId = (req, res, next) => {
+    Product.findOne({id: req.params.id}, (err, product) => {
+        if(err) return res.json(err).status(404);
+        return res.json(product).status(200);
+    })
+}
+
 module.exports = {
     createProduct,
     getProductByProductId,
@@ -106,5 +113,6 @@ module.exports = {
     updateProductWithImageByProductId,
     deleteProductByProductId,
     getAllProducts,
-    getAllProductsByCategory
+    getAllProductsByCategory,
+    getProductByProductId
 }

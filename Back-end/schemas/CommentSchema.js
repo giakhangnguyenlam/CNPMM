@@ -10,7 +10,7 @@ var CommentSchema = new Schema ({
     },
     username: String,
     comment: String,
-    start: Number,
+    star: Number,
     date: String
 })
 

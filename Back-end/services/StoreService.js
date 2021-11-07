@@ -57,10 +57,18 @@ var updateStoreWithImage = (req, res, next) => {
     })
 }
 
+var getAllStore = (req, res, next) => {
+    Store.find({}, (err, stores) => {
+        if(err) return res.json({mess: err}).status(404);
+        return res.json(stores).status(200);
+    })
+}
+
 module.exports  = {
     createStore,
     getStoreByUserId,
     deleteStore,
     updateStoreWithoutImage,
-    updateStoreWithImage
+    updateStoreWithImage,
+    getAllStore
 }

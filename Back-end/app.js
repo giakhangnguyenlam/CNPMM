@@ -15,6 +15,7 @@ const {UserAuthenToken, SellerAuthenToken, AdminAuthenToken} = require('./middle
 const homeRouters = require('./routes/homeRoutes');
 const sellerRouters = require('./routes/sellerRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 var app = express();
 
@@ -38,7 +39,7 @@ app.use(cors());
 app.use('/', homeRouters);
 app.use('/seller', SellerAuthenToken, sellerRouters);
 app.use('/user', UserAuthenToken, userRoutes);
-
+app.use('/admin', AdminAuthenToken, adminRoutes);
 
 
 // ========> catch 404 and forward to error handler <===============

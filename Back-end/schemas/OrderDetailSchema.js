@@ -14,7 +14,8 @@ var OrderDetailSchema = new Schema({
     },
     quantity: Number,
     description: String,
-    date: String 
+    date: String,
+    status: String 
 })
 
 autoIncrement.initialize(mongoose.connection);
