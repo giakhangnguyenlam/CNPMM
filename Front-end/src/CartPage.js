@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { useHistory } from "react-router"
 import noCart from "./assets/img/blankCart.png"
@@ -7,7 +7,7 @@ import { useGlobalContext } from "./context"
 
 function CartPage() {
   const userId = localStorage.getItem("id")
-  const { setCart, reloadSell, setReloadSell } = useGlobalContext()
+  const { reloadSell, setReloadSell } = useGlobalContext()
   const history = useHistory()
   const cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`))
   let sum = 0

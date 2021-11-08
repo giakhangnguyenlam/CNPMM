@@ -43,7 +43,7 @@ const Signup = () => {
     }
     setIsLogin(true)
   }
-  const checkError = (person) => {
+  const checkError = async (person) => {
     let errs = {}
     if (!person.name) {
       errs.name = "Không được bỏ trống trường này!"
@@ -83,6 +83,7 @@ const Signup = () => {
       errs.rePassword = "Không khớp với mật khẩu ở trên"
     }
     setErrors(errs)
+    return errs
   }
   const fetchData = async () => {
     setLoading(true)
@@ -120,10 +121,10 @@ const Signup = () => {
       setReloadSell(!reloadSell)
     }
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    checkError(person)
-    if (Object.keys(errors).length === 0) {
+    let res = await checkError(person)
+    if (Object.keys(res).length === 0) {
       fetchData()
     }
   }
