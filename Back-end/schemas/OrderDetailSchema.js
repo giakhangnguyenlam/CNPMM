@@ -8,10 +8,9 @@ var OrderDetailSchema = new Schema({
         type: Schema.Types.Number,
         ref: 'OrderSchema'
     },
-    productId: {
-        type: Schema.Types.Number,
-        ref: 'ProductSchema'
-    },
+    productId: Number,
+    productName: String,
+    price: Number,
     quantity: Number,
     description: String,
     date: String,

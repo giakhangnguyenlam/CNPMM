@@ -5,13 +5,13 @@ var createCategoryAccessories = (req, res, nex) => {
     const categoryAccessories = new CategoryAccessories(req.body);
     categoryAccessories.save((err, result) => {
         if(err) return res.json({mess: "Can't create category accessories"})
-        return res.json(result).status(201);
+        return res.status(201).json(result);
     })
 }
 
 var updateCategoryAccessories = (req,res, next) => {
     CategoryAccessories.findOne({productId: req.params.id}, (err, categoryAccessories) => {
-        if(err) return res.json(err);
+        if(err) return res.json(err).status(404);
 
         categoryAccessories.type = req.body.type;
         categoryAccessories.color = req.body.color;
@@ -21,15 +21,15 @@ var updateCategoryAccessories = (req,res, next) => {
 
         categoryAccessories.save((err, result) => {
             if(err) return res.json(err);
-            return res.json(result).status(200);
+            return res.status(200).json(result);
         })
     })
 }
 
 var getCategoryAccessoriesByProductId = (req, res, next)  => {
     CategoryAccessories.findOne({productId: req.params.id}, (err, categoryAccessories) => {
-        if(err) return res.json(err);
-        return res.json(categoryAccessories).status(200);
+        if(err) return res.json(err).status(404);
+        return res.status(200).json(categoryAccessories);
     })
 }
 
@@ -45,14 +45,14 @@ var getCategoryAccessoriesByType = (req, res, next) => {
             })
         })
 
-        return res.json(product).status(200);
+        return res.status(200).json(product);
     })
 }
 
 var deleteCategoryAccessoriesByProductId = (productId) => {
     CategoryAccessories.deleteOne({productId: productId}, (err) => {
-        if(err) return res.json(err)
-        return res.json({mess: 'delete successfully'})
+        if(err) return res.status(404).json(err)
+        return res.status(200).json({mess: 'delete successfully'})
     })
 }
 

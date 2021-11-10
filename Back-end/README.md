@@ -21,6 +21,7 @@ link: https://cnpmmbe.herokuapp.com/signup
     "email":"abc",
     "address":"123, dadd",
     "gender":"male",
+    "phone":"123123123123",
     "username":"khang",
     "password":"123"
 }
@@ -31,14 +32,15 @@ link: https://cnpmmbe.herokuapp.com/signup
 status: 201
 ```
 {
-    "id": 8,
+    "id": 5,
     "name": "khang",
     "dateofbirth": "06-06-2000",
     "email": "abc",
     "address": "123, dadd",
-    "gender": "abc",
-    "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraGFuZyIsImV4cCI6MTYzNDE1MTEzNiwiaWF0IjoxNjM0MTE1MTM2fQ.gGX83-8F4shYs5JvPhG0jxLDY3Ol4YvBeK7RCBoCT1M",
-    "role": "ROLE_USER"
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5ndXNlciIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2MzY1MDkyMjIsImV4cCI6MTYzNjU5NTYyMn0.kn08HGHaNyY5D1JCVPD2G6POaLFazqmDCq4bPg2FX8c",
+    "role": "ROLE_USER",
+    "phone": "123123123123"
 }
 ```
 
@@ -66,14 +68,15 @@ link: https://cnpmmbe.herokuapp.com/login
 status: 200
 ```
 {
-    "id": 2,
+    "id": 5,
     "name": "khang",
     "dateofbirth": "06-06-2000",
     "email": "abc",
     "address": "123, dadd",
-    "gender": "abc",
-    "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraGFuZ3NlbGxlciIsImV4cCI6MTYzNDE1MDk3MiwiaWF0IjoxNjM0MTE0OTcyfQ.RRt7EZLMQfOCKvf8TBDs1P3WYw5R8eXZegs8KJP4dzg",
-    "role": "ROLE_USER"
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5ndXNlciIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2MzY1MDkyNjgsImV4cCI6MTYzNjU5NTY2OH0.Dz3lQirTe4Kp1xg1fCg_mjxuwmyb5brY8aAcmmsBJHo",
+    "role": "ROLE_USER",
+    "phone": "123123123123"
 }
 ```
 
@@ -570,7 +573,9 @@ link: https://cnpmmbe.herokuapp.com/user/order
     "total":350000,
     "listProducts":[1,2,3,4],
     "listQuantities":[1,1,1,1],
-    "listDescription":["đỏ, cam","xanh, vàng","hồng","tím"]
+    "listDescription":["đỏ, cam","xanh, vàng","hồng","tím"],
+    "listProductNames":["abc","xyz","adasd","dasda"],
+    "listPrices":[35.5, 322, 33, 26]
 }
 ```
 
@@ -845,7 +850,8 @@ link: https://cnpmmbe.herokuapp.com/seller/signup
     "email":"abc",
     "address":"123, dadd",
     "gender":"male",
-    "username":"khangseller2",
+    "phone":"10231023123",
+    "username":"khangseller05",
     "password":"123"
 }
 ```
@@ -854,14 +860,145 @@ link: https://cnpmmbe.herokuapp.com/seller/signup
 Status: 201
 ```
 {
-    "id": 6,
+    "id": 0,
     "name": "khang",
     "dateofbirth": "06-06-2000",
     "email": "abc",
     "address": "123, dadd",
-    "gender": "abc",
-    "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraGFuZ3NlbGxlcjIiLCJleHAiOjE2MzQxNTAwNTQsImlhdCI6MTYzNDExNDA1NH0.LrKc3wzESxtuCSKO40m018LPvIj2LW-oBQHJb3YLHPs",
-    "role": "ROLE_SELLER"
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2VsbGVyMDUiLCJyb2xlIjoiUk9MRV9TRUxMRVIiLCJpYXQiOjE2MzY1MDk0NTMsImV4cCI6MTYzNjU5NTg1M30.8mZArSl7LE0mJdt0i5LaJnCPYWW7cZu_CQiQV-u3DY0",
+    "role": "ROLE_SELLER",
+    "phone": "10231023123"
+}
+```
+
+### Login
+link: https://cnpmmbe.herokuapp.com/seller/login
+
+> POST
+
+#### Request
+```
+{
+    "username":"khangseller05",
+    "password":"123"
+}
+```
+
+#### Response
+```
+{
+    "id": 0,
+    "name": "khang",
+    "dateofbirth": "06-06-2000",
+    "email": "abc",
+    "address": "123, dadd",
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2VsbGVyMDUiLCJyb2xlIjoiUk9MRV9TRUxMRVIiLCJpYXQiOjE2MzY1MDk1MzAsImV4cCI6MTYzNjU5NTkzMH0.SFg1VaHc4c2onddUBhg6ggVAjYXUfSbZwhcDYhM0yUg",
+    "role": "ROLE_SELLER",
+    "phone": "10231023123"
+}
+```
+
+### Update seller without password
+link: https://cnpmmbe.herokuapp.com/seller/0
+
+> PUT
+
+> 0 is seller id
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+```
+
+{
+    "name":"khangupdate",
+    "dateofbirth":"06-06-2000",
+    "email":"abcdd",
+    "address":"123, dadd",
+    "gender":"female",
+    "phone":"12392139123"
+}
+```
+
+#### Response
+```
+{
+    "id": 0,
+    "name": "khangupdate",
+    "dateofbirth": "06-06-2000",
+    "email": "abcdd",
+    "address": "123, dadd",
+    "gender": "female",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2VsbGVyMDUiLCJyb2xlIjoiUk9MRV9TRUxMRVIiLCJpYXQiOjE2MzY1MDk3MTcsImV4cCI6MTYzNjU5NjExN30.woKByenxJ7CxS01zVUHAynfg6Ld6h7496x2pjsrfr9U",
+    "role": "ROLE_SELLER",
+    "phone": "12392139123"
+}
+```
+
+### Update with password
+link: https://cnpmmbe.herokuapp.com/seller/password/0
+
+> PUT
+
+> 0 is seller id
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+```
+{
+    "password":"1234"
+}
+```
+
+#### Response
+```
+{
+    "id": 0,
+    "name": "khangupdate",
+    "dateofbirth": "06-06-2000",
+    "email": "abcdd",
+    "address": "123, dadd",
+    "gender": "female",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2VsbGVyMDUiLCJyb2xlIjoiUk9MRV9TRUxMRVIiLCJpYXQiOjE2MzY1MTAwOTgsImV4cCI6MTYzNjU5NjQ5OH0.SKUzcXvU7nJrpzzrewtDM5c9Fs1C4s8ySK3FJrnrcC8",
+    "role": "ROLE_SELLER",
+    "phone": "12392139123"
+}
+```
+
+### Get seller by seller id
+link: https://cnpmmbe.herokuapp.com/seller/0
+
+> GET
+
+> 0 is seller id
+
+> this api get all information from seller
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+{
+    "id": 0,
+    "name": "khangupdate",
+    "dateofbirth": "06-06-2000",
+    "email": "abcdd",
+    "address": "123, dadd",
+    "gender": "female",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2VsbGVyMDUiLCJyb2xlIjoiUk9MRV9TRUxMRVIiLCJpYXQiOjE2MzY1MTAyMDUsImV4cCI6MTYzNjU5NjYwNX0.F6Hed7LtUUUvVMCO8Uw2s9Vc-mgb_4n4hDHnTCRWYj4",
+    "role": "ROLE_SELLER",
+    "phone": "12392139123"
 }
 ```
 
@@ -1686,6 +1823,28 @@ link: https://cnpmmbe.herokuapp.com/seller/orderdetail/status/2
 
 ##  ==================>> Admin API <<========================= 
 
+### Login
+link: https://cnpmmbe.herokuapp.com/admin/login
+
+> POST
+
+#### Request
+```
+{
+    "username":"huyadmin",
+    "password":"123"
+}
+```
+
+#### Response
+```
+{
+    "username": "huyadmin",
+    "role": "ROLE_ADMIN",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1eWFkbWluIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE2MzY1MTIzNDgsImV4cCI6MTYzNjU5ODc0OH0.JXUZnWQ8z_yF_QBPKy1ERx6Iy4h9Qzkw1mJgr9f0NkY"
+}
+```
+
 ### Get all stores
 link: https://cnpmmbe.herokuapp.com/admin/stores
 
@@ -1875,3 +2034,77 @@ link: https://cnpmmbe.herokuapp.com/admin/orders
 ]
 ```
 
+### Get all seller
+link: https://cnpmmbe.herokuapp.com/admin/sellers
+
+> GET
+
+> Note: You have to login with admin account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "618b270c21ebca6f4cf1bb86",
+        "name": "khangupdate",
+        "dateofbirth": "06-06-2000",
+        "email": "abcdd",
+        "address": "123, dadd",
+        "gender": "female",
+        "username": "khangseller05",
+        "password": "$2b$10$UYj13EOugZC7sD0ikXyRjO6HDoOjIPHBsPQKCEAUy14avThT9WiPW",
+        "phone": "12392139123",
+        "id": 0,
+        "__v": 0
+    }
+]
+```
+
+### Get all products
+link: https://cnpmmbe.herokuapp.com/admin/products
+
+> GET
+
+> Note: You have to login with admin account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "6172c99b399a33de123cc8b9",
+        "storeId": 2,
+        "category": 1,
+        "name": "this is update test",
+        "quantity": 20,
+        "price": 350000,
+        "description": "this is update description",
+        "image": "https://drive.google.com/uc?id=1F0obXxmgkjS3mbRbYK47xRtLzmdx6L2-&export=download",
+        "id": 0,
+        "__v": 1,
+        "comments": [
+            2
+        ]
+    },
+    {
+        "comments": [],
+        "_id": "6189dceeb7d0440ce73d0ccb",
+        "storeId": 2,
+        "category": 1,
+        "name": "dsadadasd",
+        "quantity": 300,
+        "price": 20000,
+        "description": "dasdasdasdasd",
+        "image": "https://drive.google.com/uc?id=1seiOVna938REun6kvcSxkcZiu55H6BWM&export=download",
+        "id": 18,
+        "__v": 0
+    }
+]
+```

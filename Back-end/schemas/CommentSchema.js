@@ -4,10 +4,6 @@ const autoIncrement = require('mongoose-auto-increment');
 
 var CommentSchema = new Schema ({
     id: Number,
-    productId : {
-        type: Schema.Types.Number,
-        ref: 'ProductSchema'
-    },
     username: String,
     comment: String,
     star: Number,

@@ -20,10 +20,10 @@ var sendMail  = (req, res, next) => {
     transporter.sendMail(mainOptions, function(err, info){
         if (err) {
             console.log(err);
-            return res.json({mess: err}).status(404);
+            return res.status(404).json({mess: err});
         } else {
             console.log('Message sent: ' +  info.response);
-            return res.json({mess: 'Order successfully'}).status(201);
+            return res.status(201).json({mess: 'Order successfully'});
         }
     });
 }

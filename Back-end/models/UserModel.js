@@ -1,5 +1,5 @@
 class UserModel{
-    constructor(id, name, dateofbirth, email, address, gender, jwt, role){
+    constructor(id, name, dateofbirth, email, address, gender, jwt, role, phone){
         this.id = id;
         this.name = name;
         this.dateofbirth = dateofbirth;
@@ -8,6 +8,7 @@ class UserModel{
         this.gender = gender;
         this.jwt = jwt;
         this.role = role;
+        this.phone = phone;
     }
 }
 

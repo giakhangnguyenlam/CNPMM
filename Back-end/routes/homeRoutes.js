@@ -5,8 +5,10 @@ const {getCategoryAccessoriesByProductId, getCategoryAccessoriesByType} = requir
 const {getCategoryClothesByProductId, getCategoryClothesByType} = require('../services/CategoryClothesService');
 const {getCategoryShoesByProductId, getCategoryShoesByStyle} = require('../services/CategoryShoesService')
 const {getAllProducts, getAllProductsByCategory, getProductByProductId} = require('../services/ProductService')
-const {sellerSignup} = require('../services/SellerService')
+const {sellerSignup, sellerLogin} = require('../services/SellerService')
 const {getCommentByProductId} = require('../services/CommentService')
+
+const {adminLogin} = require('../services/AdminService');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -38,8 +40,13 @@ router.get('/product/category/shoes/:style', getCategoryShoesByStyle);
 
 router.get('/product/category/accessories/:type', getCategoryAccessoriesByType);
 
+router.get('/product/comment/:id', getCommentByProductId);
+
 router.post('/seller/signup', sellerSignup);
 
-router.get('/product/comment/:id', getCommentByProductId);
+router.post('/seller/login', sellerLogin);
+
+router.post('/admin/login', adminLogin);
+
 
 module.exports = router;

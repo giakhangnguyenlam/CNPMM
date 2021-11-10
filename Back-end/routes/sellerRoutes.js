@@ -7,6 +7,13 @@ const {createCategoryClothes, updateCategoryClothes} = require('../services/Cate
 const {createCategoryShoes, updateCategoryShoes} = require('../services/CategoryShoesService')
 const {createCategoryAccessories, updateCategoryAccessories} = require('../services/CategoryAccessoriesService');
 const {getOrderByStoreId, getOrderByStoreIdAndDate, updateOrderDetailStatus} = require('../services/OrderServices')
+const {updateSellerWithoutPassword, updateSellerWithPassword, getSellerBySellerId} = require('../services/SellerService')
+
+router.put('/:id', updateSellerWithoutPassword);
+
+router.put('/password/:id', updateSellerWithPassword);
+
+router.get("/:id", getSellerBySellerId);
 
 router.post('/store', uploadImage, createStore);
 

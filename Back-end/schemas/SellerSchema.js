@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
 
-var UserSchema = new Schema({
+var SellerSchema = new Schema({
     id: Number,
     name: String,
     dateofbirth: String,
@@ -14,8 +14,8 @@ var UserSchema = new Schema({
     phone: String
 })
 autoIncrement.initialize(mongoose.connection);
-UserSchema.plugin(autoIncrement.plugin, {model : 'UserSchema', field: "id"});
+SellerSchema.plugin(autoIncrement.plugin, {model : 'SellerSchema', field: "id"});
 
-var UserSchema = mongoose.model('UserSchema', UserSchema);
+var SellerSchema = mongoose.model('SellerSchema', SellerSchema);
 
-module.exports = UserSchema;
+module.exports = SellerSchema;

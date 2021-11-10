@@ -5,7 +5,7 @@ var createCategoryClothes = (req, res, next) => {
     const categoryClothes = new CategoryClothes(req.body);
     categoryClothes.save((err, result) => {
         if(err) return res.json(err);
-        return res.json(result).status(201);
+        return res.status(201).json(result);
     })
 }
 
@@ -22,22 +22,22 @@ var updateCategoryClothes = (req, res, next) => {
         categoryClothes.gender = req.body.gender;
 
         categoryClothes.save((err, result) => {
-            if(err) return res.json(err)
-            return res.json(result).status(200);
+            if(err) return res.status(404).json(err)
+            return res.status(200).json(result);
         })
     })
 }
 
 var getCategoryClothesByProductId = (req, res, next) => {
     CategoryClothes.findOne({productId: req.params.id}, (err, categoryClothes) => {
-        if(err) return res.json(err)
-        return res.json(categoryClothes).status(200)
+        if(err) return res.status(404).json(err);
+        return res.status(200).json(categoryClothes)
     })
 }
 
 var getCategoryClothesByType = (req, res, next) => {
     CategoryClothes.find({type: req.params.type}, (err, categoryClotheses) => {
-        if(err) return res.json(err)
+        if(err) return res.json(err).status(404)
         let product = [];
         categoryClotheses.forEach((categoryClothes) => {
             Product.findOne({id: categoryClothes.productId}, (err, result) => {
@@ -46,14 +46,14 @@ var getCategoryClothesByType = (req, res, next) => {
                 }
             })
         })
-        return res.json(product).status(200);
+        return res.status(200).json(product);
     })
 }
 
 var deleteCategoryClothesByProductId  = (productId) => {
     CategoryClothes.deleteOne({productId: productId}, (err) => {
-        if(err) return res.json(err)
-        return res.json({mess: 'delete successfully'})
+        if(err) return res.status(404).json(err)
+        return res.status(200).json({mess: 'delete successfully'})
     })
 }
 

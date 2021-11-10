@@ -4,14 +4,14 @@ const Product = require('../schemas/ProductSchema');
 var createCategoryShoes = (req, res, next) => {
     const categoryShoes = new CategoryShoes(req.body);
     categoryShoes.save((err, result) => {
-        if(err) return res.json(err);
-        return res.json(result).status(201);
+        if(err) return res.status(404).json(err);
+        return res.status(201).json(result);
     })
 }
 
 var updateCategoryShoes = (req, res, next) => {
     CategoryShoes.findOne({productId: req.params.id}, (err, categoryShoes) => {
-        if(err) return res.json(err);
+        if(err) return res.status(404).json(err);
         
         categoryShoes.style = req.body.style;
         categoryShoes.size = req.body.size;
@@ -26,15 +26,15 @@ var updateCategoryShoes = (req, res, next) => {
 
         categoryShoes.save((err, result) => {
             if(err) return res.json(err)
-            return res.json(result).status(200);
+            return res.status(200).json(result);
         })
     })
 }
 
 var getCategoryShoesByProductId = (req, res, next) => {
     CategoryShoes.find({productId: req.params.id}, (err, categoryShoes) => {
-        if(err) return res.json(err);
-        return res.json(categoryShoes).status(200);
+        if(err) return res.status(404).json(err);
+        return res.status(200).json(categoryShoes);
     })
 }
 
@@ -49,14 +49,14 @@ var getCategoryShoesByStyle = (req, res, next) => {
             })
         })
 
-        return res.json(product).status(200)
+        return res.status(200).json(product);
     })
 }
 
 var deleteCategoryShoesByProductId = (productId) => {
     CategoryShoes.deleteOne({productId: productId}, (err) => {
-        if(err) return res.json(err);
-        return res.json({mess: 'delete successfully'})
+        if(err) return res.status(404).json(err);
+        return res.status(200).json({mess: 'delete successfully'})
     })
 }
 

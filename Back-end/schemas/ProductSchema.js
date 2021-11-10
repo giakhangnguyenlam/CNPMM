@@ -13,7 +13,11 @@ var ProductSchema = new Schema ({
     quantity: Number,
     price: Number,
     description: String,
-    image: String
+    image: String,
+    comments:[{
+        type:Schema.Types.Number,
+        ref:'CommentSchema'
+    }]
 })
 
 autoIncrement.initialize(mongoose.connection);
