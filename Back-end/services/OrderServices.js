@@ -82,7 +82,7 @@ var getOrderByStoreIdAndDate = (req, res, next) => {
         if(err) return res.status(404).json(err);
         let listOrderDetail = [];
         for (const product of products) {
-            const obj = await OrderDetail.find({$and: [{productId: product.id},{date: req.params.date}]});
+            const obj = await OrderDetail.find({$and: [{productId: product.id},{date: req.params.date},{status: "Đang chuẩn bị"}]});
             obj.forEach((o) => {
                 listOrderDetail.push(o);
             })
@@ -148,6 +148,36 @@ var getAllOrderWithNonePaymentStatus = (req, res, next) => {
     })
 }
 
+var getOrderByStoreIdAndDateOptions = (req, res, next) => {
+    Product.find({storeId: req.params.id}, async (err, products) => {
+        if(err) return res.status(404).json(err);
+        let listOrderDetail = [];
+        for (const product of products) {
+        const obj = await OrderDetail.find({$and: [{productId: product.id},{date: {$regex: `-${req.params.month}-${req.params.year}`}}, {status: "Đang chuẩn bị"}]});
+            obj.forEach((o) => {
+                listOrderDetail.push(o);
+            })
+        }
+        
+        return res.status(200).json(listOrderDetail);
+    })
+}
+
+var getOrderByStoreIdAndStatusFinished  = (req, res, next) => {
+    Product.find({storeId: req.params.id}, async (err, products) => {
+        if(err) return res.status(404).json(err);
+        let listOrderDetail = [];
+        for (const product of products) {
+            const obj = await OrderDetail.find({$and: [{productId: product.id},{status: "Đang chuẩn bị"}]});
+            obj.forEach((o) => {
+                listOrderDetail.push(o);
+            })
+        }
+        
+        return res.status(200).json(listOrderDetail);
+    })
+}
+
 module.exports = {
     createOrder,
     viewOrderHistoryByUserId,
@@ -158,5 +188,7 @@ module.exports = {
     updateOrderStatus,
     updateOrderDetailStatus,
     getAllOrder,
-    getAllOrderWithNonePaymentStatus
+    getAllOrderWithNonePaymentStatus,
+    getOrderByStoreIdAndDateOptions,
+    getOrderByStoreIdAndStatusFinished
 }

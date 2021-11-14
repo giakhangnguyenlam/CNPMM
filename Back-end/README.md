@@ -1821,6 +1821,91 @@ link: https://cnpmmbe.herokuapp.com/seller/orderdetail/status/2
 }
 ```
 
+### Static by store id
+link: https://cnpmmbe.herokuapp.com/seller/order/2/statusfinished
+
+> GET
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+> Default status: 'Dang chuan bi'
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "61863c8ab5b0aae0e41d18ab",
+        "orderId": 2,
+        "productId": 0,
+        "quantity": 1,
+        "description": "đỏ, cam",
+        "date": "6-10-2021",
+        "status": "Đang chuẩn bị",
+        "id": 0,
+        "__v": 0
+    }
+]
+```
+
+### Static by store id and date
+link: https://cnpmmbe.herokuapp.com/seller/order/2/date/06-11-2021
+
+> GET
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "61863c8ab5b0aae0e41d18ab",
+        "orderId": 2,
+        "productId": 0,
+        "quantity": 1,
+        "description": "đỏ, cam",
+        "date": "06-10-2021",
+        "status": "Đang chuẩn bị",
+        "id": 0,
+        "__v": 0
+    }
+]
+```
+
+### Static by store id, month and year
+link: https://cnpmmbe.herokuapp.com/seller/order/2/month/11/year/2021
+
+> GET
+
+> Note: You have to login with seller account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "61863c8ab5b0aae0e41d18ab",
+        "orderId": 2,
+        "productId": 0,
+        "quantity": 1,
+        "description": "đỏ, cam",
+        "date": "06-10-2021",
+        "status": "Đang chuẩn bị",
+        "id": 0,
+        "__v": 0
+    }
+]
+```
 ##  ==================>> Admin API <<========================= 
 
 ### Login
