@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react"
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
+  const [isAdmin, setIsAdmin] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
   const [isSellerSignup, setIsSellerSignup] = useState(false)
@@ -27,6 +28,7 @@ const AppProvider = ({ children }) => {
   const [reloadDetailStore, setReloadDetailStore] = useState(false)
   const [loading, setLoading] = useState(false)
   const [raise, setRaise] = useState(false)
+  const [adminPage, setAdminPage] = useState("user")
 
   const [cateClo, setCateClo] = useState({
     type: "",
@@ -98,6 +100,7 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        isAdmin,
         isLogin,
         isSignup,
         isSellerSignup,
@@ -123,6 +126,8 @@ const AppProvider = ({ children }) => {
         cateAcc,
         loading,
         raise,
+        adminPage,
+        setIsAdmin,
         setIsLogin,
         setIsSignup,
         setIsSellerSignup,
@@ -151,6 +156,7 @@ const AppProvider = ({ children }) => {
         clearCateAcc,
         setLoading,
         setRaise,
+        setAdminPage,
       }}
     >
       {children}

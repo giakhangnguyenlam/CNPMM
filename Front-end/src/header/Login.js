@@ -2,7 +2,6 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
 import { formAuth } from "../data"
-import ModalFooter from "../ModalFooter"
 
 const Login = () => {
   const {
@@ -13,6 +12,7 @@ const Login = () => {
     reloadSell,
     setReloadSell,
   } = useGlobalContext()
+  const [role, setRole] = useState("user")
   const [errors, setErrors] = useState({})
   const [account, setAccount] = useState({
     username: "",
@@ -38,23 +38,37 @@ const Login = () => {
     setErrors(errs)
   }
   const fetchData = async () => {
+    let url = "https://cnpmmbe.herokuapp.com/login"
+    if (role === "seller") {
+      url = "https://cnpmmbe.herokuapp.com/seller/login"
+    }
     try {
       let res = await axios({
         method: "post",
-        url: "https://cnpmmbe.herokuapp.com/login",
+        url,
         data: { ...account },
         headers: { "Access-Control-Allow-Origin": "*" },
         responseType: "json",
       })
       if (res.status === 200) {
         setIsLogin(false)
-        const { id, name, dateofbirth, email, address, gender, jwt, role } =
-          await res.data
+        let {
+          id,
+          name,
+          dateofbirth,
+          email,
+          address,
+          gender,
+          jwt,
+          role,
+          phone,
+        } = await res.data
         localStorage.setItem("id", id)
         localStorage.setItem("name", name)
         localStorage.setItem("dateofbirth", dateofbirth)
         localStorage.setItem("email", email)
         localStorage.setItem("address", address)
+        localStorage.setItem("phone", phone)
         localStorage.setItem("gender", gender)
         localStorage.setItem("jwt", jwt)
         localStorage.setItem("role", role)
@@ -92,6 +106,29 @@ const Login = () => {
             </div>
 
             <div className='auth-form__form'>
+              <div
+                className='auth-form__group'
+                style={{ display: "flex", justifyContent: "space-evenly" }}
+              >
+                <div className='auth-form__group-radio'>
+                  <input
+                    type='radio'
+                    name='select role'
+                    value='user'
+                    onClick={(e) => setRole(e.target.value)}
+                  />
+                  <label>người mua hàng</label>
+                </div>
+                <div className='auth-form__group-radio'>
+                  <input
+                    type='radio'
+                    name='select role'
+                    value='seller'
+                    onClick={(e) => setRole(e.target.value)}
+                  />
+                  <label>người bán hàng</label>
+                </div>
+              </div>
               {formAuth.slice(3, 5).map((ele, index) => {
                 const { name, type, placeholder } = ele
                 return (
@@ -139,7 +176,6 @@ const Login = () => {
               </button>
             </div>
           </div>
-          <ModalFooter />
         </div>
       </div>
     </div>

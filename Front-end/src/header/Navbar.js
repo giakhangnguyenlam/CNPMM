@@ -19,6 +19,7 @@ function Navbar() {
     localStorage.removeItem("dateofbirth")
     localStorage.removeItem("email")
     localStorage.removeItem("address")
+    localStorage.removeItem("phone")
     localStorage.removeItem("gender")
     localStorage.removeItem("jwt")
     localStorage.removeItem("role")

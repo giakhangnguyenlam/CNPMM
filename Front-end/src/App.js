@@ -14,6 +14,7 @@ import SingleProduct from "./SingleProduct"
 import CartPage from "./CartPage"
 import UserOrder from "./user/UserOrder"
 import OrderItem from "./user/OrderItem"
+import AdminModal from "./admin/AdminModal"
 
 function App() {
   const expire = localStorage.getItem("expire")
@@ -21,6 +22,7 @@ function App() {
   if (exp.getTime() >= expire) {
     localStorage.removeItem("id")
     localStorage.removeItem("name")
+    localStorage.removeItem("username")
     localStorage.removeItem("dateofbirth")
     localStorage.removeItem("email")
     localStorage.removeItem("address")
@@ -73,11 +75,6 @@ function App() {
               <UserOrder />
               <Footer />
             </Route>
-            <Route path='/comingsoon'>
-              <Header />
-              <SoonPage />
-              <Footer />
-            </Route>
             <Route path='/seller'>
               <HeaderSeller />
               <BodySell />
@@ -86,6 +83,14 @@ function App() {
               <Header />
               <CartPage />
               <Footer />
+            </Route>
+            <Route path='/comingsoon'>
+              <Header />
+              <SoonPage />
+              <Footer />
+            </Route>
+            <Route path='/admin'>
+              <AdminModal />
             </Route>
             <Route path='*'>
               <Header />

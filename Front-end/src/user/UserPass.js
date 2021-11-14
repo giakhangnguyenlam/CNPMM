@@ -6,6 +6,7 @@ function UserPass() {
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
   const name = localStorage.getItem("name")
+  const role = localStorage.getItem("role")
   const [password, setPassword] = useState("")
   const history = useHistory()
 
@@ -15,10 +16,14 @@ function UserPass() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    let url = `https://cnpmmbe.herokuapp.com/user/password/${userid}`
+    if (role === "ROLE_SELLER") {
+      url = `https://cnpmmbe.herokuapp.com/seller/password/${userid}`
+    }
     try {
       let res = await axios({
         method: "PUT",
-        url: `https://cnpmmbe.herokuapp.com/user/password/${userid}`,
+        url,
         data: { password },
         headers: {
           Authorization: `Bearer ${jwt}`,

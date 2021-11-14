@@ -51,7 +51,6 @@ function SingleProduct() {
     const userId = localStorage.getItem("id")
     if (userId) {
       let cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
-      console.log(cartInfo)
       let totalN = info.quantity * prod.price
       let product = Number(id)
       let quantity = info.quantity
@@ -210,8 +209,7 @@ function SingleProduct() {
         url: `https://cnpmmbe.herokuapp.com/product/comment/${id}`,
       })
       if (res.status === 200) {
-        setCmtList(res.data)
-        return 200
+        return { status: 200, data: res.data }
       }
     } catch (error) {
       console.log(error)
@@ -253,7 +251,7 @@ function SingleProduct() {
           })
         }
         let comment = await fetchComment()
-        if (comment === 200) {
+        if (comment.status === 200) {
           setCmtList(comment.data)
         }
         setLoading(false)

@@ -81,6 +81,11 @@ export const formAuth = [
     type: "text",
     placeholder: "Nhập địa chỉ của bạn",
   },
+  {
+    name: "phone",
+    type: "text",
+    placeholder: "Nhập số điện thoại của bạn",
+  },
 ]
 
 export const Sizes = ["S", "M", "L", "XL", "2XL"]

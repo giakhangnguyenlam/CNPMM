@@ -6,7 +6,8 @@ function OrderDetail() {
   const jwt = localStorage.getItem("jwt")
   const wFit = window.screen.availWidth * 0.8
   const hFit = window.screen.availHeight * 0.835
-  const { setIsOrderDetail, idStoreUpdate } = useGlobalContext()
+  const { setIsOrderDetail, idStoreUpdate, reloadSell, setReloadSell } =
+    useGlobalContext()
   const [screen, setScreen] = useState(false)
   const [orders, setOrders] = useState()
   let today = new Date()
@@ -17,12 +18,33 @@ function OrderDetail() {
   today = yyyy + "-" + mm + "-" + dd
   const [date, newDate] = useState(today)
 
+  const handleCheck = async (id) => {
+    try {
+      let res = await axios({
+        method: "put",
+        url: `https://cnpmmbe.herokuapp.com/seller/orderdetail/status/${id}`,
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+      if (res.status === 200) {
+        setReloadSell(!reloadSell)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const fetchData = async () => {
     let url = ""
     let dateUWant = new Date(date)
     let dateUHave = new Date(Date.now())
     if (dateUWant <= dateUHave) {
-      if (dateUWant === dateUHave) {
+      if (
+        dateUWant.getDate() === dateUHave.getDate() &&
+        dateUWant.getMonth() === dateUHave.getMonth() &&
+        dateUWant.getFullYear() === dateUHave.getFullYear()
+      ) {
         url = `https://cnpmmbe.herokuapp.com/seller/order/${idStoreUpdate.id}`
       } else {
         let ndd = String(dateUWant.getDate()).padStart(2, "0")
@@ -44,30 +66,7 @@ function OrderDetail() {
           setScreen(true)
         }
         if (res.status === 200 && res.data.length) {
-          let orderList = []
-          let list = res.data
-          for await (const item of list) {
-            let { productId, orderId, quantity, description } = item
-            let result = await axios({
-              method: "get",
-              url: `https://cnpmmbe.herokuapp.com/seller/product/${productId}`,
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            })
-            if (result.status === 200) {
-              const { image, name } = await result.data
-              orderList.push({
-                productId,
-                image,
-                name,
-                orderId,
-                quantity,
-                description,
-              })
-            }
-          }
-          setOrders(orderList)
+          setOrders(res.data)
         }
       } catch (error) {
         console.log(error)
@@ -81,7 +80,7 @@ function OrderDetail() {
   useEffect(() => {
     setScreen(false)
     fetchData()
-  }, [date])
+  }, [date, reloadSell])
 
   return (
     <>
@@ -111,9 +110,6 @@ function OrderDetail() {
                   <div className='w60x store-product__header-nav-item w10'>
                     Mã đơn hàng
                   </div>
-                  <div className='store-product__header-nav-item w250x'>
-                    Hình ảnh
-                  </div>
                   <div
                     className='store-product__header-nav-item'
                     style={{ flexGrow: "1" }}
@@ -126,6 +122,12 @@ function OrderDetail() {
                   <div className='store-product__header-nav-item w300x'>
                     Mô tả
                   </div>
+                  <div className='store-product__header-nav-item w250x'>
+                    Trạng thái
+                  </div>
+                  <div className='store-product__header-nav-item w10'>
+                    Thao tác
+                  </div>
                 </div>
               </div>
 
@@ -135,8 +137,14 @@ function OrderDetail() {
               >
                 {orders ? (
                   orders.map((product, index) => {
-                    const { image, name, orderId, quantity, description } =
-                      product
+                    const {
+                      id,
+                      productName,
+                      orderId,
+                      quantity,
+                      description,
+                      status,
+                    } = product
                     return (
                       <div className='store-product__body-item ' key={index}>
                         <div
@@ -145,17 +153,11 @@ function OrderDetail() {
                         >
                           {orderId}
                         </div>
-                        <div className='store-item w250x'>
-                          <div
-                            className='store-item__img'
-                            style={{ backgroundImage: `url(${image})` }}
-                          ></div>
-                        </div>
                         <div
                           className='store-item store-item__name'
                           style={{ flexGrow: "1" }}
                         >
-                          {name}
+                          {productName}
                         </div>
                         <div className='store-item store-item__amount'>
                           {quantity}
@@ -166,6 +168,15 @@ function OrderDetail() {
                         >
                           <div className='store-item__desc-content'>
                             {description}
+                          </div>
+                        </div>
+                        <div className='store-item w250x'>{status}</div>
+                        <div className='store-item' style={{ width: "8.5%" }}>
+                          <div
+                            className='store-item__btn'
+                            onClick={() => handleCheck(id)}
+                          >
+                            Xác nhận
                           </div>
                         </div>
                       </div>

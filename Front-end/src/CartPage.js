@@ -50,27 +50,33 @@ function CartPage() {
       listProducts: [],
       listQuantities: [],
       listDescription: [],
+      listProductNames: [],
+      listPrices: [],
     }
     cartInfo.map((item) => {
       data.listProducts.push(item.product)
       data.listQuantities.push(item.quantity)
       data.listDescription.push(item.description)
+      data.listProductNames.push(item.name)
+      data.listPrices.push(item.price)
     })
-    try {
-      let res = await axios({
-        method: "post",
-        url: "https://cnpmmbe.herokuapp.com/user/order",
-        data,
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      if (res.status === 201) {
-        localStorage.removeItem(`cart${userId}`)
-        setReloadSell(!reloadSell)
+    if (localStorage.getItem("role") === "ROLE_USER") {
+      try {
+        let res = await axios({
+          method: "post",
+          url: "https://cnpmmbe.herokuapp.com/user/order",
+          data,
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        if (res.status === 201) {
+          localStorage.removeItem(`cart${userId}`)
+          setReloadSell(!reloadSell)
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
 

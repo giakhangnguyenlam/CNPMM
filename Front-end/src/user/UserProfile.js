@@ -6,6 +6,7 @@ function UserProfile() {
   const dob = localStorage.getItem("dateofbirth")
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
+  const role = localStorage.getItem("role")
 
   const history = useHistory()
   const [user, setUser] = useState({
@@ -13,6 +14,7 @@ function UserProfile() {
     dateofbirth: `${dob.slice(6, 10)}-${dob.slice(3, 5)}-${dob.slice(0, 2)}`,
     email: localStorage.getItem("email"),
     address: localStorage.getItem("address"),
+    phone: localStorage.getItem("phone"),
     gender: localStorage.getItem("gender"),
   })
 
@@ -26,10 +28,14 @@ function UserProfile() {
     const dd = dateBirth.slice(8)
     const mm = dateBirth.slice(5, 7)
     const yyyy = dateBirth.slice(0, 4)
+    let url = `https://cnpmmbe.herokuapp.com/user/${userid}`
+    if (role === "ROLE_SELLER") {
+      url = `https://cnpmmbe.herokuapp.com/seller/${userid}`
+    }
     try {
       let res = await axios({
         method: "PUT",
-        url: `https://cnpmmbe.herokuapp.com/user/${userid}`,
+        url,
         data: { ...user, dateofbirth: `${dd}-${mm}-${yyyy}` },
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -37,13 +43,14 @@ function UserProfile() {
       })
       if (res.status === 200) {
         console.log("done", res.data)
-        let { name, dateofbirth, email, address, gender, jwt } = res.data
+        let { name, dateofbirth, email, address, gender, jwt, phone } = res.data
         localStorage.setItem("name", name)
         localStorage.setItem("dateofbirth", dateofbirth)
         localStorage.setItem("email", email)
         localStorage.setItem("address", address)
         localStorage.setItem("gender", gender)
         localStorage.setItem("jwt", jwt)
+        localStorage.setItem("phone", phone)
       }
     } catch (error) {
       console.log(error)
@@ -150,6 +157,19 @@ function UserProfile() {
                           type='text'
                           className='auth-form__input'
                           value={user.email}
+                          onChange={(e) =>
+                            setUser({ ...user, email: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className='auth-form__group'>
+                      <div className='auth-form__group-item'>
+                        <label className='auth-form__label'>Phone</label>
+                        <input
+                          type='text'
+                          className='auth-form__input'
+                          value={user.phone}
                           onChange={(e) =>
                             setUser({ ...user, email: e.target.value })
                           }

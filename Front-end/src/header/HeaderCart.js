@@ -57,8 +57,8 @@ function HeaderCart() {
                         </div>
                       </div>
 
-                      <div class='header__cart-item-body'>
-                        <span class='header__cart-item-description'>
+                      <div className='header__cart-item-body'>
+                        <span className='header__cart-item-description'>
                           {item.description}
                         </span>
                       </div>
