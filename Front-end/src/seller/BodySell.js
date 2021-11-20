@@ -17,6 +17,7 @@ function BodySell() {
     setReloadSell,
     setIsDetailStore,
     setIsOrderDetail,
+    setIsStatic,
     raise,
     setRaise,
   } = useGlobalContext()
@@ -58,6 +59,10 @@ function BodySell() {
   }
   const handleOrderDetail = (store) => {
     setIsOrderDetail(true)
+    setIdStoreUpdate(store)
+  }
+  const handleStatic = (store) => {
+    setIsStatic(true)
     setIdStoreUpdate(store)
   }
 
@@ -140,14 +145,21 @@ function BodySell() {
                             </div>
                             <div
                               className='product-item__ctrl'
-                              style={{ justifyContent: "center" }}
+                              style={{ justifyContent: "space-between" }}
                             >
                               <button
                                 className='product-item__ctrl-btn btn'
-                                style={{ width: "80%" }}
+                                style={{ width: "48%" }}
                                 onClick={() => handleOrderDetail(store)}
                               >
                                 Order
+                              </button>
+                              <button
+                                className='product-item__ctrl-btn btn'
+                                style={{ width: "48%" }}
+                                onClick={() => handleStatic(store)}
+                              >
+                                Static
                               </button>
                             </div>
                           </div>

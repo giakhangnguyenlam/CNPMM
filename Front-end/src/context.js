@@ -19,6 +19,7 @@ const AppProvider = ({ children }) => {
   const [isDetailUpdate, setIsDetailUpdate] = useState(false)
   const [isDetailInfo, setIsDetailInfo] = useState(false)
   const [isOrderDetail, setIsOrderDetail] = useState(false)
+  const [isStatic, setIsStatic] = useState(false)
   const [isComment, setIsComment] = useState(false)
 
   const [idStoreUpdate, setIdStoreUpdate] = useState(null)
@@ -117,6 +118,7 @@ const AppProvider = ({ children }) => {
         isDetailUpdate,
         isDetailInfo,
         isOrderDetail,
+        isStatic,
         isComment,
         idStoreUpdate,
         idStoreProd,
@@ -144,6 +146,7 @@ const AppProvider = ({ children }) => {
         setIsDetailUpdate,
         setIsDetailInfo,
         setIsOrderDetail,
+        setIsStatic,
         setIsComment,
         setIdStoreUpdate,
         setIdStoreProd,

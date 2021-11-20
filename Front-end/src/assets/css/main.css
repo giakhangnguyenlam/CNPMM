@@ -1658,6 +1658,13 @@ i.product-item__action-liked-icon {
   margin: 4px 2px 4px 6px;
 }
 
+.store-item__static {
+  width: 36%;
+  font-size: 18px;
+  flex-direction: column;
+  line-height: 20px;
+}
+
 .order__label {
   font-size: 18px;
   margin-right: 8px;
