@@ -3,6 +3,8 @@ import React, { useState, useContext } from "react"
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
+  const [searchInfo, setSearchInfo] = useState("")
+
   const [isAdmin, setIsAdmin] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
@@ -101,6 +103,7 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        searchInfo,
         isAdmin,
         isLogin,
         isSignup,
@@ -129,6 +132,7 @@ const AppProvider = ({ children }) => {
         loading,
         raise,
         adminPage,
+        setSearchInfo,
         setIsAdmin,
         setIsLogin,
         setIsSignup,

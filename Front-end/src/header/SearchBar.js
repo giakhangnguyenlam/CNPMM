@@ -1,45 +1,62 @@
-import React from "react"
-import { AiOutlineDown, AiOutlineSearch, AiOutlineCheck } from "react-icons/ai"
+import React, { useRef } from "react"
+import { AiOutlineSearch } from "react-icons/ai"
+import { useGlobalContext } from "../context"
 
 function SearchBar() {
+  const { setSearchInfo } = useGlobalContext()
+  let ref = useRef()
+  let ref2 = useRef()
+  let his = JSON.parse(localStorage.getItem("history")) || []
+  const handleSearch = (type) => {
+    if (type === "icon") {
+      setSearchInfo(ref.current.value)
+      if (ref.current.value !== "") {
+        his.push(ref.current.value)
+      }
+      let newHis = []
+      newHis = [...new Set(his)]
+      localStorage.setItem("history", JSON.stringify(newHis))
+    } else {
+      setSearchInfo(type)
+    }
+    ref2.current.style.display = "none"
+    setTimeout(() => {
+      ref2.current.style = {}
+    }, 100)
+  }
+
   return (
     <div className='header__search'>
       <div className='header__search-input-warp'>
         <input
+          ref={ref}
           type='text'
           className='header__search-input'
           placeholder='Nhập để tìm kiếm sản phẩm'
         />
-        <div className='header__search-history'>
+        <div className='header__search-history' ref={ref2}>
           <h3 className='header__search-history-heading'>Lịch sử tìm kiếm</h3>
           <ul className='header__search-history-list'>
-            <li className='header__search-history-item'>
-              <a href=''>Máy acer nitro 5</a>
-            </li>
-            <li className='header__search-history-item'>
-              <a href=''>Máy asus tuf 2021</a>
-            </li>
-            <li className='header__search-history-item'>
-              <a href=''>Máy alienware</a>
-            </li>
+            {his.length
+              ? his.map((item, index) => {
+                  return (
+                    <li
+                      className='header__search-history-item'
+                      key={index}
+                      onClick={() => handleSearch(item)}
+                    >
+                      <div>{item}</div>
+                    </li>
+                  )
+                })
+              : ""}
           </ul>
         </div>
       </div>
-      <div className='header__search-select'>
-        <span className='header__search-select-label'>Trong shop</span>
-        <AiOutlineDown className='header__search-select-icon' />
-        <ul className='header__search-option'>
-          <li className='header__search-option-item --active'>
-            <span>Trong shop</span>
-            <AiOutlineCheck />
-          </li>
-          <li className='header__search-option-item'>
-            <span>Ngoài shop</span>
-            <AiOutlineCheck />
-          </li>
-        </ul>
-      </div>
-      <button className='header__search-btn'>
+      <button
+        className='header__search-btn'
+        onClick={() => handleSearch("icon")}
+      >
         <AiOutlineSearch className='header__search-btn-icon' />
       </button>
     </div>

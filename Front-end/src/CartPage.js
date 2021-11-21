@@ -28,17 +28,20 @@ function CartPage() {
   }
 
   const handleDelete = (index) => {
-    let newCart = cartInfo.filter((item, indexI) => {
-      if (index !== indexI) {
-        return item
+    let del = window.confirm("Bạn muốn xóa sản phẩm chứ?")
+    if (del) {
+      let newCart = cartInfo.filter((item, indexI) => {
+        if (index !== indexI) {
+          return item
+        }
+      })
+      if (newCart.length === 0) {
+        localStorage.removeItem(`cart${userId}`)
+        setReloadSell(!reloadSell)
+      } else {
+        localStorage.setItem(`cart${userId}`, JSON.stringify(newCart))
+        setReloadSell(!reloadSell)
       }
-    })
-    if (newCart.length === 0) {
-      localStorage.removeItem(`cart${userId}`)
-      setReloadSell(!reloadSell)
-    } else {
-      localStorage.setItem(`cart${userId}`, JSON.stringify(newCart))
-      setReloadSell(!reloadSell)
     }
   }
 

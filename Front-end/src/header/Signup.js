@@ -102,35 +102,43 @@ const Signup = () => {
       url = "https://cnpmmbe.herokuapp.com/seller/signup"
     }
 
-    let res = await axios.post(url, {
-      ...person,
-      dateofbirth: `${dd}-${mm}-${yyyy}`,
-    })
-    if (res.status === 201) {
-      setIsSignup(false)
-      const {
-        id,
-        name,
-        dateofbirth,
-        email,
-        address,
-        phone,
-        gender,
-        jwt,
-        role,
-      } = res.data
-      localStorage.setItem("id", id)
-      localStorage.setItem("name", name)
-      localStorage.setItem("dateofbirth", dateofbirth)
-      localStorage.setItem("email", email)
-      localStorage.setItem("address", address)
-      localStorage.setItem("phone", phone)
-      localStorage.setItem("gender", gender)
-      localStorage.setItem("jwt", jwt)
-      localStorage.setItem("role", role)
-      localStorage.setItem("expire", new Date().getTime() + 43200000)
-      setLoading(false)
-      setReloadSell(!reloadSell)
+    try {
+      let res = await axios.post(url, {
+        ...person,
+        dateofbirth: `${dd}-${mm}-${yyyy}`,
+      })
+      if (res.status === 201) {
+        const {
+          id,
+          name,
+          dateofbirth,
+          email,
+          address,
+          phone,
+          gender,
+          jwt,
+          role,
+        } = res.data
+        localStorage.setItem("id", id)
+        localStorage.setItem("name", name)
+        localStorage.setItem("dateofbirth", dateofbirth)
+        localStorage.setItem("email", email)
+        localStorage.setItem("address", address)
+        localStorage.setItem("phone", phone)
+        localStorage.setItem("gender", gender)
+        localStorage.setItem("jwt", jwt)
+        localStorage.setItem("role", role)
+        localStorage.setItem("expire", new Date().getTime() + 43200000)
+        setLoading(false)
+        setReloadSell(!reloadSell)
+        setIsSignup(false)
+        setIsSellerSignup(false)
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrors({ form: error.response.data.mess })
+        setLoading(false)
+      }
     }
   }
   const handleSubmit = async (e) => {
@@ -402,6 +410,12 @@ const Signup = () => {
                 </a>
               </p>
             </div>
+
+            {errors["form"] ? (
+              <p className='auth-form__error'>{errors["form"]}</p>
+            ) : (
+              " "
+            )}
 
             <div
               className={`auth-form__controls ${resp && "responsive__margin"}`}

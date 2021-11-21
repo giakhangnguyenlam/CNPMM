@@ -30,7 +30,7 @@ function BodySell() {
     setIdStoreUpdate(store)
   }
   const handleDeleteStore = async (id) => {
-    let del = window.confirm("Delete?")
+    let del = window.confirm("Bạn muốn xóa cửa hàng chứ?")
     if (del) {
       try {
         let res = await axios({
@@ -96,7 +96,7 @@ function BodySell() {
           <div className='grid__colum-12'>
             <div className='store'>
               <div className='store-wrap'>
-                <div className='store__nav-wrap'>
+                {/* <div className='store__nav-wrap'>
                   <div className='store__nav-options'>
                     <div className='store__nav-tab store__nav-tab--active'>
                       Cửa hàng của tôi
@@ -104,7 +104,7 @@ function BodySell() {
                     <div className='store__nav-tab'>Sản phẩm của tôi</div>
                     <div className='store__nav-tab'>Phản hồi</div>
                   </div>
-                </div>
+                </div> */}
                 <div className='store__contain'>
                   <div className='store__contain-wrap'>
                     <div className='store__contain-item'>

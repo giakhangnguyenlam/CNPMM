@@ -2,11 +2,32 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
+import Popup from "../Popup"
 
 function AdminOrderUnpay() {
   const jwt = localStorage.getItem("jwtA")
-  const { setAdminPage } = useGlobalContext()
+  const { setAdminPage, raise, setRaise } = useGlobalContext()
   const [allOrder, setAllOrder] = useState()
+
+  const handlePay = async (id) => {
+    try {
+      let res = await axios({
+        method: "put",
+        url: ` https://cnpmmbe.herokuapp.com/user/payment/${id}`,
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+      if (res.status === 200) {
+        setRaise({
+          header: "Xác nhận thanh toán",
+          content: res.data.mess,
+          color: "#4bb534",
+        })
+      }
+    } catch (error) {}
+  }
+
   const fetchData = async () => {
     try {
       let res = await axios({
@@ -139,6 +160,7 @@ function AdminOrderUnpay() {
                       {allOrder
                         ? allOrder.map((product, index) => {
                             const {
+                              id,
                               userId,
                               orderDate,
                               total,
@@ -199,6 +221,7 @@ function AdminOrderUnpay() {
                                 <div
                                   className='store-item__info-nav'
                                   style={{ width: "15%" }}
+                                  onClick={() => handlePay(id)}
                                 >
                                   <div className='store-item__info-btn'>
                                     đã thanh toán
@@ -216,6 +239,13 @@ function AdminOrderUnpay() {
           </div>
         </div>
       </div>
+      {raise && (
+        <Popup
+          header={raise.header}
+          content={raise.content}
+          color={raise.color}
+        />
+      )}
     </div>
   )
 }

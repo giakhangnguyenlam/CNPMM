@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
 import { formAuth } from "../data"
+import Loading from "../Loading"
 
 const Login = () => {
   const {
@@ -11,6 +12,8 @@ const Login = () => {
     setIsSignup,
     reloadSell,
     setReloadSell,
+    loading,
+    setLoading,
   } = useGlobalContext()
   const [role, setRole] = useState("user")
   const [errors, setErrors] = useState({})
@@ -27,7 +30,7 @@ const Login = () => {
     setIsLogin(!isLogin)
     setIsSignup(!isSignup)
   }
-  const checkError = ({ username, password }) => {
+  const checkError = async ({ username, password }) => {
     let errs = {}
     if (!username) {
       errs.username = "Không được bỏ trống trường này!"
@@ -36,8 +39,10 @@ const Login = () => {
       errs.password = "Không được bỏ trống trường này!"
     }
     setErrors(errs)
+    return errs
   }
   const fetchData = async () => {
+    setLoading(true)
     let url = "https://cnpmmbe.herokuapp.com/login"
     if (role === "seller") {
       url = "https://cnpmmbe.herokuapp.com/seller/login"
@@ -74,15 +79,19 @@ const Login = () => {
         localStorage.setItem("role", role)
         localStorage.setItem("expire", new Date().getTime() + 43200000)
         setReloadSell(!reloadSell)
+        setLoading(false)
       }
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        setErrors({ form: error.response.data.mess })
+        setLoading(false)
+      }
     }
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    checkError(account)
-    if (Object.keys(errors).length === 0) {
+    let result = await checkError(account)
+    if (Object.keys(result).length === 0) {
       fetchData()
     }
   }
@@ -106,28 +115,16 @@ const Login = () => {
             </div>
 
             <div className='auth-form__form'>
-              <div
-                className='auth-form__group'
-                style={{ display: "flex", justifyContent: "space-evenly" }}
-              >
-                <div className='auth-form__group-radio'>
-                  <input
-                    type='radio'
-                    name='select role'
-                    value='user'
-                    onClick={(e) => setRole(e.target.value)}
-                  />
-                  <label>người mua hàng</label>
-                </div>
-                <div className='auth-form__group-radio'>
-                  <input
-                    type='radio'
-                    name='select role'
-                    value='seller'
-                    onClick={(e) => setRole(e.target.value)}
-                  />
-                  <label>người bán hàng</label>
-                </div>
+              <div className='auth-form__group'>
+                <select
+                  name='role'
+                  className='auth-form__input'
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value='user'>Bạn đăng nhập với vai trò gì?</option>
+                  <option value='user'>Người dùng</option>
+                  <option value='seller'>Người bán hàng</option>
+                </select>
               </div>
               {formAuth.slice(3, 5).map((ele, index) => {
                 const { name, type, placeholder } = ele
@@ -152,17 +149,11 @@ const Login = () => {
                 )
               })}
             </div>
-
-            <div className='auth-form__aside'>
-              <div className='auth-form__help'>
-                <a href='/comingsoon' className='auth-form__help-link'>
-                  Quên mật khẩu
-                </a>
-                <a href='/comingsoon' className='auth-form__help-link'>
-                  Đăng nhập với SMS
-                </a>
-              </div>
-            </div>
+            {errors["form"] ? (
+              <p className='auth-form__error'>{errors["form"]}</p>
+            ) : (
+              " "
+            )}
 
             <div className='auth-form__controls'>
               <button
@@ -178,6 +169,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   )
 }

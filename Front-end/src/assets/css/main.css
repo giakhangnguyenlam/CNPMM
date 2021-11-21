@@ -909,6 +909,10 @@ i.product-item__action-liked-icon {
   z-index: 2;
 }
 
+.header__search-history:hover {
+  display: block;
+}
+
 .header__search-history-heading {
   margin: 5px 10px 0;
   font-size: 1.4rem;
@@ -931,12 +935,13 @@ i.product-item__action-liked-icon {
   background-color: #dfdfdf;
 }
 
-.header__search-history-item a {
+.header__search-history-item div {
   text-decoration: none;
   font-size: 1.4rem;
   color: var(--text-color);
   line-height: 38px;
   display: block;
+  cursor: pointer;
 }
 
 .header__search-select {

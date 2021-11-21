@@ -263,11 +263,14 @@ function SingleProduct() {
   const handlInput = (e) => {
     let newQuan = e.target.value
     if (/^[0-9]*$/.test(newQuan)) {
-      if (newQuan <= info.quantity) {
+      if (newQuan <= prod.quantity) {
         setInfo({ ...info, quantity: newQuan })
       } else {
         setInfo({ ...info, quantity: prod.quantity })
       }
+    }
+    if (newQuan === "") {
+      setInfo({ ...info, quantity: 1 })
     }
   }
 
@@ -319,58 +322,6 @@ function SingleProduct() {
                       style: "currency",
                       currency: "VND",
                     }).format(prod.price)}
-                  </div>
-
-                  <div className='brief__product-shipping'>
-                    <div className='brief__product-shipping-wrap'>
-                      <div className='shipping-wrap'>
-                        <label className='brief__product-label'>
-                          Vận chuyển
-                        </label>
-                        <div className='shipping'>
-                          <FiTruck
-                            className='shipping__icon'
-                            style={{ marginRight: "10px" }}
-                          />
-                          <div className='shipping__ship'>
-                            <div className='shipping__item'>
-                              <label
-                                className='brief__product-label'
-                                style={{ marginRight: "4px" }}
-                              >
-                                Vận chuyển tới
-                              </label>
-                              <div className='shipping__item-choose'>
-                                <label style={{ fontSize: "1.4rem" }}>
-                                  thủ đức
-                                </label>
-                                <AiOutlineDown
-                                  className='shipping__icon'
-                                  style={{ marginLeft: "4px" }}
-                                />
-                              </div>
-                            </div>
-                            <div className='shipping__item'>
-                              <label
-                                className='brief__product-label'
-                                style={{ marginRight: "4px" }}
-                              >
-                                Phí Vận chuyển
-                              </label>
-                              <div className='shipping__item-choose'>
-                                <label style={{ fontSize: "1.4rem" }}>
-                                  0 đ
-                                </label>
-                                <AiOutlineDown
-                                  className='shipping__icon'
-                                  style={{ marginLeft: "4px" }}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   {prod.color.length ? (
@@ -541,7 +492,7 @@ function SingleProduct() {
                     ĐÁNH GIÁ SẢN PHẨM
                   </div>
                   <div className='content__body'>
-                    {cmtList ? (
+                    {cmtList.length ? (
                       cmtList.map((item, index) => {
                         return (
                           <div className='comment__body-item' key={index}>

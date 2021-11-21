@@ -16,7 +16,6 @@ function Info2() {
     setLoading,
   } = useGlobalContext()
   const [isEdit, setIsEdit] = useState(false)
-
   const addArr = (type, ele) => {
     let newArr = cateSho[type]
     newArr.push(ele)

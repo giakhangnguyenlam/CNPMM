@@ -5,22 +5,22 @@ import { useHistory } from "react-router"
 import { useGlobalContext } from "./context"
 
 function Product() {
-  const { cate, cateType } = useGlobalContext()
+  const { cate, cateType, searchInfo } = useGlobalContext()
   const [body, setBody] = useState([])
   const history = useHistory()
   let url = "https://cnpmmbe.herokuapp.com/product"
-  let category =
+  let categoryy =
     (cate === "1" && "clothes") ||
     (cate === "2" && "shoes") ||
     (cate === "3" && "accessories")
 
   if (cate) {
-    url = `https://cnpmmbe.herokuapp.com/product/category/${cate}`
+    url = `https://cnpmmbe.herokuapp.com/product/categoryy/${cate}`
     if (cateType) {
-      url = `https://cnpmmbe.herokuapp.com/product/category/${category}/${cateType}`
+      url = `https://cnpmmbe.herokuapp.com/product/categoryy/${categoryy}/${cateType}`
     }
     if (cateType === "khac1" || cateType === "khac2") {
-      url = `https://cnpmmbe.herokuapp.com/product/category/${category}/khac`
+      url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/khac`
     }
   }
 
@@ -46,15 +46,15 @@ function Product() {
     <div className='grid__row' key={789}>
       {/* Product item */}
       {body.map((item) => {
-        if (item) {
+        if (item.name.includes(searchInfo)) {
           let {
             id,
-            storeId,
+            // storeId,
             category,
             name,
             quantity,
             price,
-            description,
+            // description,
             image,
           } = item
           if (category === 1) {
@@ -114,7 +114,6 @@ function Product() {
             </div>
           )
         }
-        return <></>
       })}
     </div>
   )

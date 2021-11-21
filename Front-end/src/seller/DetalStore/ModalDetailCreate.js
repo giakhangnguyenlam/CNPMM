@@ -173,9 +173,9 @@ function ModalDetailCreate() {
                     }
                   >
                     <option value='null'>Chọn danh mục</option>
-                    <option value='1'>Clothes</option>
-                    <option value='2'>Shoes</option>
-                    <option value='3'>Accessories</option>
+                    <option value='1'>Quần áo</option>
+                    <option value='2'>Giày dép</option>
+                    <option value='3'>Phụ kiện</option>
                   </select>
                 </div>
                 <div className='auth-form__group'>

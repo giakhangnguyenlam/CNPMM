@@ -38,6 +38,7 @@ function UserComment() {
           color: "#4bb543",
         })
         setLoading(false)
+        setIsComment(false)
       } else {
         setRaise({
           header: "Nhận xét",
@@ -94,7 +95,7 @@ function UserComment() {
                 className='btn btn--normal auth-form__controls-back'
                 onClick={() => setIsComment(false)}
               >
-                TRỞ LẠI
+                THOÁT
               </button>
               <button className='btn btn--primary' onClick={handleSubmit}>
                 Gửi đánh giá
