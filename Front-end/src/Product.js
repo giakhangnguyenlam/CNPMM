@@ -15,9 +15,9 @@ function Product() {
     (cate === "3" && "accessories")
 
   if (cate) {
-    url = `https://cnpmmbe.herokuapp.com/product/categoryy/${cate}`
+    url = `https://cnpmmbe.herokuapp.com/product/category/${cate}`
     if (cateType) {
-      url = `https://cnpmmbe.herokuapp.com/product/categoryy/${categoryy}/${cateType}`
+      url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/${cateType}`
     }
     if (cateType === "khac1" || cateType === "khac2") {
       url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/khac`

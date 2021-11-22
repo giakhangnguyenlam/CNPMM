@@ -1,6 +1,7 @@
 .header {
   height: var(--header-height);
-  background-image: linear-gradient(0, #dd5e0d, #dc343c);
+  /* background-image: linear-gradient(0, #dd5e0d, #dc343c); */
+  background-image: linear-gradient(45deg, #4f00bc, #19abe2);
 }
 
 .header__navbar {
@@ -518,7 +519,7 @@
 .product-item__price-cur {
   margin-left: 10px;
   font-size: 1.4rem;
-  color: var(--primary-color);
+  color: #dc143c;
   font-size: 16px;
   letter-spacing: 1px;
 }
@@ -1065,7 +1066,7 @@ i.product-item__action-liked-icon {
 }
 
 .header__cart-notice {
-  border: 2px solid #ee4d2d;
+  border: 2px solid #3456df;
   position: absolute;
   padding: 2px 7px;
   top: -10px;
@@ -1185,7 +1186,7 @@ i.product-item__action-liked-icon {
 .header__cart-item-price {
   font-size: 1.4rem;
   font-weight: 400;
-  color: var(--primary-color);
+  color: #dc143c;
 }
 
 .header__cart-item-multi {
@@ -1497,7 +1498,7 @@ i.product-item__action-liked-icon {
   text-align: center;
   box-shadow: 2px 2px 1px rgb(44 44 44 / 20%);
   border-radius: 16px;
-  background-image: linear-gradient(45deg, #dc143c, #e9a01a);
+  background-image: linear-gradient(45deg, #4f00bc, #19abe2);
 }
 
 .store-product__header-add {
@@ -1515,7 +1516,7 @@ i.product-item__action-liked-icon {
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  background-image: linear-gradient(45deg, #dc143c, #e9a01a);
+  background-image: linear-gradient(45deg, #4f00bc, #19abe2);
 }
 .store-product__header-nav {
   display: flex;
@@ -2099,10 +2100,11 @@ i.product-item__action-liked-icon {
 .comment__icon {
   font-size: 16px;
   margin-right: 2px;
+  fill: #d1d1d1;
 }
 
 .comment__rating--rated {
-  fill: var(--primary-color);
+  fill: var(--star-gold-color);
 }
 
 .comment__content {
@@ -2198,7 +2200,7 @@ i.product-item__action-liked-icon {
 }
 
 .cart__total {
-  color: var(--primary-color);
+  color: #dc143c;
 }
 
 .cart__icon {
@@ -2309,8 +2311,9 @@ i.product-item__action-liked-icon {
   margin: 0 10px;
   font-size: 22px;
   cursor: pointer;
+  fill: #d1d1d1;
 }
 
 .comment-form__star--fill {
-  color: #e9a01a;
+  fill: var(--star-gold-color);
 }

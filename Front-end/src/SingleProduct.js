@@ -49,8 +49,14 @@ function SingleProduct() {
   const handleAddCart = (action) => {
     const userId = localStorage.getItem("id")
     const role = localStorage.getItem("role")
+    console.log(choose)
     if (userId) {
-      if (role === "ROLE_USER") {
+      if (
+        role === "ROLE_USER" &&
+        choose.color + 1 &&
+        ((choose.size && (prod.category === 1 || prod.category === 2)) ||
+          prod.category === 3)
+      ) {
         let cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
         let totalN = info.quantity * prod.price
         let product = Number(id)
@@ -95,11 +101,19 @@ function SingleProduct() {
           history.push("/cart")
         }
       } else {
-        setRaise({
-          header: "Thông báo",
-          content: "Bạn cần phải là người mua hàng để mua sản phẩm!",
-          color: "#f0541e",
-        })
+        if (role !== "ROLE_USER") {
+          setRaise({
+            header: "Thông báo",
+            content: "Bạn cần phải là người mua hàng để mua sản phẩm!",
+            color: "#f0541e",
+          })
+        } else {
+          setRaise({
+            header: "Thông báo",
+            content: "Bạn cần chọn đủ thông tin để mua sản phẩm!",
+            color: "#f0541e",
+          })
+        }
       }
     } else {
       setIsLogin(true)
