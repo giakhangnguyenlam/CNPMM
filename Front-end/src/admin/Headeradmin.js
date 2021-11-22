@@ -3,6 +3,7 @@ import logo from "../assets/img/logo.png"
 import userImg from "../assets/img/user.png"
 
 function Headeradmin() {
+  let admin = localStorage.getItem("username")
   return (
     <div className='header' style={{ height: "60px" }}>
       <div className='grid'>
@@ -14,7 +15,7 @@ function Headeradmin() {
           </div>
           <div className='header-sell__user'>
             <img src={userImg} alt='' className='header-sell__user-img' />
-            <span className='header-sell__user-name'>Công Admin</span>
+            <span className='header-sell__user-name'>{admin}</span>
           </div>
         </div>
       </div>

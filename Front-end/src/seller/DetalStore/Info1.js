@@ -50,8 +50,8 @@ function Info1() {
         clearCateClo()
         setLoading(false)
         setRaise({
-          header: "Update information",
-          content: "Update category infomation success!",
+          header: "Cập nhật thông tin",
+          content: "Cập nhật danh mục sản phẩm thành công!",
           color: "#4bb534",
         })
       }

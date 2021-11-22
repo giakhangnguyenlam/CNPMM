@@ -11,7 +11,7 @@ import HeaderSeller from "./seller/HeaderSeller"
 import BodySell from "./seller/BodySell"
 import Modal from "./Modal"
 import SingleProduct from "./SingleProduct"
-import CartPage from "./CartPage"
+import CartPage from "./user/CartPage"
 import UserOrder from "./user/UserOrder"
 import OrderItem from "./user/OrderItem"
 import AdminModal from "./admin/AdminModal"
@@ -28,6 +28,7 @@ function App() {
     localStorage.removeItem("address")
     localStorage.removeItem("gender")
     localStorage.removeItem("jwt")
+    localStorage.removeItem("jwtA")
     localStorage.removeItem("role")
     localStorage.removeItem("expire")
   }

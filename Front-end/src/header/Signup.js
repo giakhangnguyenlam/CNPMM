@@ -3,7 +3,6 @@ import axios from "axios"
 import { useGlobalContext } from "../context"
 import { formAuth } from "../data"
 import Loading from "../Loading"
-import SignupResp from "./SignupResp"
 
 const Signup = () => {
   const hFit = window.screen.availHeight

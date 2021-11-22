@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react"
 import { useGlobalContext } from "../../context"
 import axios from "axios"
 import ModalStep2 from "./ModalStep2"
+import Loading from "../../Loading"
 
 function ModalDetailCreate() {
   const jwt = localStorage.getItem("jwt")
@@ -20,6 +21,8 @@ function ModalDetailCreate() {
     setCateAcc,
     clearCateAcc,
     setRaise,
+    loading,
+    setLoading,
   } = useGlobalContext()
   const [isStep2, setIsStep2] = useState({ state: false, productId: 1 })
   const [newProduct, setNewProduct] = useState({
@@ -45,6 +48,7 @@ function ModalDetailCreate() {
     }
   }
   const uploadData = async () => {
+    setLoading(true)
     const data = new FormData()
     data.append("storeid", newProduct.storeid)
     data.append("category", newProduct.category)
@@ -65,12 +69,14 @@ function ModalDetailCreate() {
       })
       if (res.status === 201) {
         setIsStep2({ ...isStep2, productId: res.data.id, state: true })
+        setLoading(false)
       }
     } catch (error) {
       console.log(error)
     }
   }
   const uploadCategory = async (url, data) => {
+    setLoading(true)
     try {
       let res = await axios({
         method: "post",
@@ -83,9 +89,10 @@ function ModalDetailCreate() {
       if (res.status === 201) {
         setReloadDetailStore(!reloadDetailStore)
         setIsDetailCreate(false)
+        setLoading(false)
         setRaise({
-          header: "Create product",
-          content: "Create store product success!",
+          header: "Thêm sản phẩm",
+          content: "Thêm sản phẩm thành công!",
           color: "#4bb534",
         })
       }
@@ -95,10 +102,8 @@ function ModalDetailCreate() {
   }
 
   const handleSubmit = async (e) => {
-    console.log("handlesubmoit")
     e.preventDefault()
     if (isStep2.state === true) {
-      console.log("step2")
       if (newProduct.category === "1") {
         setCateClo({ ...cateClo, productId: isStep2.productId })
         await uploadCategory(
@@ -113,7 +118,6 @@ function ModalDetailCreate() {
           "https://cnpmmbe.herokuapp.com/seller/product/categoryshoes",
           { ...cateSho, productId: isStep2.productId }
         )
-        console.log("updatecomplete")
         clearCateSho()
       }
       if (newProduct.category === "3") {
@@ -126,7 +130,6 @@ function ModalDetailCreate() {
       }
     }
     if (isStep2.state === false) {
-      console.log("uploadata")
       uploadData()
     }
   }
@@ -253,6 +256,7 @@ function ModalDetailCreate() {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   )
 }

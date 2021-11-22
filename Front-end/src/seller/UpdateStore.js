@@ -47,8 +47,8 @@ function UpdateStore() {
         setReloadSell(!reloadSell)
         setIsUpdateStore(false)
         setRaise({
-          header: "Update store",
-          content: "Update store image success!",
+          header: "Cập nhật cửa hàng",
+          content: "Cập nhật ảnh hoàn tất!",
           color: "#4bb534",
         })
       }
@@ -86,8 +86,8 @@ function UpdateStore() {
         setReloadSell(!reloadSell)
         setIsUpdateStore(false)
         setRaise({
-          header: "Update store",
-          content: "Update store infomation success!",
+          header: "Cập nhật cửa hàng",
+          content: "Cập nhật thông tin thành công!",
           color: "#4bb534",
         })
       }

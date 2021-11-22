@@ -9,7 +9,6 @@ import {
   AiFillStar,
 } from "react-icons/ai"
 import { cateAccList, cateShoList, cateCloList } from "./data"
-import { FiTruck } from "react-icons/fi"
 import { useGlobalContext } from "./context"
 import blank from "./assets/img/blank.png"
 import noCmt from "./assets/img/noCmt.png"
@@ -49,49 +48,58 @@ function SingleProduct() {
 
   const handleAddCart = (action) => {
     const userId = localStorage.getItem("id")
+    const role = localStorage.getItem("role")
     if (userId) {
-      let cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
-      let totalN = info.quantity * prod.price
-      let product = Number(id)
-      let quantity = info.quantity
-      let description = ""
+      if (role === "ROLE_USER") {
+        let cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
+        let totalN = info.quantity * prod.price
+        let product = Number(id)
+        let quantity = info.quantity
+        let description = ""
 
-      if (prod.category === 1 || prod.category === 2) {
-        description = `màu ${prod.color[choose.color]}, size ${
-          prod.size[choose.size]
-        }`
-      } else if (prod.category === 3) {
-        description = `màu ${prod.color[choose.color]}`
-      }
-      let res = false
-      cartInfo.forEach((item) => {
-        if (item.product === product && item.description === description) {
-          item.quantity += quantity
-          item.total += totalN
-          res = true
+        if (prod.category === 1 || prod.category === 2) {
+          description = `màu ${prod.color[choose.color]}, size ${
+            prod.size[choose.size]
+          }`
+        } else if (prod.category === 3) {
+          description = `màu ${prod.color[choose.color]}`
         }
-      })
-      if (!res) {
-        cartInfo.push({
-          name: prod.name,
-          price: prod.price,
-          image: prod.image,
-          total: totalN,
-          product,
-          quantity,
-          description,
+        let res = false
+        cartInfo.forEach((item) => {
+          if (item.product === product && item.description === description) {
+            item.quantity += quantity
+            item.total += totalN
+            res = true
+          }
         })
-      }
-      localStorage.setItem(`cart${userId}`, JSON.stringify(cartInfo))
-      if (action === "add") {
-        setRaise({
-          header: "Add to cart",
-          content: "Success!",
-          color: "#4bb534",
-        })
-        setReloadSell(!reloadSell)
+        if (!res) {
+          cartInfo.push({
+            name: prod.name,
+            price: prod.price,
+            image: prod.image,
+            total: totalN,
+            product,
+            quantity,
+            description,
+          })
+        }
+        localStorage.setItem(`cart${userId}`, JSON.stringify(cartInfo))
+        if (action === "add") {
+          setRaise({
+            header: "Thêm sản phẩm",
+            content: "Thêm vào giỏ hàng hoàn tất!",
+            color: "#4bb534",
+          })
+          setReloadSell(!reloadSell)
+        } else {
+          history.push("/cart")
+        }
       } else {
-        history.push("/cart")
+        setRaise({
+          header: "Thông báo",
+          content: "Bạn cần phải là người mua hàng để mua sản phẩm!",
+          color: "#f0541e",
+        })
       }
     } else {
       setIsLogin(true)

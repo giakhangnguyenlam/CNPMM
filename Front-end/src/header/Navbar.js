@@ -24,6 +24,7 @@ function Navbar() {
     localStorage.removeItem("jwt")
     localStorage.removeItem("role")
     localStorage.removeItem("expire")
+    redirect("/")
   }
   return (
     <nav className='header__navbar'>

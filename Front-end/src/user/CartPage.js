@@ -2,8 +2,8 @@ import axios from "axios"
 import React, { useEffect } from "react"
 import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { useHistory } from "react-router"
-import noCart from "./assets/img/blankCart.png"
-import { useGlobalContext } from "./context"
+import noCart from "../assets/img/blankCart.png"
+import { useGlobalContext } from "../context"
 
 function CartPage() {
   const userId = localStorage.getItem("id")

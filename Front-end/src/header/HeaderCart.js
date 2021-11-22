@@ -14,13 +14,20 @@ function HeaderCart() {
   if (cartInfo) {
     max = cartInfo.length > 4 ? 4 : cartInfo.length
   }
+
+  const handleRedirect = () => {
+    if (localStorage.getItem("role") === "ROLE_USER") {
+      history.push("/cart")
+    }
+  }
+
   useEffect(() => {}, [reloadSell, cartInfo])
   return (
     <div className='header__cart'>
       <div className='header__cart-wrap'>
         <AiOutlineShoppingCart
           className='header__cart-icon'
-          onClick={() => history.push("/cart")}
+          onClick={() => handleRedirect()}
         />
         {cartInfo && (
           <span className='header__cart-notice'>{cartInfo.length}</span>
@@ -72,7 +79,7 @@ function HeaderCart() {
           {cartInfo && (
             <div
               className='header__cart-view btn btn--primary'
-              onClick={() => history.push("/cart")}
+              onClick={() => handleRedirect()}
             >
               <span>Xem giỏ hàng</span>
             </div>

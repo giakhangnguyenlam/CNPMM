@@ -43,8 +43,8 @@ function BodySell() {
         if (res.status === 200) {
           setReloadSell(!reloadSell)
           setRaise({
-            header: "Delete store",
-            content: "Delete store success!",
+            header: "Xóa cửa hàng",
+            content: "Xóa thành công!",
             color: "#4bb534",
           })
         }

@@ -41,8 +41,8 @@ function ModalDetailUpdate() {
         setReloadDetailStore(!reloadDetailStore)
         setIsDetailUpdate(false)
         setRaise({
-          header: "Update product",
-          content: "Update product image success!",
+          header: "Cập nhật sản phẩm",
+          content: "Cập nhật ảnh thành công!",
           color: "#4bb534",
         })
       }
