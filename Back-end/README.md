@@ -833,6 +833,34 @@ link: https://cnpmmbe.herokuapp.com/user/payment/1
 }
 ```
 
+### Payment
+link: https://utepayment.herokuapp.com/pay
+
+> POST
+
+#### Request
+```
+{
+    "total": 5
+}
+```
+
+#### Response
+
+status: 200
+```
+{
+    "mess": 'Success'
+}
+```
+
+status: 404
+```
+{
+    "mess": 'Cancel'
+}
+```
+
 ##  ===============>> Seller API <<====================
 
 ### Sign up
