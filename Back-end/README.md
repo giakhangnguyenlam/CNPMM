@@ -3,7 +3,7 @@
 # Backend Group 9
 > this is document description for backend system
 
-> You can replace http://localhost:3000 to https://cnpmmbe.herokuapp.com/
+> You can replace https://cnpmmbe.herokuapp.com/ to https://cnpmmbe.herokuapp.com/
 
 =======================================================================================
 
@@ -861,6 +861,30 @@ status: 404
 }
 ```
 
+### Order with paypal
+link: https://cnpmmbe.herokuapp.com/user/orderwithpaypal
+
+> POST
+
+> Note: You have to login with user account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt 
+
+#### Request
+```
+{
+    "userId": 14,
+    "total":350000,
+    "listProducts":[1,2,3,4],
+    "listQuantities":[1,1,1,1],
+    "listDescription":["đỏ, cam","xanh, vàng","hồng","tím"],
+    "listProductNames":["abc","xyz","adasd","dasda"],
+    "listPrices":[35.5, 322, 33, 26]
+}
+```
+
+#### Response
+Status: 201
 ##  ===============>> Seller API <<====================
 
 ### Sign up
@@ -2221,3 +2245,258 @@ link: https://cnpmmbe.herokuapp.com/admin/products
     }
 ]
 ```
+
+### Verify shipper account
+link: https://cnpmmbe.herokuapp.com//admin/verifyshipper/0
+
+> PUT
+
+> Note: You have to login with admin account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+> 0 is shipper id
+
+#### Request
+
+#### Response
+```
+{
+    "mess": "Kích hoạt tài khoản thành công"
+}
+```
+
+### Get shipper without verify
+link: https://cnpmmbe.herokuapp.com//admin/shipperwithoutverify
+
+> GET
+
+> Note: You have to login with admin account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "_id": "619d9fba0bc38884e93f06d6",
+        "name": "khang",
+        "dateofbirth": "06-06-2000",
+        "email": "abc",
+        "address": "123, dadd",
+        "gender": "male",
+        "username": "khangshipper01",
+        "phone": "10231023123",
+        "status": "initial",
+        "id": 1,
+        "__v": 0
+    }
+]
+```
+
+
+##  ===============>> Shipper API <<====================
+
+### Sign up
+link: https://cnpmmbe.herokuapp.com//shipper/signup
+
+> POST
+
+### Request
+```
+{
+    "name":"khang",
+    "dateofbirth":"06-06-2000",
+    "email":"abc",
+    "address":"123, dadd",
+    "gender":"male",
+    "phone":"10231023123",
+    "username": "khangshipper",
+    "password":"123"
+}
+```
+
+### Response
+```
+{
+    "id": 0,
+    "name": "khang",
+    "dateofbirth": "06-06-2000",
+    "email": "abc",
+    "address": "123, dadd",
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2hpcHBlciIsInJvbGUiOiJST0xFX1NISVBQRVIiLCJpYXQiOjE2Mzc3MTkyMTgsImV4cCI6MTYzNzgwNTYxOH0.0dFREzZgu23zx96DUgEHDrSroS1LNOdntoFM6DY6iH4",
+    "role": "ROLE_SHIPPER",
+    "phone": "10231023123"
+}
+```
+
+### Login
+link: https://cnpmmbe.herokuapp.com//shipper/login
+
+#### Request
+```
+{
+    "username":"khangshipper",
+    "password":"123"
+}
+```
+
+#### Response
+> if admin didn't verify
+
+```
+{
+    "mess": "Tài khoản đang được xác minh vui lòng đợi admin kiểm duyệt"
+}
+```
+
+> else
+
+```
+{
+    "id": 0,
+    "name": "khang",
+    "dateofbirth": "06-06-2000",
+    "email": "abc",
+    "address": "123, dadd",
+    "gender": "male",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtoYW5nc2hpcHBlciIsInJvbGUiOiJST0xFX1NISVBQRVIiLCJpYXQiOjE2Mzc3MjAxMjYsImV4cCI6MTYzNzgwNjUyNn0.hDR0zafZa7QbaXTYyLluJcv2YJ04OuizjRiM1e0oGJQ",
+    "role": "ROLE_SHIPPER",
+    "phone": "10231023123"
+}
+```
+
+### Get all order with already status
+link: https://cnpmmbe.herokuapp.com//shipper
+
+> GET
+
+> Note: You have to login with shipper account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+```
+[
+    {
+        "orderId": 54,
+        "name": "Khang Nguyễn",
+        "address": "số 115, đường 265",
+        "phone": "0919910266",
+        "description": "dasdasdx1, dasdadx1",
+        "total": 148123
+    }
+]
+```
+
+### Receive order
+link: https://cnpmmbe.herokuapp.com//shipper/receiveorder
+
+> POST
+
+> Note: You have to login with shipper account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+```
+{
+    "orderId":54,
+    "shipperId":0
+}
+```
+
+#### Response
+```
+{
+    "mess": "Nhận đơn hàng thành công"
+}
+```
+
+### Get order by shipper id
+link: https://cnpmmbe.herokuapp.com//shipper/order/0
+
+> GET
+
+> Note: You have to login with shipper account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+
+#### Response
+> if order is empty
+```
+{
+    "mess": "Chưa nhận đơn hàng"
+}
+```
+
+> else
+```
+[
+    {
+        "orderId": 54,
+        "name": "Khang Nguyễn",
+        "address": "số 115, đường 265",
+        "phone": "0919910266",
+        "description": "dasdasdx1, dasdadx1",
+        "total": 148123
+    }
+]
+```
+
+### Delivery order
+link: https://cnpmmbe.herokuapp.com//shipper/deliveryorder
+
+> POST
+
+> Note: You have to login with shipper account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt
+
+#### Request
+```
+{
+    "orderId":54,
+    "shipperId":0
+}
+```
+
+#### Response
+```
+{
+    "mess": "Giao hàng thành công"
+}
+```
+
+### Get orders delivery success
+link: https://cnpmmbe.herokuapp.com//shipper/ordersuccess/0
+
+> GET
+
+> Note: You have to login with shipper account to use this
+
+> Note: Headers has KEY: Authorization and VALUE: Bearer jwt 
+
+#### Request
+
+#### Respose
+```
+[
+    {
+        "orderId": 54,
+        "name": "Khang Nguyễn",
+        "address": "số 115, đường 265",
+        "phone": "0919910266",
+        "description": "dasdasdx1, dasdadx1",
+        "total": 148123
+    }
+]
+```
+
