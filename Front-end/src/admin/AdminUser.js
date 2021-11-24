@@ -1,5 +1,6 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
+import ReactPaginate from "react-paginate"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
 
@@ -7,6 +8,9 @@ function AdminPage() {
   const jwt = localStorage.getItem("jwtA")
   const { adminPage, setAdminPage } = useGlobalContext()
   const [allUser, setAllUser] = useState()
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+
   const fetchData = async () => {
     let url = ""
     if (adminPage === "user") {
@@ -32,6 +36,17 @@ function AdminPage() {
   useEffect(() => {
     fetchData()
   }, [adminPage])
+
+  useEffect(() => {
+    if (allUser) {
+      setPageCount(Math.ceil(allUser.length / 20))
+    }
+  }, [allUser])
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 20) % allUser.length
+    setItemOffset(newOffset)
+  }
   return (
     <div
       className='container'
@@ -91,10 +106,7 @@ function AdminPage() {
                   </div>
                 </div>
                 <div className='store__contain' style={{ marginTop: "10px" }}>
-                  <div
-                    className='store__contain-wrap'
-                    style={{ height: "85vh", overflowX: "hidden" }}
-                  >
+                  <div className='store__contain-wrap--enhance'>
                     <div className='store__contain-item'>
                       <div
                         className='store-product__body-item '
@@ -127,84 +139,124 @@ function AdminPage() {
                         </div>
                       </div>
                     </div>
-                    <div className='store__contain-item'>
-                      {allUser
-                        ? allUser.map((product, index) => {
-                            let {
-                              username,
-                              name,
-                              dateofbirth,
-                              email,
-                              address,
-                              phone,
-                              gender,
-                              role,
-                            } = product
-                            if (gender === "male") {
-                              gender = "Nam"
-                            } else if (gender === "female") {
-                              gender = "Nữ"
-                            }
-                            if (role === "ROLE_USER") {
-                              role = "người dùng"
-                            } else if (role === "ROLE_SELLER") {
-                              role = "người bán hàng"
-                            } else if (role === "ROLE_ADMIN") {
-                              role = "người quản trị"
-                            }
-                            return (
+                    {allUser ? (
+                      allUser.map((product, index) => {
+                        let {
+                          username,
+                          name,
+                          dateofbirth,
+                          email,
+                          address,
+                          phone,
+                          gender,
+                          role,
+                        } = product
+                        if (gender === "male") {
+                          gender = "Nam"
+                        } else if (gender === "female") {
+                          gender = "Nữ"
+                        }
+                        if (role === "ROLE_USER") {
+                          role = "người dùng"
+                        } else if (role === "ROLE_SELLER") {
+                          role = "người bán hàng"
+                        } else if (role === "ROLE_ADMIN") {
+                          role = "người quản trị"
+                        }
+                        return (
+                          <div className='store__contain-item'>
+                            <div
+                              className='store-product__body-item '
+                              style={{ border: "1px solid #979797" }}
+                              key={index}
+                            >
                               <div
-                                className='store-product__body-item '
-                                style={{ border: "1px solid #979797" }}
-                                key={index}
+                                className='store-item store-item__number'
+                                style={{ borderRight: "1px solid #979797" }}
                               >
-                                <div
-                                  className='store-item store-item__number'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  {index + 1}
+                                {index + 1}
+                              </div>
+                              <div
+                                className='store-item w300x'
+                                style={{ borderRight: "1px solid #979797" }}
+                              >
+                                {username}
+                              </div>
+                              <div
+                                className='store-item__info'
+                                style={{ borderRight: "1px solid #979797" }}
+                              >
+                                <div className='store-item__info-item'>
+                                  Sđt: {phone}
                                 </div>
-                                <div
-                                  className='store-item w300x'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  {username}
+                                <div className='store-item__info-item'>
+                                  Email: {email}
                                 </div>
-                                <div
-                                  className='store-item__info'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  <div className='store-item__info-item'>
-                                    Sđt: {phone}
-                                  </div>
-                                  <div className='store-item__info-item'>
-                                    Email: {email}
-                                  </div>
-                                  <div className='store-item__info-item'>
-                                    Địa chỉ: {address}
-                                  </div>
-                                </div>
-                                <div className='store-item__info'>
-                                  <div className='store-item__info-item'>
-                                    Tên: {name}
-                                  </div>
-                                  <div className='store-item__info-item'>
-                                    Sinh nhật: {dateofbirth}
-                                  </div>
-                                  <div className='store-item__info-item'>
-                                    Phái: {gender}
-                                  </div>
-                                  <div className='store-item__info-item'>
-                                    Hiện đang là {role}
-                                  </div>
+                                <div className='store-item__info-item'>
+                                  Địa chỉ: {address}
                                 </div>
                               </div>
-                            )
-                          })
-                        : ""}
-                    </div>
+                              <div className='store-item__info'>
+                                <div className='store-item__info-item'>
+                                  Tên: {name}
+                                </div>
+                                <div className='store-item__info-item'>
+                                  Sinh nhật: {dateofbirth}
+                                </div>
+                                <div className='store-item__info-item'>
+                                  Phái: {gender}
+                                </div>
+                                <div className='store-item__info-item'>
+                                  Hiện đang là {role}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <div
+                        className='store__contain-item'
+                        style={{
+                          height: "calc(100% - 50px)",
+                          width: "100%",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div
+                          className='store-product__body-item '
+                          style={{
+                            display: "unset",
+                            width: "unset",
+                            fontSize: "26px",
+                          }}
+                        >
+                          Loading...
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
+                <ReactPaginate
+                  nextLabel='>'
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  pageCount={pageCount}
+                  previousLabel='<'
+                  pageClassName='pagination-item'
+                  pageLinkClassName='pagination-item__link'
+                  previousClassName='pagination-item'
+                  previousLinkClassName='pagination-item__link'
+                  nextClassName='pagination-item'
+                  nextLinkClassName='pagination-item__link'
+                  breakLabel='...'
+                  breakClassName='pagination-item'
+                  breakLinkClassName='pagination-item__link'
+                  containerClassName='pagination admin__pagination'
+                  activeClassName='pagination-item--active'
+                  renderOnZeroPageCount={null}
+                />
               </div>
             </div>
           </div>

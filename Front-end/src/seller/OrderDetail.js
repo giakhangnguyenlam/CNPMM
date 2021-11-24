@@ -66,7 +66,7 @@ function OrderDetail() {
           setScreen(true)
         }
         if (res.status === 200 && res.data.length) {
-          setOrders(res.data)
+          setOrders(res.data.reverse())
         }
       } catch (error) {
         console.log(error)

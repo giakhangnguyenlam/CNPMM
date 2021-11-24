@@ -49,7 +49,7 @@ function Static() {
           setScreen(true)
         }
         if (res.status === 200 && res.data.length) {
-          setOrders(res.data)
+          setOrders(res.data.reverse())
         }
       } catch (error) {
         console.log(error)
@@ -198,10 +198,7 @@ function Static() {
                         0,
                         4
                       )}`}
-                  </span>
-                  <span>Bạn có {orders.length} đơn hàng</span>{" "}
-                  <span>
-                    Tổng giá trị là{" "}
+                    , bạn có {orders.length} đơn hàng và tổng giá trị là{" "}
                     {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",

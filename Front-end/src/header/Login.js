@@ -121,7 +121,6 @@ const Login = () => {
                   className='auth-form__input'
                   onChange={(e) => setRole(e.target.value)}
                 >
-                  <option value='user'>Bạn đăng nhập với vai trò gì?</option>
                   <option value='user'>Người dùng</option>
                   <option value='seller'>Người bán hàng</option>
                 </select>

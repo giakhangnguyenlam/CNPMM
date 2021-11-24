@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import Product from "./Product"
 import { cateCloList, cateShoList, cateAccList } from "./data"
 import { useGlobalContext } from "./context"
@@ -139,57 +139,7 @@ function Body() {
           </div>
 
           <div className='grid__colum-10'>
-            <div className='product'>
-              <Product />
-            </div>
-
-            {/* <ul className='pagination product__pagination'>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  <i className='pagination-item__icon fas fa-angle-left'></i>
-                </a>
-              </li>
-              <li className='pagination-item pagination-item--active'>
-                <a href='/' className='pagination-item__link'>
-                  1
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  2
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  3
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  4
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  5
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  ...
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  14
-                </a>
-              </li>
-              <li className='pagination-item'>
-                <a href='/' className='pagination-item__link'>
-                  <i className='pagination-item__icon fas fa-angle-right'></i>
-                </a>
-              </li>
-            </ul> */}
+            <Product item={10} />
           </div>
         </div>
       </div>

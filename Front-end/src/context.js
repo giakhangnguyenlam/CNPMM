@@ -4,6 +4,7 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [searchInfo, setSearchInfo] = useState("")
+  const [body, setBody] = useState([])
 
   const [isAdmin, setIsAdmin] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
@@ -104,6 +105,7 @@ const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         searchInfo,
+        body,
         isAdmin,
         isLogin,
         isSignup,
@@ -133,6 +135,7 @@ const AppProvider = ({ children }) => {
         raise,
         adminPage,
         setSearchInfo,
+        setBody,
         setIsAdmin,
         setIsLogin,
         setIsSignup,

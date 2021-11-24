@@ -1,5 +1,7 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
+import { AiOutlineDelete } from "react-icons/ai"
+import ReactPaginate from "react-paginate"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
 
@@ -7,6 +9,9 @@ function AdminStore() {
   const jwt = localStorage.getItem("jwtA")
   const { setAdminPage } = useGlobalContext()
   const [allStore, setAllStore] = useState()
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+
   const fetchData = async () => {
     try {
       let res = await axios({
@@ -25,6 +30,17 @@ function AdminStore() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    if (allStore) {
+      setPageCount(Math.ceil(allStore.length / 20))
+    }
+  }, [allStore])
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 20) % allStore.length
+    setItemOffset(newOffset)
+  }
   return (
     <div
       className='container'
@@ -73,10 +89,7 @@ function AdminStore() {
                   </div>
                 </div>
                 <div className='store__contain' style={{ marginTop: "10px" }}>
-                  <div
-                    className='store__contain-wrap'
-                    style={{ height: "85vh", overflowX: "hidden" }}
-                  >
+                  <div className='store__contain-wrap--enhance'>
                     <div className='store__contain-item'>
                       <div
                         className='store-product__body-item '
@@ -99,60 +112,111 @@ function AdminStore() {
                           Ảnh cửa hàng
                         </div>
                         <div
-                          className='store-item__info-nav'
+                          className='store-item__info-nav--35'
                           style={{ borderRight: "1px solid #979797" }}
                         >
                           Tên cửa hàng
                         </div>
-                        <div className='store-item__info-nav'>
+                        <div
+                          className='store-item__info-nav--35'
+                          style={{ borderRight: "1px solid #979797" }}
+                        >
                           Mô tả cửa hàng
+                        </div>
+                        <div className='store-item__info-nav--4'>
+                          <AiOutlineDelete />
                         </div>
                       </div>
                     </div>
-                    <div className='store__contain-item'>
-                      {allStore
-                        ? allStore.map((product, index) => {
-                            const { nameStore, storeDescription, image } =
-                              product
-                            return (
+                    {allStore ? (
+                      allStore.map((product, index) => {
+                        const { nameStore, storeDescription, image } = product
+                        return (
+                          <div className='store__contain-item'>
+                            <div
+                              className='store-product__body-item '
+                              style={{ border: "1px solid #979797" }}
+                              key={index}
+                            >
                               <div
-                                className='store-product__body-item '
-                                style={{ border: "1px solid #979797" }}
-                                key={index}
+                                className='store-item store-item__number'
+                                style={{ borderRight: "1px solid #979797" }}
+                              >
+                                {index + 1}
+                              </div>
+                              <div
+                                className='store-item w300x'
+                                style={{ borderRight: "1px solid #979797" }}
                               >
                                 <div
-                                  className='store-item store-item__number'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  {index + 1}
-                                </div>
-                                <div
-                                  className='store-item w300x'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  <div
-                                    className='store-item__img'
-                                    style={{ backgroundImage: `url(${image})` }}
-                                  ></div>
-                                </div>
-                                <div
-                                  className='store-item__info-nav'
-                                  style={{ borderRight: "1px solid #979797" }}
-                                >
-                                  {nameStore}
-                                </div>
-                                <div className='store-item__info-nav'>
-                                  <div className='store-item__desc-content'>
-                                    {storeDescription}
-                                  </div>
+                                  className='store-item__img'
+                                  style={{ backgroundImage: `url(${image})` }}
+                                ></div>
+                              </div>
+                              <div
+                                className='store-item__info-nav--35'
+                                style={{ borderRight: "1px solid #979797" }}
+                              >
+                                {nameStore}
+                              </div>
+                              <div
+                                className='store-item__info-nav--35'
+                                style={{ borderRight: "1px solid #979797" }}
+                              >
+                                <div className='store-item__desc-content'>
+                                  {storeDescription}
                                 </div>
                               </div>
-                            )
-                          })
-                        : ""}
-                    </div>
+                              <div className='store-item__info-nav--4'>
+                                <AiOutlineDelete />
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <div
+                        className='store__contain-item'
+                        style={{
+                          height: "calc(100% - 50px)",
+                          width: "100%",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div
+                          className='store-product__body-item '
+                          style={{
+                            display: "unset",
+                            width: "unset",
+                            fontSize: "26px",
+                          }}
+                        >
+                          Loading...
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
+                <ReactPaginate
+                  nextLabel='>'
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  pageCount={pageCount}
+                  previousLabel='<'
+                  pageClassName='pagination-item'
+                  pageLinkClassName='pagination-item__link'
+                  previousClassName='pagination-item'
+                  previousLinkClassName='pagination-item__link'
+                  nextClassName='pagination-item'
+                  nextLinkClassName='pagination-item__link'
+                  breakLabel='...'
+                  breakClassName='pagination-item'
+                  breakLinkClassName='pagination-item__link'
+                  containerClassName='pagination admin__pagination'
+                  activeClassName='pagination-item--active'
+                  renderOnZeroPageCount={null}
+                />
               </div>
             </div>
           </div>

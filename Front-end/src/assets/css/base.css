@@ -244,6 +244,11 @@ body {
   text-align: center;
   border-radius: 2px;
   margin: 0 15px 0;
+  cursor: pointer;
+}
+
+.pagination-item__link:hover {
+  color: var(--primary-color);
 }
 
 /* Product per store */

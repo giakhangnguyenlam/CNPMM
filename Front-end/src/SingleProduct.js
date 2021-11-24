@@ -54,7 +54,7 @@ function SingleProduct() {
       if (
         role === "ROLE_USER" &&
         choose.color + 1 &&
-        ((choose.size && (prod.category === 1 || prod.category === 2)) ||
+        ((choose.size + 1 && (prod.category === 1 || prod.category === 2)) ||
           prod.category === 3)
       ) {
         let cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
