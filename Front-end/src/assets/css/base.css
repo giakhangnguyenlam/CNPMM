@@ -255,6 +255,9 @@ body {
 .w60x {
   width: 4% !important;
 }
+.w400px {
+  width: 400px !important;
+}
 .w300x {
   width: 22% !important;
 }
@@ -280,4 +283,22 @@ body {
 .responsive__margin {
   margin-top: 20px !important;
   margin-bottom: 14px !important;
+}
+
+.beautiful {
+  height: 3px;
+  width: 100%;
+  background-position-x: -30px;
+  background-size: 116px 3px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #6fa6d6,
+    #6fa6d6 33px,
+    transparent 0,
+    transparent 41px,
+    #f18d9b 0,
+    #f18d9b 74px,
+    transparent 0,
+    transparent 82px
+  );
 }

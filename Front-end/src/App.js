@@ -15,6 +15,9 @@ import CartPage from "./user/CartPage"
 import UserOrder from "./user/UserOrder"
 import OrderItem from "./user/OrderItem"
 import AdminModal from "./admin/AdminModal"
+import Checkout from "./user/Checkout"
+import AlreadyOrder from "./shipper/AlreadyOrder"
+import About from "./rest/About"
 
 function App() {
   const expire = localStorage.getItem("expire")
@@ -42,9 +45,10 @@ function App() {
               <Body />
               <Footer />
             </Route>
-            {/* <Route path='/about'>
-            <About />
-          </Route> */}
+            <Route path='/about'>
+              <Header />
+              <About />
+            </Route>
             <Route path='/product/:id'>
               <Header />
               <SingleProduct />
@@ -80,9 +84,18 @@ function App() {
               <HeaderSeller />
               <BodySell />
             </Route>
+            <Route path='/shipper'>
+              <HeaderSeller />
+              <AlreadyOrder />
+            </Route>
             <Route path='/cart'>
               <Header />
               <CartPage />
+              <Footer />
+            </Route>
+            <Route path='/checkout'>
+              <Header />
+              <Checkout />
               <Footer />
             </Route>
             <Route path='/comingsoon'>

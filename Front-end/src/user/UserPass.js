@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 
 function UserPass() {
@@ -38,6 +38,17 @@ function UserPass() {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    let role = localStorage.getItem("role")
+    if (
+      role !== "ROLE_USER" ||
+      role !== "ROLE_SELLER" ||
+      role !== "ROLE_SHIPPER"
+    ) {
+      history.push("/")
+    }
+  }, [])
 
   return (
     <div className='container'>

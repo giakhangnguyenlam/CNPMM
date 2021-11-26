@@ -5,11 +5,14 @@ const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [searchInfo, setSearchInfo] = useState("")
   const [body, setBody] = useState([])
+  const [orderData, setOrderData] = useState([])
+  const [paid, setpaid] = useState(false)
 
   const [isAdmin, setIsAdmin] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
   const [isSellerSignup, setIsSellerSignup] = useState(false)
+  const [isShipperSignup, setIsShipperSignup] = useState(false)
   const [cate, setCate] = useState("")
   const [cateType, setCateType] = useState("")
   const [cateName, setCateName] = useState("")
@@ -106,10 +109,13 @@ const AppProvider = ({ children }) => {
       value={{
         searchInfo,
         body,
+        orderData,
+        paid,
         isAdmin,
         isLogin,
         isSignup,
         isSellerSignup,
+        isShipperSignup,
         cate,
         cateType,
         cateName,
@@ -136,10 +142,13 @@ const AppProvider = ({ children }) => {
         adminPage,
         setSearchInfo,
         setBody,
+        setOrderData,
+        setpaid,
         setIsAdmin,
         setIsLogin,
         setIsSignup,
         setIsSellerSignup,
+        setIsShipperSignup,
         setCate,
         setCateType,
         setCateName,

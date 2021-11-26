@@ -5,7 +5,8 @@ import { useGlobalContext } from "../context"
 import { useHistory } from "react-router"
 
 function Navbar() {
-  const { setIsLogin, setIsSignup, setIsSellerSignup } = useGlobalContext()
+  const { setIsLogin, setIsSignup, setIsSellerSignup, setIsShipperSignup } =
+    useGlobalContext()
   const userRole = localStorage.getItem("role")
   const userName = localStorage.getItem("name")
   const history = useHistory()
@@ -44,19 +45,18 @@ function Navbar() {
           </div>
         </li>
         <li className='header__navbar-item'>
-          <span className='header__navbar-title--nopointer'>Kết nối</span>
-          <a
-            href='https://www.facebook.com/'
-            className='header__navbar-icon-link'
+          <div
+            className='header__navbar-item-link'
+            onClick={
+              userRole === "ROLE_SHIPPER"
+                ? () => redirect("/shipper")
+                : () => setIsShipperSignup(true)
+            }
           >
-            <IoLogoFacebook />
-          </a>
-          <a
-            href='https://www.instagram.com/'
-            className='header__navbar-icon-link'
-          >
-            <IoLogoInstagram />
-          </a>
+            {userRole === "ROLE_SHIPPER"
+              ? "Trang người giao hàng"
+              : "Trở thành người giao hàng"}
+          </div>
         </li>
       </ul>
       <ul className='header__navbar-list'>

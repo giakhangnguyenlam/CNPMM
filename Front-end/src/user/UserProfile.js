@@ -1,9 +1,10 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 
 function UserProfile() {
-  const dob = localStorage.getItem("dateofbirth")
+  console.log("4")
+  const dob = localStorage.getItem("dateofbirth") || ""
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
   const role = localStorage.getItem("role")
@@ -56,6 +57,16 @@ function UserProfile() {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    if (
+      role !== "ROLE_USER" ||
+      role !== "ROLE_SELLER" ||
+      role !== "ROLE_SHIPPER"
+    ) {
+      history.push("/")
+    }
+  }, [])
 
   return (
     <div className='container'>

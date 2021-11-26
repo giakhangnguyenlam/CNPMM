@@ -7,7 +7,7 @@ import { useGlobalContext } from "../context"
 
 function CartPage() {
   const userId = localStorage.getItem("id")
-  const { reloadSell, setReloadSell } = useGlobalContext()
+  const { reloadSell, setReloadSell, setOrderData } = useGlobalContext()
   const history = useHistory()
   const cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`))
   let sum = 0
@@ -46,7 +46,6 @@ function CartPage() {
   }
 
   const handleCheckout = async () => {
-    const jwt = localStorage.getItem("jwt")
     let data = {
       userId: Number(userId),
       total: sum,
@@ -63,24 +62,8 @@ function CartPage() {
       data.listProductNames.push(item.name)
       data.listPrices.push(item.price)
     })
-    if (localStorage.getItem("role") === "ROLE_USER") {
-      try {
-        let res = await axios({
-          method: "post",
-          url: "https://cnpmmbe.herokuapp.com/user/order",
-          data,
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-        if (res.status === 201) {
-          localStorage.removeItem(`cart${userId}`)
-          setReloadSell(!reloadSell)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    setOrderData(data)
+    history.push("/checkout")
   }
 
   useEffect(() => {

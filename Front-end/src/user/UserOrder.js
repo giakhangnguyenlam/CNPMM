@@ -30,7 +30,12 @@ function UserOrder() {
   }
 
   useEffect(() => {
-    fetchData()
+    let role = localStorage.getItem("role")
+    if (role === "ROLE_USER") {
+      fetchData()
+    } else {
+      history.push("/")
+    }
   }, [])
 
   return (

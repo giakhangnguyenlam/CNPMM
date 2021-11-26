@@ -2,41 +2,43 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { AiOutlineCheck } from "react-icons/ai"
 import ReactPaginate from "react-paginate"
+import { useHistory } from "react-router"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
 import Popup from "../Popup"
 
-function AdminOrderUnpay() {
-  const jwt = localStorage.getItem("jwtA")
-  const {
-    setAdminPage,
-    reloadSell,
-    setReloadSell,
-    loading,
-    setLoading,
-    raise,
-    setRaise,
-  } = useGlobalContext()
-  const [allUser, setAllUser] = useState()
+function AlreadyOrder() {
+  const jwt = localStorage.getItem("jwt")
+  const shipperId = localStorage.getItem("id")
+  const { loading, setLoading, raise, setRaise } = useGlobalContext()
+  const [shipperPage, setShipperPage] = useState("all")
+  const [allOrder, setAllOrder] = useState()
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
+  const history = useHistory()
 
-  const handleCheck = async (id) => {
+  const handleReceive = async (orderId) => {
     setLoading(true)
-    let url = `https://cnpmmbe.herokuapp.com/admin/verifyshipper/${id}`
+    let url = "https://cnpmmbe.herokuapp.com/shipper/receiveorder"
+    if (shipperPage === "receive") {
+      url = "https://cnpmmbe.herokuapp.com/shipper/deliveryorder"
+    }
     try {
       let res = await axios({
-        method: "put",
+        method: "post",
         url,
+        data: {
+          orderId,
+          shipperId,
+        },
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       })
-      if (res.status === 200) {
-        setReloadSell(!reloadSell)
+      if (res.status === 201) {
         setLoading(false)
         setRaise({
-          header: "Duyệt người giao hàng",
+          header: "Nhận giao đơn hàng",
           content: res.data.mess,
           color: "#4bb534",
         })
@@ -45,7 +47,14 @@ function AdminOrderUnpay() {
   }
 
   const fetchData = async () => {
-    let url = "https://cnpmmbe.herokuapp.com/admin/shipperwithoutverify"
+    setAllOrder()
+    let url = "https://cnpmmbe.herokuapp.com/shipper"
+    if (shipperPage === "receive") {
+      url = `https://cnpmmbe.herokuapp.com/shipper/order/${shipperId}`
+    }
+    if (shipperPage === "success") {
+      url = `https://cnpmmbe.herokuapp.com/shipper/ordersuccess/${shipperId}`
+    }
     try {
       let res = await axios({
         method: "get",
@@ -55,23 +64,27 @@ function AdminOrderUnpay() {
         },
       })
       if (res.status === 200) {
-        setAllUser(res.data)
+        setAllOrder(res.data)
       }
     } catch (error) {}
   }
 
   useEffect(() => {
-    fetchData()
-  }, [reloadSell])
+    if (localStorage.getItem("role") === "ROLE_SHIPPER") {
+      fetchData()
+    } else {
+      history.push("/")
+    }
+  }, [shipperPage])
 
   useEffect(() => {
-    if (allUser) {
-      setPageCount(Math.ceil(allUser.length / 20))
+    if (allOrder) {
+      setPageCount(Math.ceil(allOrder.length / 20))
     }
-  }, [allUser])
+  }, [allOrder])
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * 20) % allUser.length
+    const newOffset = (event.selected * 20) % allOrder.length
     setItemOffset(newOffset)
   }
   return (
@@ -88,40 +101,32 @@ function AdminOrderUnpay() {
                   <div className='store__nav-wrap'>
                     <div className='store__nav-options'>
                       <div
-                        className='w200px store__nav-tab'
-                        onClick={() => setAdminPage("user")}
-                      >
-                        Tất cả người dùng
-                      </div>
-                      <div
-                        className='w200px store__nav-tab'
-                        onClick={() => setAdminPage("seller")}
-                      >
-                        Tất cả người bán
-                      </div>
-                      <div
-                        className='w200px store__nav-tab store__nav-tab--active'
-                        // onClick={() => setAdminPage("unpay")}
-                      >
-                        Duyệt người giao hàng
-                      </div>
-                      <div
-                        className='w200px store__nav-tab'
-                        onClick={() => setAdminPage("store")}
-                      >
-                        Tất cả cửa hàng
-                      </div>
-                      <div
-                        className='w200px store__nav-tab'
-                        onClick={() => setAdminPage("order")}
+                        className={`w400px store__nav-tab ${
+                          shipperPage === "all" ? "store__nav-tab--active" : ""
+                        }`}
+                        onClick={() => setShipperPage("all")}
                       >
                         Tất cả đơn hàng
                       </div>
                       <div
-                        className='w200px store__nav-tab'
-                        onClick={() => setAdminPage("product")}
+                        className={`w400px store__nav-tab ${
+                          shipperPage === "receive"
+                            ? "store__nav-tab--active"
+                            : ""
+                        }`}
+                        onClick={() => setShipperPage("receive")}
                       >
-                        Tất cả sản phẩm
+                        Đơn hàng đã nhận
+                      </div>
+                      <div
+                        className={`w400px store__nav-tab ${
+                          shipperPage === "success"
+                            ? "store__nav-tab--active"
+                            : ""
+                        }`}
+                        onClick={() => setShipperPage("success")}
+                      >
+                        Đơn hàng đã giao
                       </div>
                     </div>
                   </div>
@@ -140,51 +145,55 @@ function AdminOrderUnpay() {
                             className='store-item store-item__number'
                             style={{ borderRight: "1px solid #979797" }}
                           >
-                            Stt
+                            ID
                           </div>
                           <div
                             className='store-item w300x'
                             style={{ borderRight: "1px solid #979797" }}
                           >
-                            Username
+                            Tên người nhận
                           </div>
                           <div
-                            className='store-item__info-nav--35'
+                            className={`${
+                              shipperPage === "success"
+                                ? "store-item__info-nav"
+                                : "store-item__info-nav--35"
+                            }`}
                             style={{ borderRight: "1px solid #979797" }}
                           >
-                            Thông tin liên lạc
+                            Thông tin người nhận
                           </div>
                           <div
-                            className='store-item__info-nav--35'
+                            className={`${
+                              shipperPage === "success"
+                                ? "store-item__info-nav"
+                                : "store-item__info-nav--35"
+                            }`}
                             style={{ borderRight: "1px solid #979797" }}
                           >
-                            Thông tin cá nhân
+                            Mô tả sản phẩm
                           </div>
-                          <div className='store-item__info-nav--4'>
-                            <AiOutlineCheck />
-                          </div>
+                          {shipperPage !== "success" && (
+                            <div className='store-item__info-nav--4'>
+                              <AiOutlineCheck />
+                            </div>
+                          )}
                         </div>
                       </div>
-                      {allUser ? (
-                        allUser.length ? (
-                          allUser
+                      {allOrder ? (
+                        allOrder.length ? (
+                          allOrder
                             .slice(itemOffset, itemOffset + 20)
                             .map((product, index) => {
                               let {
-                                id,
-                                username,
+                                orderId,
                                 name,
-                                dateofbirth,
-                                email,
-                                address,
                                 phone,
-                                gender,
+                                address,
+                                description,
+                                total,
                               } = product
-                              if (gender === "male") {
-                                gender = "Nam"
-                              } else if (gender === "female") {
-                                gender = "Nữ"
-                              }
+
                               return (
                                 <div
                                   className='store__contain-item'
@@ -200,7 +209,7 @@ function AdminOrderUnpay() {
                                         borderRight: "1px solid #979797",
                                       }}
                                     >
-                                      {index + 1}
+                                      {orderId}
                                     </div>
                                     <div
                                       className='store-item w300x'
@@ -208,49 +217,54 @@ function AdminOrderUnpay() {
                                         borderRight: "1px solid #979797",
                                       }}
                                     >
-                                      {username}
+                                      {name}
                                     </div>
                                     <div
-                                      className='store-item__info--35'
+                                      className={`${
+                                        shipperPage === "success"
+                                          ? "store-item__info-nav"
+                                          : "store-item__info-nav--35"
+                                      }`}
                                       style={{
                                         borderRight: "1px solid #979797",
                                       }}
                                     >
                                       <div className='store-item__info-item'>
-                                        Sđt: {phone}
-                                      </div>
-                                      <div className='store-item__info-item'>
-                                        Email: {email}
+                                        Số điện thoại: {phone}
                                       </div>
                                       <div className='store-item__info-item'>
                                         Địa chỉ: {address}
                                       </div>
                                     </div>
                                     <div
-                                      className='store-item__info--35'
+                                      className={`${
+                                        shipperPage === "success"
+                                          ? "store-item__info-nav"
+                                          : "store-item__info-nav--35"
+                                      }`}
                                       style={{
                                         borderRight: "1px solid #979797",
                                       }}
                                     >
                                       <div className='store-item__info-item'>
-                                        Tên: {name}
+                                        Mô tả: {description}
                                       </div>
                                       <div className='store-item__info-item'>
-                                        Sinh nhật: {dateofbirth}
-                                      </div>
-                                      <div className='store-item__info-item'>
-                                        Phái: {gender}
-                                      </div>
-                                      <div className='store-item__info-item'>
-                                        Hiện đang là người giao hàng
+                                        Tổng tiền:{" "}
+                                        {new Intl.NumberFormat("vi-VN", {
+                                          style: "currency",
+                                          currency: "VND",
+                                        }).format(total)}
                                       </div>
                                     </div>
-                                    <div className='store-item__info-nav--4'>
-                                      <AiOutlineCheck
-                                        className='store-item__info--btn'
-                                        onClick={() => handleCheck(id)}
-                                      />
-                                    </div>
+                                    {shipperPage !== "success" && (
+                                      <div className='store-item__info-nav--4'>
+                                        <AiOutlineCheck
+                                          className='store-item__info--btn'
+                                          onClick={() => handleReceive(orderId)}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               )
@@ -273,7 +287,9 @@ function AdminOrderUnpay() {
                                 fontSize: "26px",
                               }}
                             >
-                              Không có người giao hàng cần duyệt
+                              {shipperPage === "receive"
+                                ? "Chưa nhận đơn hàng"
+                                : "Không có đơn hàng"}
                             </div>
                           </div>
                         )
@@ -346,4 +362,4 @@ function AdminOrderUnpay() {
   )
 }
 
-export default AdminOrderUnpay
+export default AlreadyOrder

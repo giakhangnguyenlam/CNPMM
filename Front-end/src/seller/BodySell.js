@@ -1,5 +1,6 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router"
 import { useGlobalContext } from "../context"
 import Popup from "../Popup"
 
@@ -7,6 +8,7 @@ function BodySell() {
   const [storeList, setStoreList] = useState([])
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
+  const history = useHistory()
   const {
     isCreateStore,
     setIsCreateStore,
@@ -80,7 +82,11 @@ function BodySell() {
   }
 
   useEffect(() => {
-    fetchData()
+    if (localStorage.getItem("role") === "ROLE_SELLER") {
+      fetchData()
+    } else {
+      history.push("/")
+    }
   }, [reloadSell])
 
   return (

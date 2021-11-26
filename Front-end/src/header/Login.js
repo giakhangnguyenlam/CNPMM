@@ -47,6 +47,9 @@ const Login = () => {
     if (role === "seller") {
       url = "https://cnpmmbe.herokuapp.com/seller/login"
     }
+    if (role === "shipper") {
+      url = "https://cnpmmbe.herokuapp.com/shipper/login"
+    }
     try {
       let res = await axios({
         method: "post",
@@ -123,6 +126,7 @@ const Login = () => {
                 >
                   <option value='user'>Người dùng</option>
                   <option value='seller'>Người bán hàng</option>
+                  <option value='shipper'>Người giao hàng</option>
                 </select>
               </div>
               {formAuth.slice(3, 5).map((ele, index) => {

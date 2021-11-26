@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
+import { useHistory, useLocation } from "react-router"
 import { useGlobalContext } from "../context"
 
 function SearchBar() {
@@ -7,6 +8,8 @@ function SearchBar() {
   const [valid, setValid] = useState({ state: false, value: "" })
   let ref = useRef()
   let ref2 = useRef()
+  const history = useHistory()
+  let location = useLocation()
   let his = JSON.parse(localStorage.getItem("history")) || []
   const handleSearch = (type) => {
     if (type === "icon") {
@@ -18,12 +21,16 @@ function SearchBar() {
       newHis = [...new Set(his)]
       localStorage.setItem("history", JSON.stringify(newHis))
     } else {
+      ref.current.value = type
       setSearchInfo(type)
     }
     ref2.current.style.display = "none"
     setTimeout(() => {
       ref2.current.style = {}
     }, 100)
+    if (location !== "/") {
+      history.push("/")
+    }
   }
   const checkValid = (e) => {
     if (e.target.value !== "") {
@@ -45,21 +52,25 @@ function SearchBar() {
           <h3 className='header__search-history-heading'>Lịch sử tìm kiếm</h3>
           <ul className='header__search-history-list'>
             {valid.state
-              ? body.map((item, index) => {
-                  if (
-                    item.name.toLowerCase().includes(valid.value.toLowerCase())
-                  ) {
-                    return (
-                      <li
-                        className='header__search-history-item'
-                        key={index}
-                        onClick={() => handleSearch(item)}
-                      >
-                        <div>{item.name}</div>
-                      </li>
-                    )
-                  }
-                })
+              ? body
+                  .slice(0, body.length > 5 ? 5 : body.length)
+                  .map((item, index) => {
+                    if (
+                      item.name
+                        .toLowerCase()
+                        .includes(valid.value.toLowerCase())
+                    ) {
+                      return (
+                        <li
+                          className='header__search-history-item'
+                          key={index}
+                          onClick={() => handleSearch(item.name)}
+                        >
+                          <div>{item.name}</div>
+                        </li>
+                      )
+                    }
+                  })
               : his.length
               ? his
                   .slice(0, his.length > 5 ? 5 : his.length)

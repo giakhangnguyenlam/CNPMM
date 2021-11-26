@@ -66,18 +66,18 @@ function AdminOrder() {
                     </div>
                     <div
                       className='w200px store__nav-tab'
+                      onClick={() => setAdminPage("unpay")}
+                    >
+                      Duyệt người giao hàng
+                    </div>
+                    <div
+                      className='w200px store__nav-tab'
                       onClick={() => setAdminPage("store")}
                     >
                       Tất cả cửa hàng
                     </div>
                     <div className='w200px store__nav-tab  store__nav-tab--active'>
                       Tất cả đơn hàng
-                    </div>
-                    <div
-                      className='w200px store__nav-tab'
-                      onClick={() => setAdminPage("unpay")}
-                    >
-                      ĐH chưa thanh toán
                     </div>
                     <div
                       className='w200px store__nav-tab'
@@ -147,14 +147,13 @@ function AdminOrder() {
                             paymentStatus,
                           } = product
                           return (
-                            <div className='store__contain-item'>
+                            <div className='store__contain-item' key={index}>
                               <div
                                 className='store-product__body-item '
                                 style={{
                                   border: "1px solid #979797",
                                   height: "26px",
                                 }}
-                                key={index}
                               >
                                 <div
                                   className='store-item store-item__number'

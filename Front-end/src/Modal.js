@@ -16,11 +16,12 @@ function Modal() {
     isUpdateStore,
     isDetailStore,
     isSellerSignup,
+    isShipperSignup,
     isOrderDetail,
     isStatic,
     isComment,
   } = useGlobalContext()
-  if (isSignup || isSellerSignup) {
+  if (isSignup || isSellerSignup || isShipperSignup) {
     return <Signup />
   }
   if (isLogin) {

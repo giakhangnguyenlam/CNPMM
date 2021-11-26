@@ -13,6 +13,8 @@ const Signup = () => {
     setIsSignup,
     isSellerSignup,
     setIsSellerSignup,
+    isShipperSignup,
+    setIsShipperSignup,
     reloadSell,
     setReloadSell,
     loading,
@@ -42,7 +44,15 @@ const Signup = () => {
     if (isSellerSignup) {
       setIsSellerSignup(false)
     }
+    if (isShipperSignup) {
+      setIsShipperSignup(false)
+    }
     setIsLogin(true)
+  }
+  const handleModal = () => {
+    setIsSignup(false)
+    setIsSellerSignup(false)
+    setIsShipperSignup(false)
   }
   const checkError = async (person) => {
     let errs = {}
@@ -100,6 +110,9 @@ const Signup = () => {
     if (isSellerSignup) {
       url = "https://cnpmmbe.herokuapp.com/seller/signup"
     }
+    if (isShipperSignup) {
+      url = "https://cnpmmbe.herokuapp.com/shipper/signup"
+    }
 
     try {
       let res = await axios.post(url, {
@@ -132,6 +145,7 @@ const Signup = () => {
         setReloadSell(!reloadSell)
         setIsSignup(false)
         setIsSellerSignup(false)
+        setIsShipperSignup(false)
       }
     } catch (error) {
       if (error.response) {
@@ -151,20 +165,18 @@ const Signup = () => {
 
   return (
     <div className='modal'>
-      <div
-        className='modal__overlay'
-        onClick={
-          isSignup ? () => setIsSignup(false) : () => setIsSellerSignup(false)
-        }
-      ></div>
+      <div className='modal__overlay' onClick={handleModal}></div>
       <div className='modal__body'>
         {/* Register form */}
         <div className='auth-form'>
           <div className='auth-form__container'>
             <div className='auth-form__header'>
               <h3 className='auth-form__heading'>
-                {" "}
-                {isSignup ? "Đăng ký" : "Trở thành người bán"}
+                {isSignup
+                  ? "Đăng ký"
+                  : isSellerSignup
+                  ? "Trở thành người bán"
+                  : "Trở thành người giao hàng"}
               </h3>
               <span className='auth-form__switch-btn' onClick={changeLogin}>
                 Đăng nhập
@@ -421,11 +433,7 @@ const Signup = () => {
             >
               <button
                 className='btn btn--normal auth-form__controls-back'
-                onClick={
-                  isSignup
-                    ? () => setIsSignup(false)
-                    : () => setIsSellerSignup(false)
-                }
+                onClick={handleModal}
               >
                 TRỞ LẠI
               </button>

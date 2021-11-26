@@ -81,6 +81,12 @@ function AdminPage() {
                     </div>
                     <div
                       className='w200px store__nav-tab'
+                      onClick={() => setAdminPage("unpay")}
+                    >
+                      Duyệt người giao hàng
+                    </div>
+                    <div
+                      className='w200px store__nav-tab'
                       onClick={() => setAdminPage("store")}
                     >
                       Tất cả cửa hàng
@@ -90,12 +96,6 @@ function AdminPage() {
                       onClick={() => setAdminPage("order")}
                     >
                       Tất cả đơn hàng
-                    </div>
-                    <div
-                      className='w200px store__nav-tab'
-                      onClick={() => setAdminPage("unpay")}
-                    >
-                      ĐH chưa thanh toán
                     </div>
                     <div
                       className='w200px store__nav-tab'
@@ -140,80 +140,83 @@ function AdminPage() {
                       </div>
                     </div>
                     {allUser ? (
-                      allUser.map((product, index) => {
-                        let {
-                          username,
-                          name,
-                          dateofbirth,
-                          email,
-                          address,
-                          phone,
-                          gender,
-                          role,
-                        } = product
-                        if (gender === "male") {
-                          gender = "Nam"
-                        } else if (gender === "female") {
-                          gender = "Nữ"
-                        }
-                        if (role === "ROLE_USER") {
-                          role = "người dùng"
-                        } else if (role === "ROLE_SELLER") {
-                          role = "người bán hàng"
-                        } else if (role === "ROLE_ADMIN") {
-                          role = "người quản trị"
-                        }
-                        return (
-                          <div className='store__contain-item'>
-                            <div
-                              className='store-product__body-item '
-                              style={{ border: "1px solid #979797" }}
-                              key={index}
-                            >
+                      allUser
+                        .slice(itemOffset, itemOffset + 20)
+                        .map((product, index) => {
+                          let {
+                            username,
+                            name,
+                            dateofbirth,
+                            email,
+                            address,
+                            phone,
+                            gender,
+                            role,
+                          } = product
+                          if (gender === "male") {
+                            gender = "Nam"
+                          } else if (gender === "female") {
+                            gender = "Nữ"
+                          }
+                          if (role === "ROLE_USER") {
+                            role = "người dùng"
+                          } else if (role === "ROLE_SELLER") {
+                            role = "người bán hàng"
+                          } else if (role === "ROLE_ADMIN") {
+                            role = "người quản trị"
+                          } else if (role === "ROLE_SHIPPER") {
+                            role = "người giao hàng"
+                          }
+                          return (
+                            <div className='store__contain-item' key={index}>
                               <div
-                                className='store-item store-item__number'
-                                style={{ borderRight: "1px solid #979797" }}
+                                className='store-product__body-item '
+                                style={{ border: "1px solid #979797" }}
                               >
-                                {index + 1}
-                              </div>
-                              <div
-                                className='store-item w300x'
-                                style={{ borderRight: "1px solid #979797" }}
-                              >
-                                {username}
-                              </div>
-                              <div
-                                className='store-item__info'
-                                style={{ borderRight: "1px solid #979797" }}
-                              >
-                                <div className='store-item__info-item'>
-                                  Sđt: {phone}
+                                <div
+                                  className='store-item store-item__number'
+                                  style={{ borderRight: "1px solid #979797" }}
+                                >
+                                  {index + 1}
                                 </div>
-                                <div className='store-item__info-item'>
-                                  Email: {email}
+                                <div
+                                  className='store-item w300x'
+                                  style={{ borderRight: "1px solid #979797" }}
+                                >
+                                  {username}
                                 </div>
-                                <div className='store-item__info-item'>
-                                  Địa chỉ: {address}
+                                <div
+                                  className='store-item__info'
+                                  style={{ borderRight: "1px solid #979797" }}
+                                >
+                                  <div className='store-item__info-item'>
+                                    Sđt: {phone}
+                                  </div>
+                                  <div className='store-item__info-item'>
+                                    Email: {email}
+                                  </div>
+                                  <div className='store-item__info-item'>
+                                    Địa chỉ: {address}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className='store-item__info'>
-                                <div className='store-item__info-item'>
-                                  Tên: {name}
-                                </div>
-                                <div className='store-item__info-item'>
-                                  Sinh nhật: {dateofbirth}
-                                </div>
-                                <div className='store-item__info-item'>
-                                  Phái: {gender}
-                                </div>
-                                <div className='store-item__info-item'>
-                                  Hiện đang là {role}
+                                <div className='store-item__info'>
+                                  <div className='store-item__info-item'>
+                                    Tên: {name}
+                                  </div>
+                                  <div className='store-item__info-item'>
+                                    Sinh nhật: {dateofbirth}
+                                  </div>
+                                  <div className='store-item__info-item'>
+                                    Phái: {gender}
+                                  </div>
+                                  <div className='store-item__info-item'>
+                                    Hiện đang là {role}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })
+                          )
+                        })
                     ) : (
                       <div
                         className='store__contain-item'
