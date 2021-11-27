@@ -1,13 +1,20 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
+import Loading from "../Loading"
 
 function OrderDetail() {
   const jwt = localStorage.getItem("jwt")
   const wFit = window.screen.availWidth * 0.8
   const hFit = window.screen.availHeight * 0.835
-  const { setIsOrderDetail, idStoreUpdate, reloadSell, setReloadSell } =
-    useGlobalContext()
+  const {
+    setIsOrderDetail,
+    idStoreUpdate,
+    reloadSell,
+    setReloadSell,
+    loading,
+    setLoading,
+  } = useGlobalContext()
   const [screen, setScreen] = useState(false)
   const [orders, setOrders] = useState()
   let today = new Date()
@@ -19,6 +26,7 @@ function OrderDetail() {
   const [date, newDate] = useState(today)
 
   const handleCheck = async (id) => {
+    setLoading(true)
     try {
       let res = await axios({
         method: "put",
@@ -28,6 +36,7 @@ function OrderDetail() {
         },
       })
       if (res.status === 200) {
+        setLoading(false)
         setReloadSell(!reloadSell)
       }
     } catch (error) {
@@ -83,141 +92,140 @@ function OrderDetail() {
   }, [date, reloadSell])
 
   return (
-    <>
-      <div className='modal'>
-        <div
-          className='modal__overlay'
-          onClick={() => setIsOrderDetail(false)}
-        ></div>
-        <div className='modal__body'>
-          <div className='auth-form' style={{ width: wFit, height: hFit }}>
-            <div className='auth-form__container'>
-              <div
-                className='auth-form__header'
-                style={{ flexDirection: "column" }}
-              >
-                <h3 className='store-product__heading'>Đơn hàng của tôi</h3>
-                <div className='store-product__header-add'>
-                  <label className='order__label'>Chọn ngày:</label>
-                  <input
-                    type='date'
-                    className='order__date'
-                    value={date}
-                    onChange={(e) => newDate(e.target.value)}
-                  />
+    <div className='modal'>
+      <div
+        className='modal__overlay'
+        onClick={() => setIsOrderDetail(false)}
+      ></div>
+      <div className='modal__body'>
+        <div className='auth-form' style={{ width: wFit, height: hFit }}>
+          <div className='auth-form__container'>
+            <div
+              className='auth-form__header'
+              style={{ flexDirection: "column" }}
+            >
+              <h3 className='store-product__heading'>Đơn hàng của tôi</h3>
+              <div className='store-product__header-add'>
+                <label className='order__label'>Chọn ngày:</label>
+                <input
+                  type='date'
+                  className='order__date'
+                  value={date}
+                  onChange={(e) => newDate(e.target.value)}
+                />
+              </div>
+              <div className='store-product__header-nav'>
+                <div className='w60x store-product__header-nav-item w10'>
+                  Mã đơn hàng
                 </div>
-                <div className='store-product__header-nav'>
-                  <div className='w60x store-product__header-nav-item w10'>
-                    Mã đơn hàng
-                  </div>
-                  <div
-                    className='store-product__header-nav-item'
-                    style={{ flexGrow: "1" }}
-                  >
-                    Tên
-                  </div>
-                  <div className='store-product__header-nav-item w10'>
-                    Số lượng
-                  </div>
-                  <div className='store-product__header-nav-item w300x'>
-                    Mô tả
-                  </div>
-                  <div className='store-product__header-nav-item w250x'>
-                    Trạng thái
-                  </div>
-                  <div className='store-product__header-nav-item w10'>
-                    Thao tác
-                  </div>
+                <div
+                  className='store-product__header-nav-item'
+                  style={{ flexGrow: "1" }}
+                >
+                  Tên
+                </div>
+                <div className='store-product__header-nav-item w10'>
+                  Số lượng
+                </div>
+                <div className='store-product__header-nav-item w300x'>
+                  Mô tả
+                </div>
+                <div className='store-product__header-nav-item w250x'>
+                  Trạng thái
+                </div>
+                <div className='store-product__header-nav-item w10'>
+                  Thao tác
                 </div>
               </div>
+            </div>
 
-              <div
-                className='store-product__body'
-                style={{ height: (hFit - 158) * 0.92 }}
-              >
-                {orders ? (
-                  orders.map((product, index) => {
-                    const {
-                      id,
-                      productName,
-                      orderId,
-                      quantity,
-                      description,
-                      status,
-                    } = product
-                    return (
-                      <div className='store-product__body-item ' key={index}>
-                        <div
-                          className='store-item store-item__number'
-                          style={{ width: "10%" }}
-                        >
-                          {orderId}
-                        </div>
-                        <div
-                          className='store-item store-item__name'
-                          style={{ flexGrow: "1" }}
-                        >
-                          {productName}
-                        </div>
-                        <div className='store-item store-item__amount'>
-                          {quantity}
-                        </div>
-                        <div
-                          className='store-item store-item__desc w300x'
-                          style={{ flexGrow: "unset" }}
-                        >
-                          <div className='store-item__desc-content'>
-                            {description}
-                          </div>
-                        </div>
-                        <div className='store-item w250x'>{status}</div>
-                        <div className='store-item' style={{ width: "8.5%" }}>
-                          <div
-                            className='store-item__btn'
-                            onClick={() => handleCheck(id)}
-                          >
-                            Xác nhận
-                          </div>
+            <div
+              className='store-product__body'
+              style={{ height: (hFit - 158) * 0.92 }}
+            >
+              {orders ? (
+                orders.map((product, index) => {
+                  const {
+                    id,
+                    productName,
+                    orderId,
+                    quantity,
+                    description,
+                    status,
+                  } = product
+                  return (
+                    <div className='store-product__body-item ' key={index}>
+                      <div
+                        className='store-item store-item__number'
+                        style={{ width: "10%" }}
+                      >
+                        {orderId}
+                      </div>
+                      <div
+                        className='store-item store-item__name'
+                        style={{ flexGrow: "1" }}
+                      >
+                        {productName}
+                      </div>
+                      <div className='store-item store-item__amount'>
+                        {quantity}
+                      </div>
+                      <div
+                        className='store-item store-item__desc w300x'
+                        style={{ flexGrow: "unset" }}
+                      >
+                        <div className='store-item__desc-content'>
+                          {description}
                         </div>
                       </div>
-                    )
-                  })
-                ) : (
-                  <div className='order__wait '>
-                    <div className='order__wait-content'>
-                      {screen ? "Không có sản phẩm" : "Loading..."}
+                      <div className='store-item w250x'>{status}</div>
+                      <div className='store-item' style={{ width: "8.5%" }}>
+                        <div
+                          className='store-item__btn'
+                          onClick={() => handleCheck(id)}
+                        >
+                          Xác nhận
+                        </div>
+                      </div>
                     </div>
+                  )
+                })
+              ) : (
+                <div className='order__wait '>
+                  <div className='order__wait-content'>
+                    {screen ? "Không có sản phẩm" : "Loading..."}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
 
-              <div
-                className='auth-form__controls'
+            <div
+              className='auth-form__controls'
+              style={{
+                justifyContent: "center",
+                marginTop: "0",
+                height: (hFit - 158) * 0.08,
+              }}
+            >
+              <button
+                className='btn btn--normal auth-form__controls-back'
                 style={{
-                  justifyContent: "center",
-                  marginTop: "0",
-                  height: (hFit - 158) * 0.08,
+                  width: "100%",
+                  height: (hFit - 158) * 0.07,
+                  marginTop:
+                    (hFit - 158) * 0.01 > 10 ? "10px" : (hFit - 158) * 0.01,
                 }}
+                onClick={() => setIsOrderDetail(false)}
               >
-                <button
-                  className='btn btn--normal auth-form__controls-back'
-                  style={{
-                    width: "100%",
-                    height: (hFit - 158) * 0.07,
-                    marginTop:
-                      (hFit - 158) * 0.01 > 10 ? "10px" : (hFit - 158) * 0.01,
-                  }}
-                  onClick={() => setIsOrderDetail(false)}
-                >
-                  <i className='fas fa-undo' style={{ fontSize: "1.6rem" }}></i>
-                  TRỞ LẠI
-                </button>
-              </div>
+                <i className='fas fa-undo' style={{ fontSize: "1.6rem" }}></i>
+                TRỞ LẠI
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </>
+      {loading && <Loading />}
+    </div>
   )
 }
 

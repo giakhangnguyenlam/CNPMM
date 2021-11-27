@@ -26,6 +26,8 @@ function Product({ item }) {
     }
   }
 
+  useEffect(() => {}, [searchInfo])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,11 +47,17 @@ function Product({ item }) {
   }, [cate, cateType])
 
   useEffect(() => {
-    setPageCount(Math.ceil(body.length / item))
-  }, [item, body])
+    setPageCount(
+      Math.ceil(
+        body.filter((item) => item.name.includes(searchInfo)).length / item
+      )
+    )
+  }, [item, body.filter((item) => item.name.includes(searchInfo))])
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * item) % body.length
+    const newOffset =
+      (event.selected * item) %
+      body.filter((item) => item.name.includes(searchInfo)).length
     setItemOffset(newOffset)
   }
 
@@ -58,8 +66,10 @@ function Product({ item }) {
       <div className='product'>
         <div className='grid__row' key={789}>
           {/* Product item */}
-          {body.slice(itemOffset, itemOffset + item).map((item) => {
-            if (item.name.includes(searchInfo)) {
+          {body
+            .filter((item) => item.name.includes(searchInfo))
+            .slice(itemOffset, itemOffset + item)
+            .map((item) => {
               let {
                 id,
                 // storeId,
@@ -126,8 +136,7 @@ function Product({ item }) {
                   </div>
                 </div>
               )
-            }
-          })}
+            })}
         </div>
       </div>
       <ReactPaginate

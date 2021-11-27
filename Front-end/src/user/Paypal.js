@@ -1,9 +1,36 @@
+import axios from "axios"
 import React, { useEffect, useRef } from "react"
+import { useHistory } from "react-router"
 import { useGlobalContext } from "../context"
 
 function Paypal({ value }) {
+  const userId = localStorage.getItem("id")
   const paypal = useRef()
-  const { setpaid } = useGlobalContext()
+  const history = useHistory()
+  const { orderData, setLoading } = useGlobalContext()
+
+  const handleCheckout = async () => {
+    setLoading(true)
+    const jwt = localStorage.getItem("jwt")
+
+    try {
+      let res = await axios({
+        method: "post",
+        url: "https://cnpmmbe.herokuapp.com/user/orderwithpaypal",
+        data: orderData,
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+      if (res.status === 201) {
+        localStorage.removeItem(`cart${userId}`)
+        setLoading(false)
+        history.push("/")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     window.paypal
@@ -21,7 +48,7 @@ function Paypal({ value }) {
         },
         onApprove: async (data, actions) => {
           const order = await actions.order.capture()
-          setpaid(true)
+          handleCheckout()
           return order
         },
         onError: (err) => console.log(err),

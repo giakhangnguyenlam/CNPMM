@@ -85,7 +85,6 @@ function AdminProduct() {
                         className='w200px store__nav-tab'
                         onClick={() => setAdminPage("user")}
                       >
-                        {" "}
                         Tất cả người dùng
                       </div>
                       <div
@@ -138,7 +137,7 @@ function AdminProduct() {
                             className='store-item w300x'
                             style={{ borderRight: "1px solid #979797" }}
                           >
-                            Username
+                            Ảnh sản phẩm
                           </div>
                           <div
                             className='store-item__info-nav--35'

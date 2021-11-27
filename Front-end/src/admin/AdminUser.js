@@ -43,6 +43,15 @@ function AdminPage() {
     }
   }, [allUser])
 
+  const handleSwap = () => {
+    if (adminPage === "user") {
+      setAdminPage("seller")
+    } else {
+      setAdminPage("user")
+    }
+    setAllUser()
+  }
+
   const handlePageClick = (event) => {
     const newOffset = (event.selected * 20) % allUser.length
     setItemOffset(newOffset)
@@ -63,9 +72,7 @@ function AdminPage() {
                       className={`w200px store__nav-tab ${
                         adminPage === "user" ? "store__nav-tab--active" : ""
                       }`}
-                      onClick={() =>
-                        adminPage === "seller" && setAdminPage("user")
-                      }
+                      onClick={() => handleSwap()}
                     >
                       Tất cả người dùng
                     </div>
@@ -73,9 +80,7 @@ function AdminPage() {
                       className={`w200px store__nav-tab ${
                         adminPage === "seller" ? "store__nav-tab--active" : ""
                       }`}
-                      onClick={() =>
-                        adminPage === "user" && setAdminPage("seller")
-                      }
+                      onClick={() => handleSwap()}
                     >
                       Tất cả người bán
                     </div>

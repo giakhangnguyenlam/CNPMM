@@ -116,52 +116,74 @@ function UserOrder() {
                   </div>
 
                   <div className='order__nav'>
-                    <div className='order__nav-item' style={{ width: "20%" }}>
-                      Mã đơn hàng
+                    <div className='order__nav-item' style={{ width: "10%" }}>
+                      Mã đơn
                     </div>
                     <div className='order__nav-item'>Ngày mua</div>
+                    <div className='order__nav-item' style={{ width: "40%" }}>
+                      Sản phẩm
+                    </div>
                     <div className='order__nav-item'>Tổng tiền</div>
                     <div
                       className='order__nav-item'
-                      style={{ width: "30%", textAlign: "center" }}
+                      style={{ width: "20%", textAlign: "right" }}
                     >
                       Trạng thái đơn hàng
                     </div>
                   </div>
                   {orderList ? (
-                    orderList.map((item) => {
-                      const {
-                        id,
-                        orderDate,
-                        total,
-                        orderStatus,
-                        paymentStatus,
-                      } = item
-                      return (
-                        <div className='order__body' key={id}>
+                    orderList.length ? (
+                      orderList.map((item) => {
+                        const { id, orderDate, total, product, paymentStatus } =
+                          item
+                        return (
                           <div
-                            className='order__nav-item order__id'
-                            style={{ width: "20%" }}
+                            className='order__body order__body--hover'
+                            key={id}
                             onClick={() => handleRedirect(`order/${id}`)}
                           >
-                            <span>{id}</span>
+                            <div
+                              className='order__nav-item order__id'
+                              style={{ width: "10%" }}
+                            >
+                              <span>{id}</span>
+                            </div>
+                            <div className='order__nav-item'>{orderDate}</div>
+                            <div
+                              className='order__nav-item'
+                              style={{ width: "40%" }}
+                            >
+                              {product.slice(0, product.length - 6)}
+                            </div>
+                            <div className='order__nav-item'>
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(total)}
+                            </div>
+                            <div
+                              className='order__nav-item'
+                              style={{ width: "20%", textAlign: "right" }}
+                            >
+                              {paymentStatus}
+                            </div>
                           </div>
-                          <div className='order__nav-item'>{orderDate}</div>
-                          <div className='order__nav-item'>
-                            {new Intl.NumberFormat("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            }).format(total)}
-                          </div>
-                          <div
-                            className='order__nav-item'
-                            style={{ width: "30%", textAlign: "right" }}
-                          >
-                            {`${orderStatus}, ${paymentStatus}`}
-                          </div>
-                        </div>
-                      )
-                    })
+                        )
+                      })
+                    ) : (
+                      <div
+                        className='order__body'
+                        style={{
+                          width: "100%",
+                          height: "378px",
+                          fontSize: "24px",
+                          borderBottom: "none",
+                          justifyContent: "center",
+                        }}
+                      >
+                        Không có đơn hàng
+                      </div>
+                    )
                   ) : (
                     <div
                       className='order__body'

@@ -3,7 +3,7 @@ import { IoLocationSharp } from "react-icons/io5"
 import { useGlobalContext } from "../context"
 import Paypal from "./Paypal"
 import axios from "axios"
-import Popup from "../Popup"
+import Loading from "../Loading"
 import { useHistory } from "react-router"
 
 function Checkout() {
@@ -12,7 +12,7 @@ function Checkout() {
   const phone = localStorage.getItem("phone")
   const address = localStorage.getItem("address")
   const cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
-  const { paid, orderData, raise, setRaise } = useGlobalContext()
+  const { loading, setLoading, orderData } = useGlobalContext()
   const [checkout, setCheckout] = useState({ type: false, card: false })
   const history = useHistory()
   let sum = 0
@@ -23,19 +23,12 @@ function Checkout() {
   }
 
   const handleCheckout = async () => {
+    setLoading(true)
     const jwt = localStorage.getItem("jwt")
-    let url = ""
-    if (paid && checkout.type) {
-      url = "https://cnpmmbe.herokuapp.com/user/orderwithpaypal"
-      console.log(url)
-    }
-    if (checkout.type === false) {
-      url = "https://cnpmmbe.herokuapp.com/user/order"
-    }
     try {
       let res = await axios({
         method: "post",
-        url,
+        url: "https://cnpmmbe.herokuapp.com/user/order",
         data: orderData,
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -43,6 +36,7 @@ function Checkout() {
       })
       if (res.status === 201) {
         localStorage.removeItem(`cart${userId}`)
+        setLoading(false)
         history.push("/")
       }
     } catch (error) {
@@ -271,7 +265,7 @@ function Checkout() {
               }}
             >
               <div className='cart__footer-warn'>
-                Nhấn "đặt hàng" đồng nghĩa với việc bạn tuân theo điêu khoản của
+                Nhấn "đặt hàng" đồng nghĩa với việc bạn tuân theo điều khoản của
                 shop.
               </div>
               <div
@@ -285,13 +279,7 @@ function Checkout() {
           </div>
         </div>
       </div>
-      {raise && (
-        <Popup
-          header={raise.header}
-          content={raise.content}
-          color={raise.color}
-        />
-      )}
+      {loading && <Loading />}
     </div>
   )
 }

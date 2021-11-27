@@ -42,8 +42,8 @@ function UserPass() {
   useEffect(() => {
     let role = localStorage.getItem("role")
     if (
-      role !== "ROLE_USER" ||
-      role !== "ROLE_SELLER" ||
+      role !== "ROLE_USER" &&
+      role !== "ROLE_SELLER" &&
       role !== "ROLE_SHIPPER"
     ) {
       history.push("/")

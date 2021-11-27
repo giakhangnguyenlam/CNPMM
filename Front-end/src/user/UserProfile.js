@@ -60,8 +60,8 @@ function UserProfile() {
 
   useEffect(() => {
     if (
-      role !== "ROLE_USER" ||
-      role !== "ROLE_SELLER" ||
+      role !== "ROLE_USER" &&
+      role !== "ROLE_SELLER" &&
       role !== "ROLE_SHIPPER"
     ) {
       history.push("/")

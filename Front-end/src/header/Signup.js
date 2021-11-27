@@ -120,27 +120,29 @@ const Signup = () => {
         dateofbirth: `${dd}-${mm}-${yyyy}`,
       })
       if (res.status === 201) {
-        const {
-          id,
-          name,
-          dateofbirth,
-          email,
-          address,
-          phone,
-          gender,
-          jwt,
-          role,
-        } = res.data
-        localStorage.setItem("id", id)
-        localStorage.setItem("name", name)
-        localStorage.setItem("dateofbirth", dateofbirth)
-        localStorage.setItem("email", email)
-        localStorage.setItem("address", address)
-        localStorage.setItem("phone", phone)
-        localStorage.setItem("gender", gender)
-        localStorage.setItem("jwt", jwt)
-        localStorage.setItem("role", role)
-        localStorage.setItem("expire", new Date().getTime() + 43200000)
+        if (isSignup || isSellerSignup) {
+          const {
+            id,
+            name,
+            dateofbirth,
+            email,
+            address,
+            phone,
+            gender,
+            jwt,
+            role,
+          } = res.data
+          localStorage.setItem("id", id)
+          localStorage.setItem("name", name)
+          localStorage.setItem("dateofbirth", dateofbirth)
+          localStorage.setItem("email", email)
+          localStorage.setItem("address", address)
+          localStorage.setItem("phone", phone)
+          localStorage.setItem("gender", gender)
+          localStorage.setItem("jwt", jwt)
+          localStorage.setItem("role", role)
+          localStorage.setItem("expire", new Date().getTime() + 43200000)
+        }
         setLoading(false)
         setReloadSell(!reloadSell)
         setIsSignup(false)

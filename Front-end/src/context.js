@@ -6,7 +6,6 @@ const AppProvider = ({ children }) => {
   const [searchInfo, setSearchInfo] = useState("")
   const [body, setBody] = useState([])
   const [orderData, setOrderData] = useState([])
-  const [paid, setpaid] = useState(false)
 
   const [isAdmin, setIsAdmin] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
@@ -110,7 +109,6 @@ const AppProvider = ({ children }) => {
         searchInfo,
         body,
         orderData,
-        paid,
         isAdmin,
         isLogin,
         isSignup,
@@ -143,7 +141,6 @@ const AppProvider = ({ children }) => {
         setSearchInfo,
         setBody,
         setOrderData,
-        setpaid,
         setIsAdmin,
         setIsLogin,
         setIsSignup,

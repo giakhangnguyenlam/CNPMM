@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { useHistory, useLocation } from "react-router"
 import { useGlobalContext } from "../context"
@@ -6,6 +6,7 @@ import { useGlobalContext } from "../context"
 function SearchBar() {
   const { setSearchInfo, body } = useGlobalContext()
   const [valid, setValid] = useState({ state: false, value: "" })
+  const [items, setItems] = useState()
   let ref = useRef()
   let ref2 = useRef()
   const history = useHistory()
@@ -32,11 +33,21 @@ function SearchBar() {
       history.push("/")
     }
   }
-  const checkValid = (e) => {
+  const checkValid = async (e) => {
     if (e.target.value !== "") {
       setValid({ state: true, value: e.target.value })
     }
   }
+
+  useEffect(() => {
+    let ar = body
+      .filter(
+        (item, index) =>
+          item.name.toLowerCase().indexOf(valid.value.toLowerCase()) + 1
+      )
+      .slice(0, body.length > 5 ? 5 : body.length)
+    setItems(ar)
+  }, [valid.value])
 
   return (
     <div className='header__search'>
@@ -45,32 +56,26 @@ function SearchBar() {
           ref={ref}
           type='text'
           className='header__search-input'
-          placeholder='Nhập để tìm kiếm sản phẩm'
-          onChange={checkValid}
+          placeholder='Nhập tên sản phẩm để tìm kiếm'
+          onChange={(e) => checkValid(e)}
         />
         <div className='header__search-history' ref={ref2}>
           <h3 className='header__search-history-heading'>Lịch sử tìm kiếm</h3>
           <ul className='header__search-history-list'>
             {valid.state
-              ? body
-                  .slice(0, body.length > 5 ? 5 : body.length)
-                  .map((item, index) => {
-                    if (
-                      item.name
-                        .toLowerCase()
-                        .includes(valid.value.toLowerCase())
-                    ) {
-                      return (
-                        <li
-                          className='header__search-history-item'
-                          key={index}
-                          onClick={() => handleSearch(item.name)}
-                        >
-                          <div>{item.name}</div>
-                        </li>
-                      )
-                    }
+              ? items
+                ? items.map((item, index) => {
+                    return (
+                      <li
+                        className='header__search-history-item'
+                        key={index}
+                        onClick={() => handleSearch(item.name)}
+                      >
+                        <div>{item.name}</div>
+                      </li>
+                    )
                   })
+                : ""
               : his.length
               ? his
                   .slice(0, his.length > 5 ? 5 : his.length)

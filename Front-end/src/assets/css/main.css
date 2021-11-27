@@ -1444,6 +1444,15 @@ i.product-item__action-liked-icon {
   overflow-x: hidden;
 }
 
+.store__contain-loading {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 820px;
+  font-size: 26px;
+}
+
 .store__contain-item {
   display: flex;
   flex-wrap: wrap;
@@ -2456,8 +2465,9 @@ i.product-item__action-liked-icon {
 }
 
 .order__nav-item {
-  width: 25%;
+  width: 15%;
   padding: 20px 10px;
+  text-align: center;
 }
 
 .order__body {
@@ -2469,9 +2479,13 @@ i.product-item__action-liked-icon {
   color: var(--text-color);
 }
 
+.order__body--hover:hover {
+  background-color: #a9e7ff8a;
+  cursor: pointer;
+}
+
 .order__id span {
   color: #0b74e5;
-  cursor: pointer;
   line-height: 18px;
   font-size: 14px;
 }

@@ -238,6 +238,7 @@ function SingleProduct() {
     }
   }
   useEffect(() => {
+    document.documentElement.scrollTop = 0
     const fetch = async () => {
       setLoading(true)
       let res = await fetchData()

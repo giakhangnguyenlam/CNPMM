@@ -144,7 +144,7 @@ function ModalDetailCreate() {
         <div className='auth-form'>
           <div className='auth-form__container'>
             <div className='auth-form__header'>
-              <h3 className='auth-form__heading'>
+              <h3 className='auth-form__heading' style={{ margin: "10px 0" }}>
                 {isStep2.state ? "Chi tiết sản phẩm" : "Thêm sản phẩm"}
               </h3>
             </div>
@@ -236,7 +236,7 @@ function ModalDetailCreate() {
 
             <div
               className='auth-form__controls'
-              style={{ justifyContent: "center" }}
+              style={{ justifyContent: "center", margin: "10px 0" }}
             >
               <button
                 className='btn btn--normal auth-form__controls-back'

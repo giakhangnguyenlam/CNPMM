@@ -10,7 +10,8 @@ import Popup from "../Popup"
 function AlreadyOrder() {
   const jwt = localStorage.getItem("jwt")
   const shipperId = localStorage.getItem("id")
-  const { loading, setLoading, raise, setRaise } = useGlobalContext()
+  const { loading, setLoading, raise, setRaise, reloadSell, setReloadSell } =
+    useGlobalContext()
   const [shipperPage, setShipperPage] = useState("all")
   const [allOrder, setAllOrder] = useState()
   const [pageCount, setPageCount] = useState(0)
@@ -36,6 +37,7 @@ function AlreadyOrder() {
         },
       })
       if (res.status === 201) {
+        setReloadSell(!reloadSell)
         setLoading(false)
         setRaise({
           header: "Nhận giao đơn hàng",
@@ -75,7 +77,7 @@ function AlreadyOrder() {
     } else {
       history.push("/")
     }
-  }, [shipperPage])
+  }, [shipperPage, reloadSell])
 
   useEffect(() => {
     if (allOrder) {

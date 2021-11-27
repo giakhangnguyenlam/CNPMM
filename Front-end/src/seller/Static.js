@@ -6,8 +6,7 @@ function Static() {
   const jwt = localStorage.getItem("jwt")
   const wFit = window.screen.availWidth * 0.8
   const hFit = window.screen.availHeight * 0.835
-  const { setIsStatic, idStoreUpdate, reloadSell, setReloadSell } =
-    useGlobalContext()
+  const { setIsStatic, idStoreUpdate, reloadSell } = useGlobalContext()
   const [screen, setScreen] = useState(false)
   const [orders, setOrders] = useState()
   let today = new Date()
@@ -20,7 +19,7 @@ function Static() {
 
   const fetchData = async () => {
     let url = ""
-    let dateUWant = new Date(date.date)
+    let dateUWant = new Date(`${date.date} `)
     let dateUHave = new Date(Date.now())
     if (dateUWant <= dateUHave) {
       if (date.type === "all") {
@@ -63,7 +62,7 @@ function Static() {
   useEffect(() => {
     setScreen(false)
     fetchData()
-  }, [date, reloadSell])
+  }, [date])
 
   return (
     <div className='modal'>
@@ -88,20 +87,33 @@ function Static() {
                   <option value='day'>Ngày</option>
                   <option value='my'>Tháng Năm</option>
                 </select>
-                <input
-                  type='date'
-                  className='order__date'
-                  value={date.date}
-                  onChange={(e) => {
-                    if (date.type === "all") {
+                {date.type === "all" || date.type === "day" ? (
+                  <input
+                    type='date'
+                    className='order__date'
+                    value={date.date}
+                    onChange={(e) => {
+                      if (date.type === "all") {
+                        setOrders(undefined)
+                        newDate({ type: "day", date: e.target.value })
+                      } else {
+                        setOrders(undefined)
+                        newDate({ ...date, date: e.target.value })
+                      }
+                    }}
+                  />
+                ) : (
+                  <input
+                    type='month'
+                    className='order__date'
+                    value={date.date.slice(0, 7)}
+                    onChange={(e) => {
                       setOrders(undefined)
-                      newDate({ type: "day", date: e.target.value })
-                    } else {
-                      setOrders(undefined)
-                      newDate({ ...date, date: e.target.value })
-                    }
-                  }}
-                />
+                      newDate({ ...date, date: `${e.target.value}-01` })
+                      console.log(date)
+                    }}
+                  />
+                )}
               </div>
               <div className='store-product__header-nav'>
                 <div className='w60x store-product__header-nav-item w10'>
