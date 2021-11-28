@@ -238,14 +238,17 @@ function ModalDetailCreate() {
               className='auth-form__controls'
               style={{ justifyContent: "center", margin: "10px 0" }}
             >
-              <button
-                className='btn btn--normal auth-form__controls-back'
-                onClick={() => {
-                  isStep2.state ? setIsStep2(false) : setIsDetailCreate(false)
-                }}
-              >
-                TRỞ LẠI
-              </button>
+              {isStep2.state === false && (
+                <button
+                  className='btn btn--normal auth-form__controls-back'
+                  onClick={() => {
+                    setIsDetailCreate(false)
+                  }}
+                >
+                  TRỞ LẠI
+                </button>
+              )}
+
               <button
                 className='btn btn--primary'
                 onClick={(e) => handleSubmit(e)}

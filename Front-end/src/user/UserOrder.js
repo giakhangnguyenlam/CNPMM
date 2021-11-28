@@ -24,7 +24,7 @@ function UserOrder() {
         },
       })
       if (res.status === 200) {
-        setOrderList(res.data)
+        setOrderList(res.data.reverse())
       }
     } catch (error) {}
   }
@@ -119,14 +119,19 @@ function UserOrder() {
                     <div className='order__nav-item' style={{ width: "10%" }}>
                       Mã đơn
                     </div>
-                    <div className='order__nav-item'>Ngày mua</div>
-                    <div className='order__nav-item' style={{ width: "40%" }}>
+                    <div className='order__nav-item' style={{ width: "10%" }}>
+                      Ngày mua
+                    </div>
+                    <div className='order__nav-item' style={{ width: "33%" }}>
                       Sản phẩm
                     </div>
                     <div className='order__nav-item'>Tổng tiền</div>
+                    <div className='order__nav-item' style={{ width: "14%" }}>
+                      Thanh toán
+                    </div>
                     <div
                       className='order__nav-item'
-                      style={{ width: "20%", textAlign: "right" }}
+                      style={{ width: "18%", textAlign: "right" }}
                     >
                       Trạng thái đơn hàng
                     </div>
@@ -134,8 +139,14 @@ function UserOrder() {
                   {orderList ? (
                     orderList.length ? (
                       orderList.map((item) => {
-                        const { id, orderDate, total, product, paymentStatus } =
-                          item
+                        const {
+                          id,
+                          orderDate,
+                          total,
+                          product,
+                          paymentStatus,
+                          orderStatus,
+                        } = item
                         return (
                           <div
                             className='order__body order__body--hover'
@@ -148,10 +159,15 @@ function UserOrder() {
                             >
                               <span>{id}</span>
                             </div>
-                            <div className='order__nav-item'>{orderDate}</div>
                             <div
                               className='order__nav-item'
-                              style={{ width: "40%" }}
+                              style={{ width: "10%" }}
+                            >
+                              {orderDate}
+                            </div>
+                            <div
+                              className='order__nav-item'
+                              style={{ width: "33%" }}
                             >
                               {product.slice(0, product.length - 6)}
                             </div>
@@ -163,9 +179,19 @@ function UserOrder() {
                             </div>
                             <div
                               className='order__nav-item'
-                              style={{ width: "20%", textAlign: "right" }}
+                              style={{ width: "14%" }}
                             >
                               {paymentStatus}
+                            </div>
+                            <div
+                              className='order__nav-item'
+                              style={{
+                                width: "18%",
+                                textAlign: "right",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {orderStatus}
                             </div>
                           </div>
                         )

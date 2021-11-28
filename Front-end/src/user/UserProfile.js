@@ -1,6 +1,8 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
+import Popup from "../Popup"
+import { useGlobalContext } from "../context"
 
 function UserProfile() {
   console.log("4")
@@ -8,6 +10,8 @@ function UserProfile() {
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
   const role = localStorage.getItem("role")
+
+  const { loading, setLoading, raise, setRaise } = useGlobalContext()
 
   const history = useHistory()
   const [user, setUser] = useState({
@@ -25,6 +29,7 @@ function UserProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     const dateBirth = user.dateofbirth
     const dd = dateBirth.slice(8)
     const mm = dateBirth.slice(5, 7)
@@ -52,6 +57,12 @@ function UserProfile() {
         localStorage.setItem("gender", gender)
         localStorage.setItem("jwt", jwt)
         localStorage.setItem("phone", phone)
+        setRaise({
+          header: "Cập nhật thông tin",
+          content: "Cập nhật thành công!",
+          color: "#4bb534",
+        })
+        setLoading(false)
       }
     } catch (error) {
       console.log(error)
@@ -182,7 +193,7 @@ function UserProfile() {
                           className='auth-form__input'
                           value={user.phone}
                           onChange={(e) =>
-                            setUser({ ...user, email: e.target.value })
+                            setUser({ ...user, phone: e.target.value })
                           }
                         />
                       </div>
@@ -248,6 +259,22 @@ function UserProfile() {
           </div>
         </div>
       </div>
+      {loading && (
+        <div className='modal__overlay' style={{ zIndex: "5", top: "0" }}>
+          <div className='loading'>
+            <div className='loading__one'></div>
+            <div className='loading__two'></div>
+            <div className='loading__three'></div>
+          </div>
+        </div>
+      )}
+      {raise && (
+        <Popup
+          header={raise.header}
+          content={raise.content}
+          color={raise.color}
+        />
+      )}
     </div>
   )
 }

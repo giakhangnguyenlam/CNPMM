@@ -8,8 +8,15 @@ import Popup from "../Popup"
 
 function AdminStore() {
   const jwt = localStorage.getItem("jwtA")
-  const { setAdminPage, loading, setLoading, raise, setRaise } =
-    useGlobalContext()
+  const {
+    setAdminPage,
+    loading,
+    setLoading,
+    raise,
+    setRaise,
+    reloadSell,
+    setReloadSell,
+  } = useGlobalContext()
   const [allStore, setAllStore] = useState()
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
@@ -31,7 +38,7 @@ function AdminStore() {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [reloadSell])
 
   useEffect(() => {
     if (allStore) {
@@ -52,6 +59,7 @@ function AdminStore() {
           },
         })
         if (res.status === 200) {
+          setReloadSell(!reloadSell)
           setLoading(false)
           setRaise({
             header: "Xóa cửa hàng",
@@ -257,7 +265,7 @@ function AdminStore() {
           </div>
         </div>
         {loading && (
-          <div className='modal__overlay' style={{ zIndex: "2", top: "0" }}>
+          <div className='modal__overlay' style={{ zIndex: "5", top: "0" }}>
             <div className='loading'>
               <div className='loading__one'></div>
               <div className='loading__two'></div>
