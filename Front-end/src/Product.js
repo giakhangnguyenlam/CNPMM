@@ -6,45 +6,10 @@ import { useHistory } from "react-router"
 import { useGlobalContext } from "./context"
 
 function Product({ item }) {
-  const { cate, cateType, searchInfo, body, setBody } = useGlobalContext()
+  const { searchInfo, body } = useGlobalContext()
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
   const history = useHistory()
-  let url = "https://cnpmmbe.herokuapp.com/product"
-  let categoryy =
-    (cate === "1" && "clothes") ||
-    (cate === "2" && "shoes") ||
-    (cate === "3" && "accessories")
-
-  if (cate) {
-    url = `https://cnpmmbe.herokuapp.com/product/category/${cate}`
-    if (cateType) {
-      url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/${cateType}`
-    }
-    if (cateType === "khac1" || cateType === "khac2") {
-      url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/khac`
-    }
-  }
-
-  useEffect(() => {}, [searchInfo])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let res = await axios({
-          method: "GET",
-          url,
-        })
-        if (res.status === 200) {
-          let arr = await res.data.filter((item) => item !== null)
-          await setBody(arr)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  }, [cate, cateType])
 
   useEffect(() => {
     setPageCount(

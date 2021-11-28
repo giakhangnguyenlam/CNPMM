@@ -9,7 +9,7 @@ function UserPass() {
   const userid = localStorage.getItem("id")
   const name = localStorage.getItem("name")
   const role = localStorage.getItem("role")
-  const [password, setPassword] = useState({ old: "", new: "", username: "" })
+  const [password, setPassword] = useState({ old: "", new: "", re: "" })
   const history = useHistory()
   const { loading, setLoading, raise, setRaise } = useGlobalContext()
 
@@ -19,70 +19,48 @@ function UserPass() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let url1 = "https://cnpmmbe.herokuapp.com/login"
     let url = `https://cnpmmbe.herokuapp.com/user/password/${userid}`
     if (role === "ROLE_SELLER") {
-      url1 = "https://cnpmmbe.herokuapp.com/seller/login"
       url = `https://cnpmmbe.herokuapp.com/seller/password/${userid}`
     }
-    if (
-      password.username === "" ||
-      password.old === "" ||
-      password.new === ""
-    ) {
+    if (password.re === "" || password.old === "" || password.new === "") {
       setRaise({
         header: "Thông báo",
         content: "Vui lòng nhập đầy đủ thông tin",
+        color: "#f0541e",
+      })
+    } else if (password.re !== password.new) {
+      setRaise({
+        header: "Thông báo",
+        content: "Mật khẩu nhập lại không trùng khớp",
         color: "#f0541e",
       })
     } else {
       setLoading(true)
       try {
         let res = await axios({
-          method: "post",
-          url: url1,
-          data: { username: password.username, password: password.old },
-          headers: { "Access-Control-Allow-Origin": "*" },
-          responseType: "json",
+          method: "PUT",
+          url,
+          data: { password: password.new, oldPassword: password.old },
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
         })
-        if (res.status === 200 && res.data.id === Number(userid)) {
+        if (res.status === 200) {
+          setPassword({ old: "", new: "", re: "" })
           localStorage.setItem("jwt", res.data.jwt)
-          jwt = localStorage.getItem("jwt")
-          try {
-            let res = await axios({
-              method: "PUT",
-              url,
-              data: { password: password.new },
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            })
-            if (res.status === 200) {
-              setPassword({ old: "", new: "", username: "" })
-              localStorage.setItem("jwt", res.data.jwt)
-              setLoading(false)
-              setRaise({
-                header: "Thay đổi thông tin",
-                content: "Đổi mật khẩu thành công",
-                color: "#4bb534",
-              })
-            }
-          } catch (error) {
-            console.log(error)
-          }
-        } else {
           setLoading(false)
           setRaise({
-            header: "Thông báo",
-            content: "Tài khoản không trùng khớp với tài khoản đang dùng",
-            color: "#dc143c",
+            header: "Thay đổi thông tin",
+            content: "Đổi mật khẩu thành công",
+            color: "#4bb534",
           })
         }
       } catch (error) {
         setLoading(false)
         setRaise({
-          header: "Thông báo",
-          content: error.response.data.mess,
+          header: "Thay đổi thông tin",
+          content: "Đổi mật khẩu thất bại, vui lòng xem lại mật khẩu cũ",
           color: "#dc143c",
         })
       }
@@ -185,27 +163,6 @@ function UserPass() {
                           className='auth-form__label'
                           style={{ width: "25%" }}
                         >
-                          Tài khoản
-                        </label>
-                        <input
-                          type='text'
-                          className='auth-form__input'
-                          value={password.username}
-                          onChange={(e) =>
-                            setPassword({
-                              ...password,
-                              username: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className='auth-form__group'>
-                      <div className='auth-form__group-item'>
-                        <label
-                          className='auth-form__label'
-                          style={{ width: "25%" }}
-                        >
                           Mật khẩu cũ
                         </label>
                         <input
@@ -218,7 +175,7 @@ function UserPass() {
                         />
                       </div>
                     </div>
-                    <div className='autho-form__group'>
+                    <div className='auth-form__group'>
                       <div className='auth-form__group-item'>
                         <label
                           className='auth-form__label'
@@ -232,6 +189,27 @@ function UserPass() {
                           value={password.new}
                           onChange={(e) =>
                             setPassword({ ...password, new: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className='auth-form__group'>
+                      <div className='auth-form__group-item'>
+                        <label
+                          className='auth-form__label'
+                          style={{ width: "25%" }}
+                        >
+                          Nhập lại mật khẩu mới
+                        </label>
+                        <input
+                          type='password'
+                          className='auth-form__input'
+                          value={password.re}
+                          onChange={(e) =>
+                            setPassword({
+                              ...password,
+                              re: e.target.value,
+                            })
                           }
                         />
                       </div>

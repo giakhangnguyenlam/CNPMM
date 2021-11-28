@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react"
+import axios from "axios"
+import React, { useState, useContext, useEffect } from "react"
 
 const AppContext = React.createContext()
 
@@ -102,6 +103,40 @@ const AppProvider = ({ children }) => {
       material: "",
       productId: "",
     })
+
+  useEffect(() => {
+    let url = "https://cnpmmbe.herokuapp.com/product"
+    let categoryy =
+      (cate === "1" && "clothes") ||
+      (cate === "2" && "shoes") ||
+      (cate === "3" && "accessories")
+
+    if (cate) {
+      url = `https://cnpmmbe.herokuapp.com/product/category/${cate}`
+      if (cateType) {
+        url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/${cateType}`
+      }
+      if (cateType === "khac1" || cateType === "khac2") {
+        url = `https://cnpmmbe.herokuapp.com/product/category/${categoryy}/khac`
+      }
+    }
+
+    const fetchData = async () => {
+      try {
+        let res = await axios({
+          method: "GET",
+          url,
+        })
+        if (res.status === 200) {
+          let arr = await res.data.filter((item) => item !== null)
+          await setBody(arr)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [cate, cateType])
 
   return (
     <AppContext.Provider
