@@ -12,7 +12,7 @@ function Body() {
       <div className='grid'>
         <div className='grid__row contain'>
           <div className='grid__colum-2'>
-            <nav className='category'>
+            <nav className='category' style={{ marginBottom: "10px" }}>
               <h3 className='category__heading'>
                 <i className='category__heading-icon fas fa-list'></i>
                 Danh mục

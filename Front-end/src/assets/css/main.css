@@ -739,7 +739,7 @@ i.product-item__action-liked-icon {
 }
 
 .auth-form__multiple--choice {
-  background-color: #dd4533;
+  background-color: var(--primary-color);
   box-shadow: 1px 1px 1px #c4c3c3;
   color: var(--white-color);
   border: none;

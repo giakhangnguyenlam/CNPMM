@@ -149,7 +149,7 @@ function ModalDetailCreate() {
     <div className='modal'>
       <div
         className='modal__overlay'
-        onClick={() => setIsDetailCreate(false)}
+        onClick={() => isStep2.state === false && setIsDetailCreate(false)}
       ></div>
       <div className='modal__body'>
         <div className='auth-form'>

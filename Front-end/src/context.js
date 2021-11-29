@@ -6,6 +6,7 @@ const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [searchInfo, setSearchInfo] = useState("")
   const [body, setBody] = useState([])
+  const [isReady, setReady] = useState(false)
   const [orderData, setOrderData] = useState([])
 
   const [isAdmin, setIsAdmin] = useState(false)
@@ -122,6 +123,7 @@ const AppProvider = ({ children }) => {
     }
 
     const fetchData = async () => {
+      setReady(false)
       try {
         let res = await axios({
           method: "GET",
@@ -130,6 +132,7 @@ const AppProvider = ({ children }) => {
         if (res.status === 200) {
           let arr = await res.data.filter((item) => item !== null)
           await setBody(arr)
+          setReady(true)
         }
       } catch (error) {
         console.log(error)
@@ -143,6 +146,7 @@ const AppProvider = ({ children }) => {
       value={{
         searchInfo,
         body,
+        isReady,
         orderData,
         isAdmin,
         isLogin,
