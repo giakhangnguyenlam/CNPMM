@@ -5,14 +5,16 @@ import Paypal from "./Paypal"
 import axios from "axios"
 import Loading from "../Loading"
 import { useHistory } from "react-router"
+import Popup from "../Popup"
 
 function Checkout() {
   const userId = localStorage.getItem("id")
   const name = localStorage.getItem("name")
   const phone = localStorage.getItem("phone")
   const address = localStorage.getItem("address")
+  const [height, setHeight] = useState(0)
   const cartInfo = JSON.parse(localStorage.getItem(`cart${userId}`)) || []
-  const { loading, setLoading, orderData } = useGlobalContext()
+  const { loading, setLoading, orderData, raise, setRaise } = useGlobalContext()
   const [checkout, setCheckout] = useState({ type: false, card: false })
   const history = useHistory()
   let sum = 0
@@ -23,24 +25,33 @@ function Checkout() {
   }
 
   const handleCheckout = async () => {
-    setLoading(true)
-    const jwt = localStorage.getItem("jwt")
-    try {
-      let res = await axios({
-        method: "post",
-        url: "https://cnpmmbe.herokuapp.com/user/order",
-        data: orderData,
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
+    if (checkout.type) {
+      setRaise({
+        header: "Thông báo",
+        content:
+          "Vui lòng nhấn vào Thanh toán bằng paypal và tiến hành thanh toán",
+        color: "#f0541e",
       })
-      if (res.status === 201) {
-        localStorage.removeItem(`cart${userId}`)
-        setLoading(false)
-        history.push("/")
+    } else {
+      setLoading(true)
+      const jwt = localStorage.getItem("jwt")
+      try {
+        let res = await axios({
+          method: "post",
+          url: "https://cnpmmbe.herokuapp.com/user/order",
+          data: orderData,
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        if (res.status === 201) {
+          localStorage.removeItem(`cart${userId}`)
+          setLoading(false)
+          history.push("/")
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -50,6 +61,21 @@ function Checkout() {
       history.push("/cart")
     }
   }, [])
+
+  useEffect(() => {
+    let body = document.body,
+      html = document.documentElement
+
+    setHeight(
+      Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      )
+    )
+  }, [checkout])
 
   return (
     <div className='container'>
@@ -269,7 +295,9 @@ function Checkout() {
                 shop.
               </div>
               <div
-                className='btn btn--primary btn-enhance'
+                className={`btn btn--primary btn-enhance ${
+                  checkout.type && "cart__btn--disable"
+                }`}
                 style={{ fontSize: "1.6rem", width: "250px" }}
                 onClick={handleCheckout}
               >
@@ -279,7 +307,25 @@ function Checkout() {
           </div>
         </div>
       </div>
-      {loading && <Loading />}
+      {loading && (
+        <div
+          className='modal__overlay'
+          style={{ zIndex: "5", top: "0", height }}
+        >
+          <div className='loading'>
+            <div className='loading__one'></div>
+            <div className='loading__two'></div>
+            <div className='loading__three'></div>
+          </div>
+        </div>
+      )}
+      {raise && (
+        <Popup
+          header={raise.header}
+          content={raise.content}
+          color={raise.color}
+        />
+      )}
     </div>
   )
 }

@@ -2438,6 +2438,11 @@ i.product-item__action-liked-icon {
   color: rgba(0, 0, 0, 0.5);
 }
 
+.cart__btn--disable {
+  opacity: 0.8;
+  cursor: no-drop;
+}
+
 .cart__finalPrice {
   width: 25%;
   color: var(--text-color);

@@ -24,6 +24,7 @@ function ModalDetailCreate() {
     loading,
     setLoading,
   } = useGlobalContext()
+  const [error, setError] = useState()
   const [isStep2, setIsStep2] = useState({ state: false, productId: 1 })
   const [newProduct, setNewProduct] = useState({
     storeid: idStoreUpdate.id,
@@ -48,56 +49,66 @@ function ModalDetailCreate() {
     }
   }
   const uploadData = async () => {
-    setLoading(true)
-    const data = new FormData()
-    data.append("storeid", newProduct.storeid)
-    data.append("category", newProduct.category)
-    data.append("name", newProduct.name)
-    data.append("quantity", newProduct.quantity)
-    data.append("price", newProduct.price)
-    data.append("description", newProduct.desc)
-    data.append("file", newProduct.file)
-    try {
-      let res = await axios({
-        method: "post",
-        url: "https://cnpmmbe.herokuapp.com/seller/product",
-        data,
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      if (res.status === 201) {
-        setIsStep2({ ...isStep2, productId: res.data.id, state: true })
-        setLoading(false)
+    const isEmpty = Object.values(newProduct).includes("")
+    if (isEmpty) {
+      setError("Vui lòng nhập đầy đủ thông tin")
+    } else {
+      setLoading(true)
+      const data = new FormData()
+      data.append("storeid", newProduct.storeid)
+      data.append("category", newProduct.category)
+      data.append("name", newProduct.name)
+      data.append("quantity", newProduct.quantity)
+      data.append("price", newProduct.price)
+      data.append("description", newProduct.desc)
+      data.append("file", newProduct.file)
+      try {
+        let res = await axios({
+          method: "post",
+          url: "https://cnpmmbe.herokuapp.com/seller/product",
+          data,
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        if (res.status === 201) {
+          setIsStep2({ ...isStep2, productId: res.data.id, state: true })
+          setLoading(false)
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
   const uploadCategory = async (url, data) => {
-    setLoading(true)
-    try {
-      let res = await axios({
-        method: "post",
-        url: `${url}`,
-        data,
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      if (res.status === 201) {
-        setReloadDetailStore(!reloadDetailStore)
-        setIsDetailCreate(false)
-        setLoading(false)
-        setRaise({
-          header: "Thêm sản phẩm",
-          content: "Thêm sản phẩm thành công!",
-          color: "#4bb534",
+    const isEmpty = Object.values(data).includes("")
+    if (isEmpty) {
+      setError("Vui lòng nhập đầy đủ thông tin")
+    } else {
+      setLoading(true)
+      try {
+        let res = await axios({
+          method: "post",
+          url: `${url}`,
+          data,
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
         })
+        if (res.status === 201) {
+          setReloadDetailStore(!reloadDetailStore)
+          setIsDetailCreate(false)
+          setLoading(false)
+          setRaise({
+            header: "Thêm sản phẩm",
+            content: "Thêm sản phẩm thành công!",
+            color: "#4bb534",
+          })
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -233,7 +244,7 @@ function ModalDetailCreate() {
                 </div>
               </div>
             )}
-
+            {error ? <p className='auth-form__error'>{error}</p> : " "}
             <div
               className='auth-form__controls'
               style={{ justifyContent: "center", margin: "10px 0" }}
