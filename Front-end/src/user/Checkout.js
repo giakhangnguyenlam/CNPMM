@@ -46,6 +46,11 @@ function Checkout() {
         })
         if (res.status === 201) {
           localStorage.removeItem(`cart${userId}`)
+          setRaise({
+            header: "Đặt hàng",
+            content: "Đặt hàng thành công",
+            color: "#4bb534",
+          })
           setLoading(false)
           history.push("/")
         }
@@ -56,7 +61,6 @@ function Checkout() {
   }
 
   useEffect(() => {
-    console.log("1")
     if (orderData.length === 0) {
       history.push("/cart")
     }
@@ -310,7 +314,7 @@ function Checkout() {
       {loading && (
         <div
           className='modal__overlay'
-          style={{ zIndex: "5", top: "0", height }}
+          style={{ zIndex: "101", top: "0", height }}
         >
           <div className='loading'>
             <div className='loading__one'></div>

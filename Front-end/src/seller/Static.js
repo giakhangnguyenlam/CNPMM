@@ -1,6 +1,7 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
+import exportFromJSON from "export-from-json"
 
 function Static() {
   const jwt = localStorage.getItem("jwt")
@@ -16,6 +17,41 @@ function Static() {
 
   today = yyyy + "-" + mm + "-" + dd
   const [date, newDate] = useState({ date: today, type: "all" })
+
+  const exportEx = () => {
+    let dateUWant = new Date(`${date.date} `)
+    let ndd = String(dateUWant.getDate()).padStart(2, "0")
+    let nmm = String(dateUWant.getMonth() + 1).padStart(2, "0")
+    let nyyyy = dateUWant.getFullYear()
+    if (orders) {
+      let fileName = ""
+      if (date.type === "all") {
+        fileName = "Thống kê tổng"
+      }
+      if (date.type === "day") {
+        fileName = `Thống kê ngày ${ndd}-${nmm}-${nyyyy}`
+      }
+      if (date.type === "my") {
+        fileName = `Thống kê tháng ${nmm}-${nyyyy}`
+      }
+      const data = orders.map((item) => {
+        const { orderId, quantity, description, productName, price, date, id } =
+          item
+        return {
+          id,
+          orderId,
+          date,
+          productName,
+          quantity,
+          price,
+          description,
+        }
+      })
+      const exportType = exportFromJSON.types.csv
+
+      exportFromJSON({ data, fileName, exportType, withBOM: true })
+    }
+  }
 
   const fetchData = async () => {
     let url = ""
@@ -76,6 +112,24 @@ function Static() {
             >
               <h3 className='store-product__heading'>Thống kê</h3>
               <div className='store-product__header-add'>
+                <div
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "20px",
+                    marginRight: "8px",
+                    border: "1px solid #fefefe",
+                    display: "inline-block",
+                    padding: "4px",
+                    backgroundColor: "var(--primary-color)",
+                    color: "var(--white-color)",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                  }}
+                  onClick={exportEx}
+                >
+                  Tải về
+                </div>
                 <label className='order__label'>Lọc theo:</label>
                 <select
                   className='order__date'

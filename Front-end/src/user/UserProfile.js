@@ -5,7 +5,6 @@ import Popup from "../ultis/Popup"
 import { useGlobalContext } from "../context"
 
 function UserProfile() {
-  console.log("4")
   const dob = localStorage.getItem("dateofbirth") || ""
   const jwt = localStorage.getItem("jwt")
   const userid = localStorage.getItem("id")
@@ -48,7 +47,6 @@ function UserProfile() {
         },
       })
       if (res.status === 200) {
-        console.log("done", res.data)
         let { name, dateofbirth, email, address, gender, jwt, phone } = res.data
         localStorage.setItem("name", name)
         localStorage.setItem("dateofbirth", dateofbirth)

@@ -2,6 +2,7 @@ import React from "react"
 import Product from "./Product"
 import { cateCloList, cateShoList, cateAccList } from "../ultis/data"
 import { useGlobalContext } from "../context"
+import Popup from "../ultis/Popup"
 
 function Body() {
   const { cate, cateType, setCate, setCateType, setCateName } =

@@ -279,7 +279,7 @@ function SingleProduct() {
       }
     }
     fetch()
-  })
+  }, [])
 
   const handlInput = (e) => {
     let newQuan = e.target.value
