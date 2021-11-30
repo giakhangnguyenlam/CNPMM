@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import asus from "../assets/img/tuf.jpg"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { useHistory } from "react-router"
 import blankCart from "../assets/img/blankCart.png"

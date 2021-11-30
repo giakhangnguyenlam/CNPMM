@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useState } from "react"
 import { AiFillStar } from "react-icons/ai"
 import { useGlobalContext } from "../context"
-import Loading from "../Loading"
+import Loading from "../ultis/Loading"
 
 function UserComment() {
   const productId = Number(localStorage.getItem("prodId"))

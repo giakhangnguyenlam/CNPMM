@@ -1,5 +1,4 @@
 import { React } from "react"
-import { IoLogoFacebook, IoLogoInstagram } from "react-icons/io"
 import { FaQuestionCircle } from "react-icons/fa"
 import { useGlobalContext } from "../context"
 import { useHistory } from "react-router"

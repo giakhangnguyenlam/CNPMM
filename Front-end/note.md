@@ -1,1 +1,0 @@
-điều kiện lúc up ảnh, phải có ảnh mới được

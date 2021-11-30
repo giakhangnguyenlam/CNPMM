@@ -1,6 +1,6 @@
 import React from "react"
 import { useGlobalContext } from "../../context"
-import { Colors } from "../../data"
+import { Colors } from "../../ultis/data"
 
 function CategoryAccessories() {
   const { cateAcc, setCateAcc } = useGlobalContext()

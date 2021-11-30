@@ -1,7 +1,7 @@
 import React from "react"
 import Product from "./Product"
-import { cateCloList, cateShoList, cateAccList } from "./data"
-import { useGlobalContext } from "./context"
+import { cateCloList, cateShoList, cateAccList } from "../ultis/data"
+import { useGlobalContext } from "../context"
 
 function Body() {
   const { cate, cateType, setCate, setCateType, setCateName } =

@@ -1,9 +1,8 @@
-import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { AiFillStar, AiFillHeart } from "react-icons/ai"
 import ReactPaginate from "react-paginate"
 import { useHistory } from "react-router"
-import { useGlobalContext } from "./context"
+import { useGlobalContext } from "../context"
 
 function Product({ item }) {
   const { searchInfo, body, isReady } = useGlobalContext()

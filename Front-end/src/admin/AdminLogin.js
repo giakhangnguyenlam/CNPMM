@@ -1,7 +1,7 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useGlobalContext } from "../context"
-import { formAuth } from "../data"
+import { formAuth } from "../ultis/data"
 import logo1 from "../assets/img/logo1.png"
 
 function AdminLogin() {
@@ -24,7 +24,6 @@ function AdminLogin() {
         url: "https://cnpmmbe.herokuapp.com/admin/login",
         data: account,
       })
-      console.log(res.data)
       if (res.status === 200) {
         if (localStorage.getItem("id")) {
           localStorage.removeItem("id")

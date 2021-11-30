@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useGlobalContext } from "../context"
-import { formAuth } from "../data"
-import Loading from "../Loading"
+import { formAuth } from "../ultis/data"
+import Loading from "../ultis/Loading"
 
 const Signup = () => {
   const hFit = window.screen.availHeight

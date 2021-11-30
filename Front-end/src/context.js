@@ -17,7 +17,6 @@ const AppProvider = ({ children }) => {
   const [cate, setCate] = useState("")
   const [cateType, setCateType] = useState("")
   const [cateName, setCateName] = useState("")
-  const [cart, setCart] = useState([])
 
   const [isCreateStore, setIsCreateStore] = useState(false)
   const [isUpdateStore, setIsUpdateStore] = useState(false)
@@ -156,7 +155,6 @@ const AppProvider = ({ children }) => {
         cate,
         cateType,
         cateName,
-        cart,
         reloadSell,
         reloadDetailStore,
         isCreateStore,
@@ -188,7 +186,6 @@ const AppProvider = ({ children }) => {
         setCate,
         setCateType,
         setCateName,
-        setCart,
         setReloadSell,
         setReloadDetailStore,
         setIsCreateStore,

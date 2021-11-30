@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react"
 import { useGlobalContext } from "../../context"
 import axios from "axios"
 import ModalStep2 from "./ModalStep2"
-import Loading from "../../Loading"
+import Loading from "../../ultis/Loading"
 
 function ModalDetailCreate() {
   const jwt = localStorage.getItem("jwt")

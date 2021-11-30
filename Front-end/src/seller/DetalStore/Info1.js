@@ -1,8 +1,8 @@
 import axios from "axios"
 import React, { useState } from "react"
 import { useGlobalContext } from "../../context"
-import { Colors, Sizes } from "../../data"
-import Loading from "../../Loading"
+import { Colors, Sizes } from "../../ultis/data"
+import Loading from "../../ultis/Loading"
 
 function Info1() {
   const jwt = localStorage.getItem("jwt")

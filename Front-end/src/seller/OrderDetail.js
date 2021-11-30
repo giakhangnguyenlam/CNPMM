@@ -1,7 +1,7 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
-import Loading from "../Loading"
+import Loading from "../ultis/Loading"
 
 function OrderDetail() {
   const jwt = localStorage.getItem("jwt")

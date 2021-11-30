@@ -4,7 +4,7 @@ import { AiOutlineCheck } from "react-icons/ai"
 import ReactPaginate from "react-paginate"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
-import Popup from "../Popup"
+import Popup from "../ultis/Popup"
 
 function AdminOrderUnpay() {
   const jwt = localStorage.getItem("jwtA")

@@ -3,9 +3,9 @@ import { IoLocationSharp } from "react-icons/io5"
 import { useGlobalContext } from "../context"
 import Paypal from "./Paypal"
 import axios from "axios"
-import Loading from "../Loading"
+import Loading from "../ultis/Loading"
 import { useHistory } from "react-router"
-import Popup from "../Popup"
+import Popup from "../ultis/Popup"
 
 function Checkout() {
   const userId = localStorage.getItem("id")

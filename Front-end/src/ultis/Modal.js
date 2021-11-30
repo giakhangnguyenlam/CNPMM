@@ -1,13 +1,13 @@
 import React from "react"
-import { useGlobalContext } from "./context"
-import Signup from "./header/Signup"
-import Login from "./header/Login"
-import CreateStore from "./seller/CreateStore"
-import UpdateStore from "./seller/UpdateStore"
-import DetailStore from "./seller/DetailStore"
-import UserComment from "./user/UserComment"
-import OrderDetail from "./seller/OrderDetail"
-import Static from "./seller/Static"
+import { useGlobalContext } from "../context"
+import Signup from "../header/Signup"
+import Login from "../header/Login"
+import CreateStore from "../seller/CreateStore"
+import UpdateStore from "../seller/UpdateStore"
+import DetailStore from "../seller/DetailStore"
+import UserComment from "../user/UserComment"
+import OrderDetail from "../seller/OrderDetail"
+import Static from "../seller/Static"
 function Modal() {
   const {
     isLogin,

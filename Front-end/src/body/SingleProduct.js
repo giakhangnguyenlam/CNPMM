@@ -3,23 +3,21 @@ import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router"
 import {
   AiOutlineRight,
-  AiOutlineDown,
   AiOutlineMinus,
   AiOutlinePlus,
   AiFillStar,
 } from "react-icons/ai"
-import { cateAccList, cateShoList, cateCloList } from "./data"
-import { useGlobalContext } from "./context"
-import blank from "./assets/img/blank.png"
-import noCmt from "./assets/img/noCmt.png"
-import Popup from "./Popup"
+import { cateAccList, cateShoList, cateCloList } from "../ultis/data"
+import { useGlobalContext } from "../context"
+import blank from "../assets/img/blank.png"
+import noCmt from "../assets/img/noCmt.png"
+import Popup from "../ultis/Popup"
 
 function SingleProduct() {
   const { id } = useParams()
   const {
     loading,
     setLoading,
-    cart,
     raise,
     setRaise,
     setIsLogin,
@@ -281,7 +279,7 @@ function SingleProduct() {
       }
     }
     fetch()
-  }, [])
+  })
 
   const handlInput = (e) => {
     let newQuan = e.target.value

@@ -7,7 +7,7 @@ import {
   AiOutlineDelete,
   AiOutlineInfoCircle,
 } from "react-icons/ai"
-import Loading from "../Loading"
+import Loading from "../ultis/Loading"
 
 function DetailStore() {
   const jwt = localStorage.getItem("jwt")

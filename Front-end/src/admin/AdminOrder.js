@@ -28,7 +28,7 @@ function AdminOrder() {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  })
 
   useEffect(() => {
     if (allOrder) {

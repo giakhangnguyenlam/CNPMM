@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router"
 import { useGlobalContext } from "../context"
-import Popup from "../Popup"
+import Popup from "../ultis/Popup"
 
 function BodySell() {
   const [storeList, setStoreList] = useState()

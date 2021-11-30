@@ -156,21 +156,11 @@ function AdminPage() {
                             address,
                             phone,
                             gender,
-                            role,
                           } = product
                           if (gender === "male") {
                             gender = "Nam"
                           } else if (gender === "female") {
                             gender = "Nữ"
-                          }
-                          if (role === "ROLE_USER") {
-                            role = "người dùng"
-                          } else if (role === "ROLE_SELLER") {
-                            role = "người bán hàng"
-                          } else if (role === "ROLE_ADMIN") {
-                            role = "người quản trị"
-                          } else if (role === "ROLE_SHIPPER") {
-                            role = "người giao hàng"
                           }
                           return (
                             <div className='store__contain-item' key={index}>
@@ -215,7 +205,10 @@ function AdminPage() {
                                     Phái: {gender}
                                   </div>
                                   <div className='store-item__info-item'>
-                                    Hiện đang là {role}
+                                    Hiện đang là{" "}
+                                    {adminPage === "user"
+                                      ? "người dùng"
+                                      : "người bán hàng"}
                                   </div>
                                 </div>
                               </div>

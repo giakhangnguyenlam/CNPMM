@@ -1,8 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useGlobalContext } from "../context"
-import { formAuth } from "../data"
-import Loading from "../Loading"
+import { formAuth } from "../ultis/data"
+import Loading from "../ultis/Loading"
 
 const Login = () => {
   const {

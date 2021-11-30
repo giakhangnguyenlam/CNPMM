@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate"
 import { useHistory } from "react-router"
 import logo1 from "../assets/img/logo1.png"
 import { useGlobalContext } from "../context"
-import Popup from "../Popup"
+import Popup from "../ultis/Popup"
 
 function AlreadyOrder() {
   const jwt = localStorage.getItem("jwt")
@@ -224,8 +224,8 @@ function AlreadyOrder() {
                                     <div
                                       className={`${
                                         shipperPage === "success"
-                                          ? "store-item__info-nav"
-                                          : "store-item__info-nav--35"
+                                          ? "store-item__info"
+                                          : "store-item__info--35"
                                       }`}
                                       style={{
                                         borderRight: "1px solid #979797",
@@ -241,8 +241,8 @@ function AlreadyOrder() {
                                     <div
                                       className={`${
                                         shipperPage === "success"
-                                          ? "store-item__info-nav"
-                                          : "store-item__info-nav--35"
+                                          ? "store-item__info"
+                                          : "store-item__info--35"
                                       }`}
                                       style={{
                                         borderRight: "1px solid #979797",
