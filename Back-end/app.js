@@ -10,19 +10,19 @@ require('./config/DBConnection');
 const cors = require('cors');
 
 // ==================> Declare router <=====================
-const {UserAuthenToken, SellerAuthenToken, AdminAuthenToken} = require('./middleware/JWTFilter')
+const {UserAuthenToken, SellerAuthenToken, AdminAuthenToken, ShipperAuthenToken} = require('./middleware/JWTFilter')
 
 const homeRouters = require('./routes/homeRoutes');
 const sellerRouters = require('./routes/sellerRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const shipperRoutes = require('./routes/shipperRoutes')
 
 var app = express();
 
 // ===========> view engine setup <=================
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 
 
 
@@ -42,7 +42,7 @@ app.use('/', homeRouters);
 app.use('/seller', SellerAuthenToken, sellerRouters);
 app.use('/user', UserAuthenToken, userRoutes);
 app.use('/admin', AdminAuthenToken, adminRoutes);
-
+app.use('/shipper', ShipperAuthenToken, shipperRoutes);
 
 // ========> catch 404 and forward to error handler <===============
 app.use(function(req, res, next) {

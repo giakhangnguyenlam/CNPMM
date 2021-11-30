@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 
+
 var signup = (req, res) => {
     User.findOne({username: req.body.username}, (err, user) => {
         if(err) return res.status(404).json({mess: err});
@@ -60,20 +61,29 @@ var updateUserWithPassword = (req, res) => {
     User.findOne({id: req.params.id}, (err, user) => {
         if(err) return res.status(404).json({mess: err});
         if(user!=null){
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if(err)  return res.status(404).json({mess: err})
-                user.password = hash;
-                user.save((err, result) => {
-                    if(err) return res.status(404).json({mess: err})
-                    const data = {
-                        username: result.username,
-                        role: 'ROLE_USER'
-                    }
-                    const accessToken =  jwt.sign(data, process.env.TOKEN_SECRET, {expiresIn:"24h"});
-                    let userModel = new UserModel(result.id, result.name, result.dateofbirth, result.email, result.address, result.gender, accessToken, 'ROLE_USER', result.phone);
-                    return res.status(200).json(userModel)
-                })
+            bcrypt.compare(req.body.oldPassword, user.password, (err, result) => {
+                if(err) return res.status(404).json({mess: err})
+                if(result === true){
+                    bcrypt.hash(req.body.password, 10, (err, hash) => {
+                        if(err)  return res.status(404).json({mess: err})
+                        user.password = hash;
+                        user.save((err, result) => {
+                            if(err) return res.status(404).json({mess: err})
+                            const data = {
+                                username: result.username,
+                                role: 'ROLE_USER'
+                            }
+                            const accessToken =  jwt.sign(data, process.env.TOKEN_SECRET, {expiresIn:"24h"});
+                            let userModel = new UserModel(result.id, result.name, result.dateofbirth, result.email, result.address, result.gender, accessToken, 'ROLE_USER', result.phone);
+                            return res.status(200).json(userModel)
+                        })
+                    })
+                }
+                else{
+                    return res.status(404).json({mess:"Old password incorrect"});
+                }
             })
+
         }
         else{
             res.status(404).json({mess: "User isn't existed"});

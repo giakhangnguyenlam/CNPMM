@@ -7,8 +7,8 @@ const {getCategoryShoesByProductId, getCategoryShoesByStyle} = require('../servi
 const {getAllProducts, getAllProductsByCategory, getProductByProductId} = require('../services/ProductService')
 const {sellerSignup, sellerLogin} = require('../services/SellerService')
 const {getCommentByProductId} = require('../services/CommentService')
-
 const {adminLogin} = require('../services/AdminService');
+const {ShipperLogin, ShipperSignup} = require('../services/ShipperService')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -47,6 +47,10 @@ router.post('/seller/signup', sellerSignup);
 router.post('/seller/login', sellerLogin);
 
 router.post('/admin/login', adminLogin);
+
+router.post('/shipper/signup', ShipperSignup);
+
+router.post('/shipper/login', ShipperLogin);
 
 
 module.exports = router;

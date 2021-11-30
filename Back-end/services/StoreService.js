@@ -39,13 +39,13 @@ var deleteStore = (req, res, next) => {
                     if(err)  return res.json({err: mess});
                 })
                 if(product.category == 1){
-                    deleteCategoryClothesByProductId(product.id);
+                    deleteCategoryClothesByProductId(product.id, req, res, next);
                 }
                 else if(product.category == 2){
-                    deleteCategoryShoesByProductId(product.id);
+                    deleteCategoryShoesByProductId(product.id, req, res, next);
                 }
                 else{
-                    deleteCategoryAccessoriesByProductId(product.id);
+                    deleteCategoryAccessoriesByProductId(product.id, req, res, next);
                 }
             }
         })

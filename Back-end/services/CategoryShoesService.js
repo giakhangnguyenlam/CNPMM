@@ -32,28 +32,27 @@ var updateCategoryShoes = (req, res, next) => {
 }
 
 var getCategoryShoesByProductId = (req, res, next) => {
-    CategoryShoes.find({productId: req.params.id}, (err, categoryShoes) => {
+    CategoryShoes.findOne({productId: req.params.id}, (err, categoryShoes) => {
         if(err) return res.status(404).json(err);
         return res.status(200).json(categoryShoes);
     })
 }
 
 var getCategoryShoesByStyle = (req, res, next) => {
-    CategoryShoes.find({style: req.params.style}, (err, categoryShoeses) => {
+    CategoryShoes.find({style: req.params.style}, async (err, categoryShoeses) => {
         if(err) return res.json(err)
         let product = [];
-        categoryShoeses.forEach((categoryShoes) => {
-            Product.findOne({id: categoryShoes.productId}, (err, result) => {
-                if(!err)
-                product.push(result);
-            })
-        })
+        
+        for (const categoryShoes of categoryShoeses) {
+            const obj = await Product.findOne({id: categoryShoes.productId})
+            product.push(obj);
+        }
 
         return res.status(200).json(product);
     })
 }
 
-var deleteCategoryShoesByProductId = (productId) => {
+var deleteCategoryShoesByProductId = (productId, req, res, next) => {
     CategoryShoes.deleteOne({productId: productId}, (err) => {
         if(err) return res.status(404).json(err);
         return res.status(200).json({mess: 'delete successfully'})

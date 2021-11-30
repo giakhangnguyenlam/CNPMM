@@ -34,22 +34,20 @@ var getCategoryAccessoriesByProductId = (req, res, next)  => {
 }
 
 var getCategoryAccessoriesByType = (req, res, next) => {
-    CategoryAccessories.find({type:req.params.type}, (err, categoryAccessorieses) => {
+    CategoryAccessories.find({type:req.params.type}, async (err, categoryAccessorieses) => {
         if(err) return res.json(err);
         let product = [];
-        categoryAccessorieses.forEach((categoryAccessories) => {
-            Product.findOne({id: categoryAccessories.productId}, (err, result) => {
-                if(!err){
-                    product.push(result);
-                }
-            })
-        })
+        
+        for (const categoryAccessories of categoryAccessorieses) {
+            const obj = await Product.findOne({id: categoryAccessories.productId});
+            product.push(obj);
+        }
 
         return res.status(200).json(product);
     })
 }
 
-var deleteCategoryAccessoriesByProductId = (productId) => {
+var deleteCategoryAccessoriesByProductId = (productId, req, res, next) => {
     CategoryAccessories.deleteOne({productId: productId}, (err) => {
         if(err) return res.status(404).json(err)
         return res.status(200).json({mess: 'delete successfully'})

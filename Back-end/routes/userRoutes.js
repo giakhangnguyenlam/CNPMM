@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {updateUserWithoutPassword,  updateUserWithPassword, getUserByUserId} = require('../services/UserService')
 const {createComment} = require('../services/CommentService');
-const {createOrder, viewOrderDetailByOrderId, viewOrderHistoryByUserId, payment} = require('../services/OrderServices');
+const {createOrder, viewOrderDetailByOrderId, viewOrderHistoryByUserId, payment, createOrderWithPaypal} = require('../services/OrderServices');
 
 
 router.put('/:id', updateUserWithoutPassword);
@@ -20,5 +20,7 @@ router.get('/orderhistory/:id', viewOrderHistoryByUserId);
 router.get('/orderdetailhistory/:id', viewOrderDetailByOrderId);
 
 router.put('/payment/:id', payment);
+
+router.post('/orderwithpaypal', createOrderWithPaypal);
 
 module.exports = router;

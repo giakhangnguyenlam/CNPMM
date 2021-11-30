@@ -71,15 +71,15 @@ var deleteProductByProductId = (req, res, next) => {
     Product.deleteOne({id: req.params.id}, (err) => {
         if(err) return res.status(404).json(err);
         if(req.params.category == 1){
-            deleteCategoryClothesByProductId(req.params.id);
+            deleteCategoryClothesByProductId(req.params.id, req, res, next);
         }
         else if(req.params.category == 2){
-            deleteCategoryShoesByProductId(req.params.id);
+            deleteCategoryShoesByProductId(req.params.id, req, res, next);
         }
         else{
-            deleteCategoryAccessoriesByProductId(req.params.id);
+            deleteCategoryAccessoriesByProductId(req.params.id, req, res, next);
         }
-        return res.status(200).json({mess:"Delete successfully"});
+        
     }
     )
 }
